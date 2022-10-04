@@ -77,7 +77,19 @@
 % \end{itemize}
 
 
-\section{Notation of probabilities}
+\section{Notation}
+\subsection{Sets}
+Throughout this course, we will be using some standard mathematical notation which may be unfamiliar to some. It's ultimately not that special or even crucial to the overall argument, but it is compact (which is practical), and it helps somewhat with practising with expressing things mathematically. Wikipedia has good definitions on these things too.
+\begin{itemize}
+\item Notation referring to sets of numbers, e.g.~the natural numbers $\mathbb N = \{0, 1, 2, \dots\}$, integers $\mathbb Z = \{\dots, -2, -1, 0, 1, 2, \dots\}$, or real numbers $\mathbb R$.
+\item Vectors are sets containing $n$ of some type of object, like reals. We denote the set of all such sets using a superscript notation. For example, all $n$-dimensional vectors becomes $\mathbb R^n$.
+\item With $x \in \mathcal S$ we denote that $x$ is an element of the set $\mathcal S$. This allows us to specify that a variable comes from a particular set (or, has a particular type), e.g.~$x \in \Reals^D$.
+\item We sometimes use ``set builder'' notation. We did this informally above when defining $\mathbb N$! Usually this works by specifying elements with some property, e.g.~$\mathbf S = \{2n \,|\, n \in \mathbb N\}$, which means ``all the elements 2n such that $n$ is a natural number''. This creates the set of all even positive whole numbers.
+\item We denote the union of two sets (the set with all elements that are in either set or both) as $A \cup B$. With set-builder notation this is $A \cup B = \{x\,|\,x\in A \vee x\in B\}$, where $\vee$ means ``or''.
+\item We denote the intersection of two sets (the set of all elements that are in both stes) as $A \cap B = \{x\,|\,x\in A \wedge x\in B\}$.
+\end{itemize}
+
+\subsection{Probabilities}
 In this course we will use the notation for probabilities that is common in machine learning. The main advantage is that this notation is shorter, although it does leave certain things implicit. We include this to reduce confusion.
 
 Consider a probability space $(\Omega, \mathcal E, \mathbb P)$ with sample space $\Omega$ (all possible outcomes of a random procedure), event space $\mathcal E$ (the set of all sets of outcomes that we assign a probability to), and probability function $\mathbb P : \mathcal E \to [0, 1]$ (a function that assigns a probability to an event), with a random variable $X: \Omega \to \Reals^D$.

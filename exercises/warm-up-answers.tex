@@ -28,16 +28,13 @@ P(\neg A) = 1 - P(A)
 \]
     \item $P(\varnothing) = 0$, where $\varnothing$ is the empty set
     
-We can just consider the sample space, $\Omega$, where its complementary is the empty set $\varnothing$. Using the previous property and axiom 2, we have.
-\[
-P(\Omega) = 1
-\]
-\[
- P(\varnothing)  = P(\neg \Omega) = 1 - P(\Omega) = 1 - 1 = 0
-\]
-\[
+We can just consider the sample space, $\Omega$, where its complementary is the empty set $\varnothing$. Using the previous property and axiom 2, we have:
+\begin{gather}
+P(\Omega) = 1 \\
+ P(\varnothing)  = P(\neg \Omega) = 1 - P(\Omega) = 1 - 1 = 0 \\
  P(\varnothing) = 0
-\]
+\end{gather}
+
     \item $0 \leq P(A) \leq 1$
     
 Here we can also use property (a) and the first axiom. Consider any event $A$.
@@ -54,22 +51,17 @@ We can join the previous inequalities and obtain the following.
 \[
 0 \leq P(A) \leq 1
 \]
-    \item $A \subseteq B \implies P(A) \leq P(B)$
-    
-    \textit{Hint:} Consider the following definition. $B\backslash  A = \{x\in B: x\notin A\}$
-    
-We can construct $B$ as the union of two disjoint sets.
-\[
-B = B\backslash A \cup A
-\]
-where $B\backslash A \cap A = \varnothing$ by definition of $B\backslash A$. Let us use axiom 3 and 1.
-\[
-P(B) = P(B\backslash A) + P(A) \geq P(A)
-\]
-where by axiom 1, we have $P(B\backslash A) \geq 0$. Thus
-\[
-P(A) \leq P(B)
-\]
+    \item $A \subseteq B \implies P(A) \leq P(B)$. \textit{Hint:} Consider the following definition. $B\backslash  A = \{x\in B: x\notin A\}$
+
+We can construct $B$ as the union of two disjoint sets as $B = B\backslash A \cup A$, 
+where $B\backslash A \cap A = \varnothing$ by definition of $B\backslash A$. Now,
+\begin{align}
+P(B) = P(B\backslash A) + P(A) \geq P(A) \,, && \text{using axiom 3 and 1.}
+\end{align}
+% where by axiom 1, we have $P(B\backslash A) \geq 0$. Thus
+% \[
+% P(A) \leq P(B)
+% \]
     \item $P(A\cup B) = P(A) + P(B) - P(A\cap B)$
 
 Let us define the union $(A\cup B)$ in terms of two disjoint sets.
@@ -84,13 +76,11 @@ To calculate $P(B\backslash A)$, let us define B in terms of A, and the union of
 \[
 B = (B \cap A) \cup (B\backslash A)
 \]
-where $(B \cap A) \cap (B\backslash A) = \varnothing$ by definition. Using also axiom 3, we have.
-\[
-P(B) = P(B \cap A) + P(B\backslash A)
-\]
-\[
+where $(B \cap A) \cap (B\backslash A) = \varnothing$ by definition. Using also axiom 3, we have
+\begin{align}
+P(B) = P(B \cap A) + P(B\backslash A) \\
 P(B\backslash A) = P(B) - P(B \cap A)
-\]
+\end{align}
 Therefore, the probability of $(A \cup B)$ is the following
 \[
 P(A \cup B) = P(A) + P(B\backslash A) = P(A) + P(B) - P(B \cap A)
