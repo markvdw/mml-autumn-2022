@@ -133,6 +133,14 @@ P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = P(A) = \lim_{i\xrightarrow{}\infty}
 \]
 \end{enumerate}
 
+\paragraph{\questionref{q:stats-term}}
+\begin{enumerate}[label=\alph*.]
+\item A statistic is a function that is computed from data. For example, take a data set $X = \{x_1, x_2, x_3, \dots\}$ where we compute the empirical mean $\bar X = \frac{1}{|X|}\sum_n x_n$.
+\item An estimator is a function of data that tries to estimate an unknown quantity. Estimators are statistics. Some statistics are also estimators. For example, if we have some data set from that is sampled from some unknown density $p(x)$, then its mean is unknown, and $\bar X$ is an estimator of it.
+\item A consistent estimator finds the correct value of the unknown quantity if the dataset grows to infinity. We will prove that $\bar X$ is a consistent estimate of $\int p(x) x \calcd x$ later on in the course.
+\item A sample from a random variable is an outcome of the random experiment it represents. For example, you can have a random variable representing the outcome of a coin toss. A sample from it would be heads or tails. We sampled a random variable independently many times, then the outcomes would occur with the frequency specified by the probability distribution of the random variable. Thinking about sampling outcomes from a random variable is often a helpful conceptual technique to think about randomness.
+\end{enumerate}
+
 \subsection{Linear Algebra}
 
 \paragraph{Question \ref{q:dot_product}}
