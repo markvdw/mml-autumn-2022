@@ -1,0 +1,238 @@
+\documentclass[a4paper]{article}
+
+
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{paralist}
+\usepackage{amsmath}
+\usepackage{bm,bbm}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{nameref,cleveref}
+
+\usepackage{MarkMathCmds}
+\usepackage{mathtools}
+\newcommand{\mat}[1]{{\boldsymbol{{#1}}}} % matrix
+
+\usepackage{MarkBiblatexCmds}
+\addbibresource{ref.bib}
+
+\usepackage{enumitem}
+\usepackage{epsdice}
+
+\input{YingzhenMathNotations}
+
+\newcommand{\mx}{\vm_\vx}
+\newcommand{\my}{\vm_\vy}
+\newcommand{\covmat}{\boldsymbol{\Sigma}}
+\newcommand{\covx}{\boldsymbol{\Sigma}_{\vx\vx}}
+\newcommand{\covy}{\boldsymbol{\Sigma}_{\vy\vy}}
+\newcommand{\covxy}{\boldsymbol{\Sigma}_{\vx\vy}}
+\newcommand{\covyx}{\boldsymbol{\Sigma}_{\vy\vx}}
+
+\newcommand{\K}{\mathbf{K}}
+
+\newcommand{\questionref}[1]{\Cref{#1} -- \nameref{#1}}
+
+\newcommand{\lb}{\mathcal{L}}
+\newcommand{\sumn}{\sum_{n=1}^N}
+
+\theoremstyle{definition}
+\newtheorem{question}{Question}
+
+\newcommand{\courseprobstats}{\texttt{50008} \textit{Probability \& Statistics}}
+
+
+\title{70015 Mathematics for Machine Learning: Exercises}
+\author{Mark van der Wilk, Yingzhen Li\footnote{Many thanks to teaching assistants Carles Balsells Rodas, and Alex Spies for their solutions and improvements to the document.} \\ \texttt{\{m.vdwilk,yingzhen.li\}@imperial.ac.uk}}
+
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+
+% \section{Background material}\todo{Adjust.}
+% You will be expected to have a \emph{firm} understanding of Mathematics for Machine Learning. In the explanations, I will be manipulating probabilities and expectations freely, as discussed in Mathematics for Machine Learning. If steps are difficult, I encourage you to raise this on the course EdStem page, or during a Q\&A session.
+
+% \begin{itemize}
+% \item Basic probability: sample spaces, disjoint events (summation of probabilities), independent events (multiplication of probabilities). See \citet{walpole2012probability}, Ch2 (Imperial Library, or search Google for reading options).
+% \item Probability densities. See \citet{mml} \S 6.2.
+% \item Sum, product \& Bayes' rules. See \citet{mml} \S 6.3.
+% \item Unconstrained continuous optimisation. See \citet{mml} \S 7.1.
+% \item Linear algebra and matrix decompositions. See \citet{mml} ch 4 (and Chs 2 and 3 for basics).
+% \item A familiarity with linear basis-function regression. See \citet{mml} ch 9.
+% \end{itemize}
+
+
+\section{Notation of probabilities}
+In this course we will use the notation for probabilities that is common in machine learning. The main advantage is that this notation is shorter, although it does leave certain things implicit. We include this to reduce confusion.
+
+Consider a probability space $(\Omega, \mathcal E, \mathbb P)$ with sample space $\Omega$ (all possible outcomes of a random procedure), event space $\mathcal E$ (the set of all sets of outcomes that we assign a probability to), and probability function $\mathbb P : \mathcal E \to [0, 1]$ (a function that assigns a probability to an event), with a random variable $X: \Omega \to \Reals^D$.
+\begin{itemize}
+\item With $\prob{E}$ we denote the probability of an event $E \in \mathcal E$, where $E$ is a set of outcomes.
+\item Following the usual convention, we use the same notation when considering random variables, e.g.~$\prob{X < 2}$ is short for $\prob{\{s \in \Omega : X(s) < 2\}}$ (see \S6.1 in \courseprobstats).
+\item We usually work directly with random variables, and specify all properties using a probability mass function (pmf) or probability density function (pdf). For a specific outcome of the random variable $\alpha$, we write:
+\begin{align}
+    &\prob{X=\alpha} = p_X(\alpha) && \text{for a pmf } p_X(\cdot) \,, \\
+    &\prob{X \in [a, b]} = \int_a^b p_X(\alpha) d\alpha && \text{for a pdf $p_X(\cdot)$ with $\alpha \in \Reals$} \,, \\
+    &\prob{X \in A} = \int_A p_X(\alpha) d\alpha && \text{for a pdf $p_X(\cdot)$ with $\alpha \in \Reals^D$}
+    \,.
+\end{align}
+\item Sometimes we may write vectors in boldface, i.e.~$\mathbf x \in \Reals^D$. We won't always though, so keep track of how we define variables!
+\item We generally denote outcomes of random variables without referring explicitly to the random variable itself. For example, when we refer to an outcome $\vx$, we implicitly know there is a random variable that can take this value. We usually denote this as the capital, for example here $X$.
+\item Sometimes we abuse notation, and drop the random variable when denoting distributions when the argument of the function identifies it, e.g.~$p(\vx) = p_X(\vx)$.
+\item If we want to be explicit about the random variable that we are evaluating the density/mass of, I will write e.g.~$p_{X,Y}(\vx,\vy) = p_{X|Y}(\vx|\vy)p_Y(\vy)$.
+\item Expectations can be denoted in two ways:
+\begin{align}
+    &\Exp{X}{f(X)} && \text{to emphasise that X is random, if it is clear what its distribution is}\,, \\
+    &\Exp{p(\vx)}{f(\vx)} && \text{to emphasise that we will be integrating over the distribution $p(\vx)$} \,.
+\end{align}
+In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
+\item Often, densities and pmfs can be discussed in exactly the same way, if we think of the density of a discrete RV as a sum of delta functions. I.e.~$p(\vx) = \sum_{o} \delta(\vx - \vx_o) p_o$, where $\{\vx_o\}$ is the set of discrete possible outcomes that $X$ can take, and $p_o$ are their corresponding probabilities. This allows us to write an expectation as an integral, regardless of whether the RV is continuous or discrete, because for discrete RVs we get:
+\begin{align}
+\Exp{p(\vx)}{f(\vx)} = \int p(\vx) f(\vx) \calcd\vx = \int \sum_o \delta(\vx - \vx_o) p_o f(\vx) \calcd\vx = \sum_o f(\vx_o)p_o \,.
+\end{align}
+(A delta function has the property that $\int_A \delta(\vx) \calcd\vx$ is 1 if $0 \in A$, and 0 otherwise. Linearity of integrals still holds. It can often be seen as the limit of a Gaussian distribution with zero variance.)
+\end{itemize}
+
+
+
+
+\section{Warm-up Exercises}
+To start, here are some exercises which test knowledge which is assumed in the course.
+
+\subsection{Probability Theory}
+We assume that you are familiar with probability theory up to the Computing 2nd year \courseprobstats{} course. Here are some questions to serve as a refresher. Students who are not familiar with this background should refer to the notes of \courseprobstats{} or relevant chapters of \citep{mml}. \textbf{We recommend you look at these questions when/before the course starts}. If you need a refresher, or if you do not know the notation, refer to the \courseprobstats{} notes, or discuss with a TA.
+
+\begin{question}[Set Theory and Probability]
+\label{q:setsprob}
+Using the three axioms of probability show that
+\begin{enumerate}[label=\alph*.]
+    \item Write down the sample space of a dice. In your notation, use the set A to denote the event of a 3 or 4 occurring. What is the complement of $A$, denoted $\neg A$?
+    \item For a problem about lengths, we have a sample space $\Omega = [0, 1]$. For $A = (0.3, 0.4]$, what is $\neg A$?
+    \item $\prob{\neg  A} = 1 - \prob{A}$
+    \item $\prob{\varnothing} = 0$, where $\varnothing$ is the empty set
+    \item $0 \leq \prob{A} \leq 1$
+    \item $A \subseteq B \implies \prob{A} \leq \prob{B}$
+    
+    \textit{Hint:} Consider the following definition. $B\backslash  A = \{x\in B: x\notin A\}$
+    \item $\prob{A\cup B} = \prob{A} + \prob{B} - \prob{A\cap B}$
+    \item (\textbf{*}) if $\{A_i\}_{i=1}^\infty \subseteq \Omega \text{ and } A_i \subseteq A_{i+1} \forall i$ then:
+\[
+P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = \lim_{i\xrightarrow{}\infty} \prob{A_i}
+\]
+\textit{Hint:} Use axiom 3. \textbf{*}: The emphasis of this course isn't on these kinds of details, even though this should be doable with 1st-year calculus.
+\item For two mutually exclusive events $A, B$, what is $\prob{A \cup B}$?
+\end{enumerate}
+See \citet[\S6.1.2]{mml} for a general overview, and \S4, \S\S5.1-5.4 of \courseprobstats{} for more details.
+\end{question}
+
+\begin{question}[Independent events] \textbf{Independent events don't come up as much as independent random variables, so it's ok to just follow this answer, rather than spending lots of time on it.}
+When tossing two coins (where we care about the order), we have a sample space $\Omega = \{HH, HT, TH, TT\}$.
+\begin{enumerate}[label=\alph*.]
+    \item What outcomes are contained in the event that corresponds to the the first coin being heads? We denote the event $E_{1H}$, and others similarly.
+    \item If you assume that all outcomes have equal probability, show that $E_{1H}$ and $E_{2T}$ are independent.
+    \item If you assume that $E_{1H}$ and $E_{2H}$ are independent and 0.5 each, show that all outomes must have equal probability.
+\end{enumerate}
+See \S5.3.3 in \courseprobstats{}.
+\end{question}
+
+\begin{question}[Random Variables]
+\label{q:rv}
+Consider throwing two fair dice.
+\begin{enumerate}[label=\alph*.]
+    \item What is the sample space for all outcomes that you can get from throwing two dice? We specify the probability of each outcome to be the same.
+    \item Define two random variables $A,B$ which map the outcome to the face value on each die respectively. Find the probability mass function for $A$ from the probability on outcomes. The answer will work from the definition of a random variable, but you will probably intuitively get the right answer as well.
+    \item Show that $A$ and $B$ are independent.
+    \item Define the random variable $C = A + B$. Derive the probability mass function of $C$.
+\end{enumerate}
+See \S6 of \courseprobstats{}.
+\end{question}
+
+
+\begin{question}[Continuous Random Variables]
+Consider the random variable $X$ with a probability density $p(x) = C\cdot x$ when $x \in [0, 1]$ and $0$ elsewhere.
+\begin{enumerate}[label=\alph*.]
+    \item Calculate $C$.
+    \item Calculate $\prob{0.3 \leq X \leq 0.75}$.
+    \item Calculate $\prob{X \in [0.3, 0.75] \cup [0.8, 0.9]}$.
+    \item Calculate $\Exp{X}{X}$, $\Exp{X}{X^2}$, $\Var{X}{X}$.
+\end{enumerate}
+Check your answers by performing numerical integration, e.g.~in Python.
+
+See \S6.3, \S7 of \courseprobstats{} or \citet[\S 6.2.2]{mml}.
+\end{question}
+
+
+\begin{question}[Joint Discrete Random Variables]
+Consider two random variables $A,C$, where $A$ is the outcome of one die, and $C$ gives the sum of $A$ and the sum of another die $B$.
+\begin{enumerate}[label=\alph*.]
+    \item From intuition, write a table of $\prob{C=c|A=a}$, which we use to denote the probability of $C$ taking the value $c$, if we know that $A$ has taken the value $a$.
+    \item Write a table of $\prob{C=c, A=a}$. To help you think it through, consider a tree of outcomes that can occur. This helps illustrate independence between outcomes, which helps you figure out when you can multiply probabilities.
+    \item From the values in the table $\prob{C=c, A=a}$ find $\prob{2 \leq C \leq 4}$ and $\prob{2 \leq C \leq 4, 2 \leq A \leq 4}$.
+\end{enumerate}
+We will cover conditional probability more later, but for now just think it through.
+\end{question}
+
+\begin{question}[Multivariate Integration]
+Consider two continuous random variables $X,Y$ with joint density $p(x, y) = C\cdot (x^2 + xy)$.
+\begin{enumerate}[label=\alph*.]
+    \item Find $C$.
+    \item Find $\prob{0.3 \leq X \leq 0.5}$.
+    \item Find $\prob{X < Y}$. Perform the integration twice in both orders, once integrating over x first, once by integrating over y first.
+    \item \textbf{Bonus:} Convince yourself that you know how to do this for $p(x, y, z) = C\cdot (x^2 + xyz)$ as well.
+\end{enumerate}
+Check your answers by performing numerical integration, e.g.~in Python.
+\end{question}
+
+\begin{question}[Statistics] Recall the following statistical terminology.
+\begin{enumerate}[label=\alph*.]
+    \item What is a statistic?
+    \item What is an estimator?
+    \item What is a consistent estimator?
+\end{enumerate}
+\end{question}
+
+
+
+
+
+
+%%%%%%%%%%% Yingzhen's Linear Algebra warm-up questions %%%%%%%%%%
+
+\input{linear_algebra_questions_warmup}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% \section{Lecture 1: Multivariate Probability}
+% \begin{question}[Notation]
+% \end{question}
+
+
+
+
+% \input{warm-up-answers}
+
+
+
+
+
+\printbibliography
+
+\end{document}
