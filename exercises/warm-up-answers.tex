@@ -1,0 +1,183 @@
+\section{Warm-up Exercises Answers}
+\subsection{Warm-up Exercises}
+\paragraph{\questionref{q:setsprob}}
+\begin{enumerate}[label=\alph*.]
+    \item Sets can contain anything, so we can choose a representation using abstract symbols $\Omega=\{ \epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4}, \epsdice{5}, \epsdice{6} \}$. Alternatively, we can represent each of the outcomes as a number $\Omega = \{1, 2, 3, 4, 5, 6\}$. \todo{finish}
+    \item $P(\neg  A) = 1 - P(A)$
+    
+\todo{I think this can be simplified? Can we not just say $\Omega = A \cup \neg A$ and then combine axioms 2 and 3?}Let us consider a collection of events contained in the sample space $\{A_1, \dots, A_{N}\} \subseteq \Omega$. Let us select the first $i$ events (where $i\leq N$) and denote them as $A$. The rest of them will be the complementary set, denoted as $\neg A$.
+\[
+A = \{A_1, \dots, A_i\}\\
+\neg A = \{A_{i+1}, \dots, A_N\}\\
+A\cap \neg A = \varnothing
+\]
+Using axiom (2), we have
+\[
+P(A_1\cup A_2 \cup \dots \cup A_N) = P(\Omega) = 1
+\]
+And using axiom (3), we have
+\[
+P(A_1, \dots, A_i) + P(A_{i+1}, \dots, A_N) = P(A_1\cup A_2 \cup \dots \cup A_N)
+\]
+\[
+P(A) + P(\neg A) = 1
+\]
+Thus
+\[
+P(\neg A) = 1 - P(A) 
+\]
+    \item $P(\varnothing) = 0$, where $\varnothing$ is the empty set
+    
+We can just consider the sample space, $\Omega$, where its complementary is the empty set $\varnothing$. Using the previous property and axiom 2, we have.
+\[
+P(\Omega) = 1
+\]
+\[
+ P(\varnothing)  = P(\neg \Omega) = 1 - P(\Omega) = 1 - 1 = 0
+\]
+\[
+ P(\varnothing) = 0
+\]
+    \item $0 \leq P(A) \leq 1$
+    
+Here we can also use property (a) and the first axiom. Consider any event $A$.
+\[
+P(A) \geq 0
+\]
+\[
+P(\neg A) = 1 - P(A) \geq 0
+\]
+\[
+1 \geq P(A)
+\]
+We can join the previous inequalities and obtain the following.
+\[
+0 \leq P(A) \leq 1
+\]
+    \item $A \subseteq B \implies P(A) \leq P(B)$
+    
+    \textit{Hint:} Consider the following definition. $B\backslash  A = \{x\in B: x\notin A\}$
+    
+We can construct $B$ as the union of two disjoint sets.
+\[
+B = B\backslash A \cup A
+\]
+where $B\backslash A \cap A = \varnothing$ by definition of $B\backslash A$. Let us use axiom 3 and 1.
+\[
+P(B) = P(B\backslash A) + P(A) \geq P(A)
+\]
+where by axiom 1, we have $P(B\backslash A) \geq 0$. Thus
+\[
+P(A) \leq P(B)
+\]
+    \item $P(A\cup B) = P(A) + P(B) - P(A\cap B)$
+
+Let us define the union $(A\cup B)$ in terms of two disjoint sets.
+\[
+(A \cup B) = A \cup B\backslash A
+\]
+where $A \cap B\backslash A = \varnothing$. Using axiom 3 we have
+\[
+P(A \cup B) = P(A) + P(B\backslash A)
+\]
+To calculate $P(B\backslash A)$, let us define B in terms of A, and the union of two disjoint sets.
+\[
+B = (B \cap A) \cup (B\backslash A)
+\]
+where $(B \cap A) \cap (B\backslash A) = \varnothing$ by definition. Using also axiom 3, we have.
+\[
+P(B) = P(B \cap A) + P(B\backslash A)
+\]
+\[
+P(B\backslash A) = P(B) - P(B \cap A)
+\]
+Therefore, the probability of $(A \cup B)$ is the following
+\[
+P(A \cup B) = P(A) + P(B\backslash A) = P(A) + P(B) - P(B \cap A)
+\]
+    \item (\textbf{*}) if $\{A_i\}_{i=1}^\infty \subseteq \Omega \text{ and } A_{i-1} \subseteq A_{i}\quad \forall i>0$ then:
+\[
+P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = \lim_{i\xrightarrow{}\infty} P(A_i)
+\]
+\textit{Hint:} Use axiom 3.
+
+Let us define the following
+\[
+A := \bigcup_{i=1}^{\infty} A_{i}
+\]
+We would like to write $A$ in terms of disjoint sets so as to use axiom 3.
+\[
+A_{i-1} \subseteq A_i \quad \forall i > 0 \implies A = \bigcup_{i=1}^{\infty} A_{i}\backslash A_{i-1}
+\]
+The previous expression holds if we have $A_{0} = \varnothing$. Notice this new expression can be regarded as starting with $A_1$ and adding the information form $A_2, A_3,\dots$ which is not previously considered (e.g $A_2 \backslash A_1, A_3 \backslash A_2, \dots$). Since this construction is a union of disjoint sets, we now can use axiom 3.
+\[
+P(A) = P\left(\bigcup_{i=1}^{\infty} A_{i}\backslash A_{i-1}\right) = \sum_{i=1}^\infty P(A_{i}\backslash A_{i-1})
+\]
+The infinite summation is in fact defined as a limit.
+\[
+P(A) = \sum_{i=1}^\infty P(A_{i}\backslash A_{i-1}) = \lim_{n\xrightarrow{}\infty} \sum_{i=1}^n P(A_{i}\backslash A_{i-1})
+\]
+Notice  the result in exercise (d), where we obtained $P(B) = P(B\backslash A) + P(A)$ for $A \subseteq B$. Therefore
+\[
+P(A_i) = P(A_{i}\backslash A_{i-1}) + P(A_{i-1})
+\]
+\[
+ P(A_{i}\backslash A_{i-1}) = P(A_i) - P(A_{i-1})
+\]
+\[
+P(A) = \lim_{n\xrightarrow{}\infty} \sum_{i=1}^n P(A_i) - P(A_{i-1}) = \lim_{n\xrightarrow{}\infty} \bigg(\sum_{i=1}^n P(A_i) - \sum_{i=1}^{n-1} P(A_{i})\bigg) = \lim_{n\xrightarrow{}\infty} P(A_n)
+\]
+where we used $P(A_0) = P(\varnothing) = 0$. In conclusion,
+\[
+P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = P(A) = \lim_{i\xrightarrow{}\infty} P(A_i)
+\]
+\end{enumerate}
+
+\subsection{Linear Algebra}
+
+\paragraph{Question \ref{q:dot_product}}
+$\x^\top \y = 1 \times 0 + (-2) \times 4 + 5 \times (-3) + (-1) \times 7 = 0 + (-8) + (-15) + (-7) = -30$.
+
+\paragraph{Question \ref{q:matrix_product}}
+$\y = (24, -14, -12)^\top$, $|| \x ||_2 = \sqrt{23}$, $|| \y ||_2 = \sqrt{916}$.
+
+Note that by definition the $\ell_2$ norm of a vector is $|| \x ||_2 = \sqrt{\x^\top \x}$.
+
+\paragraph{Question \ref{q:basis}} 1, 2, 3. 
+
+A set of vectors $\{\mathbf{b}_1, ..., \mathbf{b}_K \}$ with $\mathbf{b}_k \in \mathbb{R}^d$ can form a basis of $\mathbb{R}^d$ iff $K \geq d$ and there exists a subset of $d$ vectors within the set, such that they are orthogonal to each other.
+
+\paragraph{Question \ref{q:span}} 2, 5. 
+
+A point $\x \in \mathbb{R}^d$ is in $span(\{\mathbf{b}_1, ..., \mathbf{b}_K \})$ with $\mathbf{b}_k \in \mathbb{R}^d$ iff we can find $a_1, ..., a_K \in \mathbb{R}$ such that $\x = \sum_{k=1}^K a_k \mathbf{b}_k$.
+
+\paragraph{Question \ref{q:rotation_matrix}} The rotation matrix is 
+\begin{equation*}
+    \begin{pmatrix}
+    \cos{\frac{\pi}{4}} & -\sin{\frac{\pi}{4}} \\
+    \sin{\frac{\pi}{4}} & \cos{\frac{\pi}{4}}
+    \end{pmatrix}.
+\end{equation*}
+
+\paragraph{Question \ref{q:linear_equations}}
+
+a) The matrix $A$ and vector $\mathbf{b}$ are
+\begin{equation*}
+A = \begin{pmatrix}
+1 & 2 & 0 \\
+3 & 2 & 4 \\
+-2 & 1 & -2
+\end{pmatrix}, \quad \mathbf{b} = (2, 5, 1)^\top.
+\end{equation*}
+
+b) The inverse of $A$ is 
+\begin{equation*}
+A^{-1} = \begin{pmatrix}
+2/3 & -1/3 & -2/3 \\
+1/6 & 1/6 & 1/3 \\
+7/12 & 5/12 & 1/3
+\end{pmatrix}.
+\end{equation*}
+Therefore we have $\x = A^{-1} \mathbf{b} = (-1, 3/2, 43/12)^\top$.
+
+c) $\text{rank}(A) = 3$: as $A$ is invertible, it must have full rank.
