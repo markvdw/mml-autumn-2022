@@ -109,6 +109,24 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 \end{itemize}
 
 
+\section{Formula Sheet}
+\begin{itemize}
+\item Gaussian probability density function (pdf) with input $\vx \in \Reals^D$, denoted as  $\NormDist{\vx; \vmu, \covmat}$ is
+\begin{align}
+  p(\vx) = \NormDist{\vx; \vmu, \covmat} = (2\pi)^{-\frac{D}{2}}\detbar{\mathbf{\Sigma}}^{-\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx - \vmu)\transpose\mathbf{\Sigma}^{-1}(\vx-\vmu)\right) \,.
+\end{align}
+\item For a joint Gaussian density
+\begin{align}
+\p{\begin{bmatrix}\vx \\ \vy\end{bmatrix}} = \NormDist{\begin{bmatrix}\vx \\ \vy\end{bmatrix}; \begin{bmatrix}\mx \\ \my\end{bmatrix}, \begin{bmatrix}\covx & \covxy \\ \covyx & \covy\end{bmatrix}} \label{eq:gauss-cond-joint} \,,
+\end{align}
+we have the conditional density
+\begin{align}
+\p{\vx\given\vy} = \NormDist{\vx; \quad\mx + \covxy\covy\inv(\vy-\my), \quad\covx - \covxy\covy\inv\covyx} \label{eq:gauss-cond} \,.
+\end{align}
+\end{itemize}
+
+
+
 
 
 \section{Warm-up Exercises}
@@ -206,14 +224,59 @@ Check your answers by performing numerical integration, e.g.~in Python.
 \end{enumerate}
 \end{question}
 
-
-
-
-
-
 %%%%%%%%%%% Yingzhen's Linear Algebra warm-up questions %%%%%%%%%%
 
 \input{linear_algebra_questions_warmup}
+
+
+\section{Lecture 1: Vectors \& Probability}
+\begin{question}[Vector notation]
+We define the probability density on the vector $\vx \in \Reals^3$ with all elements $0 \leq x_k \leq 1$ as
+\begin{align}
+p(\vx) = \frac{1}{C} (x_1^2 + x_1x_2 + x_2^2 + 2x_2x_3) \,.
+\end{align}
+Put this into notation that only uses $\vx$ as a single whole vector.
+\end{question}
+
+\begin{question}[Vector independence]
+Consider the density on $\vx \in \Reals^4$ with all elements $0 \leq x_k \leq 1$ as
+\begin{align}
+p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0\end{bmatrix} \vx \,.
+\end{align}
+Now divide up $\vx$ into two sub vectors $\vy = [x_2, x_4]\transpose$ and $\vz = [x_1, x_3]\transpose$. Show that $\vy \ci \vz$, i.e.~that they are independent.
+\end{question}
+
+\begin{question}[Noise conditional independence]
+Consider the probability of the data in linear regression, for a fixed setting of the parameters $\vtheta$ and given inputs $X \in \Reals^{N\times D}$ where $X = \{\vx_1, \dots, \vx_N\}$:
+\begin{align}
+p(\vy|\vtheta,X) = \NormDist{\vy; \vx, \sigma^2 \eye}
+\end{align}
+Show that all $y_n$s are independent, for a fixed setting of the parameters $\vtheta$ and given inputs $X$.
+\end{question}
+
+\begin{question}[Maximum likelihood revision] For a Gaussian distribution with mean $\mu$ and variance $\sigma^2$.
+\begin{enumerate}[label=\alph*.]
+\item Derive the probability distribution for $N$ iid draws.
+\item Derive the maximum likelihood estimator for the mean $\mu$.
+\end{enumerate}
+\end{question}
+
+\begin{question}[Maximum likelihood and minimum loss]
+Show that the solution to the Maximum Likelihood estimator for linear regression is the same as the minimum squared loss estimator.
+\end{question}
+
+% \begin{question}[]
+% Consider sampling a bent coin twice, with a probability of heads $p_H = 0.9$.
+% \begin{enumerate}[label=\alph*.]
+% \item 
+% \end{enumerate}
+% \end{question}
+
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
