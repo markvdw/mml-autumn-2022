@@ -2,135 +2,97 @@
 \subsection{Warm-up Exercises}
 \paragraph{\questionref{q:setsprob}}
 \begin{enumerate}[label=\alph*.]
-    \item Sets can contain anything, so we can choose a representation using abstract symbols $\Omega=\{ \epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4}, \epsdice{5}, \epsdice{6} \}$. Alternatively, we can represent each of the outcomes as a number $\Omega = \{1, 2, 3, 4, 5, 6\}$. \todo{finish}
+    \item We can choose any representation denoting the events, e.g. using abstract symbols $\Omega=\{ \epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4}, \epsdice{5}, \epsdice{6} \}$. Alternatively, we can represent each of the outcomes as a number $\Omega = \{1, 2, 3, 4, 5, 6\}$.
+    
+    Following the latter notation, $A=\{3, 4\}$, and $A=\{1, 2, 5, 6\}$.
+
+	    
+    
+	\item Length problem with sample space $\Omega=[0,1]$.
+	
+	$\neg A = [0, 0.3] \cup (0.4,1]$
+    
     \item $P(\neg  A) = 1 - P(A)$
     
-\todo{I think this can be simplified? Can we not just say $\Omega = A \cup \neg A$ and then combine axioms 2 and 3?}Let us consider a collection of events contained in the sample space $\{A_1, \dots, A_{N}\} \subseteq \Omega$. Let us select the first $i$ events (where $i\leq N$) and denote them as $A$. The rest of them will be the complementary set, denoted as $\neg A$.
-\[
-A = \{A_1, \dots, A_i\}\\
-\neg A = \{A_{i+1}, \dots, A_N\}\\
-A\cap \neg A = \varnothing
-\]
-Using axiom (2), we have
-\[
-P(A_1\cup A_2 \cup \dots \cup A_N) = P(\Omega) = 1
-\]
-And using axiom (3), we have
-\[
-P(A_1, \dots, A_i) + P(A_{i+1}, \dots, A_N) = P(A_1\cup A_2 \cup \dots \cup A_N)
-\]
-\[
-P(A) + P(\neg A) = 1
-\]
-Thus
-\[
-P(\neg A) = 1 - P(A) 
-\]
+    Since $\neg A$ and $A$ are mutually exclusive: $A \cup \neg A = \Omega$ and $A \cap \neg A = \varnothing$.
+
+By combining axiom 2 and 3: $P(A) + P(\neg A) = P(A \cup \neg A) = P(\Omega) = 1$
+
+Thus: $P(\neg A) = 1 - P(A)$ 
+
     \item $P(\varnothing) = 0$, where $\varnothing$ is the empty set
     
-We can just consider the sample space, $\Omega$, where its complementary is the empty set $\varnothing$. Using the previous property and axiom 2, we have.
-\[
-P(\Omega) = 1
-\]
-\[
- P(\varnothing)  = P(\neg \Omega) = 1 - P(\Omega) = 1 - 1 = 0
-\]
-\[
- P(\varnothing) = 0
-\]
+Given the sample space, $\Omega$, its complementary is the empty set $\varnothing$. 
+
+We use property (c) and axiom 2: $ P(\varnothing) = 1 - P(\Omega) = 1 - 1 = 0$.
+
     \item $0 \leq P(A) \leq 1$
     
-Here we can also use property (a) and the first axiom. Consider any event $A$.
-\[
-P(A) \geq 0
-\]
-\[
-P(\neg A) = 1 - P(A) \geq 0
-\]
-\[
-1 \geq P(A)
-\]
-We can join the previous inequalities and obtain the following.
-\[
-0 \leq P(A) \leq 1
-\]
+We use property (c) and axiom 1. 
+
+Consider an event $A$, where $P(A) \geq 0$ and $P(\neg A) \geq 0$ by axiom 1. 
+
+Then, $P(\neg A) = 1 - P(A) \geq 0 \implies 1 \geq P(A)$.
+
+By joining both inequalities, $0 \leq P(A) \leq 1$.
+
     \item $A \subseteq B \implies P(A) \leq P(B)$
     
     \textit{Hint:} Consider the following definition. $B\backslash  A = \{x\in B: x\notin A\}$
-    
-We can construct $B$ as the union of two disjoint sets.
-\[
-B = B\backslash A \cup A
-\]
-where $B\backslash A \cap A = \varnothing$ by definition of $B\backslash A$. Let us use axiom 3 and 1.
-\[
-P(B) = P(B\backslash A) + P(A) \geq P(A)
-\]
-where by axiom 1, we have $P(B\backslash A) \geq 0$. Thus
-\[
-P(A) \leq P(B)
-\]
-    \item $P(A\cup B) = P(A) + P(B) - P(A\cap B)$
 
-Let us define the union $(A\cup B)$ in terms of two disjoint sets.
-\[
-(A \cup B) = A \cup B\backslash A
-\]
-where $A \cap B\backslash A = \varnothing$. Using axiom 3 we have
-\[
-P(A \cup B) = P(A) + P(B\backslash A)
-\]
-To calculate $P(B\backslash A)$, let us define B in terms of A, and the union of two disjoint sets.
-\[
-B = (B \cap A) \cup (B\backslash A)
-\]
-where $(B \cap A) \cap (B\backslash A) = \varnothing$ by definition. Using also axiom 3, we have.
-\[
-P(B) = P(B \cap A) + P(B\backslash A)
-\]
-\[
-P(B\backslash A) = P(B) - P(B \cap A)
-\]
-Therefore, the probability of $(A \cup B)$ is the following
-\[
-P(A \cup B) = P(A) + P(B\backslash A) = P(A) + P(B) - P(B \cap A)
-\]
+Assume $A \subseteq B$ and construct $B$ as the union of two disjoint sets: $B = B\backslash A \cup A$.
+
+Then, $B\backslash A \cap A = \varnothing$ by definition of $B\backslash A$. By axiom 1, we have $P(B\backslash A) \geq 0$. 
+
+Use axiom 3: $P(B) = P(B\backslash A) + P(A) \geq P(A) \implies P(A) \leq P(B)$.
+
+
+    \item $P(A\cup B) = P(A) + P(B) - P(A\cap B)$.
+
+Define the union $(A\cup B)$ in terms of two disjoint sets. $(A \cup B) = A \cup B\backslash A$, where $A \cap B\backslash A = \varnothing$. 
+
+Use axiom 3: $P(A \cup B) = P(A) + P(B\backslash A)$.
+
+To compute $P(B\backslash A)$, we define B in terms of A, and the union of two disjoint sets: $B = (B \cap A) \cup (B\backslash A)$, where $(B \cap A) \cap (B\backslash A) = \varnothing$ by definition. 
+
+Use axiom 3 again: $P(B) = P(B \cap A) + P(B\backslash A) \implies P(B\backslash A) = P(B) - P(B \cap A)$.
+
+Finally: $P(A \cup B) = P(A) + P(B\backslash A) = P(A) + P(B) - P(B \cap A)$.
+
     \item (\textbf{*}) if $\{A_i\}_{i=1}^\infty \subseteq \Omega \text{ and } A_{i-1} \subseteq A_{i}\quad \forall i>0$ then:
 \[
 P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = \lim_{i\xrightarrow{}\infty} P(A_i)
 \]
 \textit{Hint:} Use axiom 3.
 
-Let us define the following
-\[
-A := \bigcup_{i=1}^{\infty} A_{i}
-\]
-We would like to write $A$ in terms of disjoint sets so as to use axiom 3.
-\[
+Let us define the following: $A := \bigcup_{i=1}^{\infty} A_{i}$. We would like to write $A$ in terms of disjoint sets to use axiom 3.
+\begin{align}\label{eq:sets:disjoint-sets}
 A_{i-1} \subseteq A_i \quad \forall i > 0 \implies A = \bigcup_{i=1}^{\infty} A_{i}\backslash A_{i-1}
-\]
-The previous expression holds if we have $A_{0} = \varnothing$. Notice this new expression can be regarded as starting with $A_1$ and adding the information form $A_2, A_3,\dots$ which is not previously considered (e.g $A_2 \backslash A_1, A_3 \backslash A_2, \dots$). Since this construction is a union of disjoint sets, we now can use axiom 3.
-\[
-P(A) = P\left(\bigcup_{i=1}^{\infty} A_{i}\backslash A_{i-1}\right) = \sum_{i=1}^\infty P(A_{i}\backslash A_{i-1})
-\]
-The infinite summation is in fact defined as a limit.
-\[
-P(A) = \sum_{i=1}^\infty P(A_{i}\backslash A_{i-1}) = \lim_{n\xrightarrow{}\infty} \sum_{i=1}^n P(A_{i}\backslash A_{i-1})
-\]
-Notice  the result in exercise (d), where we obtained $P(B) = P(B\backslash A) + P(A)$ for $A \subseteq B$. Therefore
-\[
-P(A_i) = P(A_{i}\backslash A_{i-1}) + P(A_{i-1})
-\]
-\[
- P(A_{i}\backslash A_{i-1}) = P(A_i) - P(A_{i-1})
-\]
-\[
+\end{align}
+where the expression holds if we have $A_{0} = \varnothing$. We regard \ref{eq:sets:disjoint-sets} as starting with $A_1$ and adding the new information from $A_2, A_3,\dots$ (e.g $A_2 \backslash A_1, A_3 \backslash A_2, \dots$). 
+\begin{align}\label{eq:sets:axiom3-on-set}
+P(A) = P\left(\bigcup_{i=1}^{\infty} A_{i}\backslash A_{i-1}\right) = \sum_{i=1}^\infty P(A_{i}\backslash A_{i-1})&&\text{(by axiom 3)}\\
+P(A) = \sum_{i=1}^\infty P(A_{i}\backslash A_{i-1}) = \lim_{n\xrightarrow{}\infty} \sum_{i=1}^n P(A_{i}\backslash A_{i-1}) &&\text{(the infinite summation is a limit)}
+\end{align}
+From (f), we have $P(A_i) = P(A_{i}\backslash A_{i-1}) + P(A_{i-1}) \implies  P(A_{i}\backslash A_{i-1}) = P(A_i) - P(A_{i-1})$. Then,
+\begin{align}
 P(A) = \lim_{n\xrightarrow{}\infty} \sum_{i=1}^n P(A_i) - P(A_{i-1}) = \lim_{n\xrightarrow{}\infty} \bigg(\sum_{i=1}^n P(A_i) - \sum_{i=1}^{n-1} P(A_{i})\bigg) = \lim_{n\xrightarrow{}\infty} P(A_n)
-\]
-where we used $P(A_0) = P(\varnothing) = 0$. In conclusion,
-\[
+\end{align}
+where we used $P(A_0) = P(\varnothing) = 0$ from (d). 
+
+In summary:
+\begin{align}
 P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = P(A) = \lim_{i\xrightarrow{}\infty} P(A_i)
-\]
+\end{align}
+
+\end{enumerate}
+
+\paragraph{\questionref{q:stats-term}}
+\begin{enumerate}[label=\alph*.]
+\item A statistic is a function that is computed from data. For example, take a data set $X = \{x_1, x_2, x_3, \dots\}$ where we compute the empirical mean $\bar X = \frac{1}{|X|}\sum_n x_n$.
+\item An estimator is a function of data that tries to estimate an unknown quantity. Estimators are statistics. Some statistics are also estimators. For example, if we have some data set from that is sampled from some unknown density $p(x)$, then its mean is unknown, and $\bar X$ is an estimator of it.
+\item A consistent estimator finds the correct value of the unknown quantity if the dataset grows to infinity. We will prove that $\bar X$ is a consistent estimate of $\int p(x) x \calcd x$ later on in the course.
+\item A sample from a random variable is an outcome of the random experiment it represents. For example, you can have a random variable representing the outcome of a coin toss. A sample from it would be heads or tails. We sampled a random variable independently many times, then the outcomes would occur with the frequency specified by the probability distribution of the random variable. Thinking about sampling outcomes from a random variable is often a helpful conceptual technique to think about randomness.
 \end{enumerate}
 
 \subsection{Linear Algebra}
