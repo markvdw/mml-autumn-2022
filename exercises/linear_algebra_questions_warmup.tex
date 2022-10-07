@@ -64,3 +64,14 @@ Answer the following questions:
     \item[c] What is the rank of $A$?
 \end{itemize}
 \end{question}
+
+\begin{question}[Eigen decomposition]
+\label{q:eigen_decomp}
+Consider a matrix $A \in \mathbb{R}^{d \times d}$ and assume it has an eigen decomposition of $A = Q \Lambda Q^{-1}$ where $\Lambda = \text{diag}(\lambda_1, ..., \lambda_d)$. When $A$ is symmetric we also have $Q^{-1} = Q^\top$. Answer the following questions:
+\begin{itemize}
+    \item[a.] If $A$ is symmetric, show that $\x^\top A \x \geq 0$ for any $\x \in \mathbb{R}^{d \times 1}$ if and only if $\lambda_i \geq 0$ for all $i = 1,..., d$.
+    \item[b.] Show that $Tr(A) = \sum_{i=1}^d \lambda_i$ where $Tr(A)$ is the trace of $A$.
+    \item[c.] Show that $det(A) = \prod_{i=1}^d \lambda_i$ where $det(A)$ is the determinant of $A$.
+    \item[d.] Why an entry $\lambda_i$ in the diagonal matrix $\Lambda$ is one of the solutions for the equation $A\bm{q} = \lambda \bm{q}$, $\bm{q} \neq \bm{0}$?
+\end{itemize}
+\end{question}
