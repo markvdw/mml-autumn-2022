@@ -1,0 +1,87 @@
+
+
+\newif\iflattersubsect
+
+\AtBeginSection[] {
+    \begin{frame}<beamer>
+    \frametitle{Overview} %
+    \tableofcontents[currentsection]  
+    \end{frame}
+    \lattersubsectfalse
+}
+
+\AtBeginSubsection[] {
+    \iflattersubsect
+    \begin{frame}<Coming Next>
+    \frametitle{Overview} %
+    \tableofcontents[currentsubsection]  
+    \end{frame}
+    \fi
+    \lattersubsecttrue
+}
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+{\setbeamertemplate{footline}{}
+\begin{frame}
+\title{\slidesettitle}
+%\subtitle{SUBTITLE}
+\author{\footnotesize
+  \textbf{\authorname}
+ }
+
+ %%% LOGO
+
+% \begin{flushright}
+%   % \begin{columns}
+%   %   \column{0.5\hsize}
+%   %   \column{0.45\hsize}
+%\includegraphics[height = 8mm]{./figures/qla}\hspace{2mm}
+%     \includegraphics[height = 8mm]{./figures/aims-rwanda}\\[2mm]
+%\includegraphics[height = 8mm]{./figures/imperial}
+%%\end{columns}
+%\end{flushright}
+
+\vspace{-0cm}
+%\begin{flushleft}
+%\vspace{-1.5cm}{\small \textcolor{blue}{\coursetitle}}\\\vspace{2cm}
+{\huge \slidesettitle \ifthenelse{\equal{\slidesetsubtitle}{}}%
+    {}% if #1 is empty
+    {: \\ {\large \slidesetsubtitle}}% if #1 is not empty
+    } \\    
+    %\vspace{20pt}
+%\end{flushleft}
+  
+ 
+% this is all stuff below the talk title. make two columns, just in
+% case you want to have a picture or a second affiliation here 
+\begin{columns}[t]
+\column{0.8\hsize}
+%\begin{flushleft}
+\begin{columns}[t]
+\column{0.6\hsize}
+\insertauthor \\[2mm]
+\authoraffiliation\\[2mm]
+\column{0.25\hsize}
+\\[2mm]
+\includegraphics[height = 0.3cm]{./figures-general/twitter}{\small @\authortwitter}\\[-1mm]
+\mbox{\small \url{\authoremail}}
+\end{columns}
+\column{0.14\hsize}
+\end{columns}
+% \authorweb\\
+\vspace{7mm}
+% \aimslightbrown{The Nelson Mandela African Institute of Science and
+%   Technology\\Arusha, Tanzania}\\[2mm]
+\insertdate
+%\end{flushleft}
+\end{frame}
+}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
