@@ -1,0 +1,331 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress, mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\slidesettitle}{\imperialBlue{Theme: Curve Fitting}}
+\newcommand{\footertitle}{Course Overview}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 3, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\usepackage{../includes/MarkMathCmds}
+\input{../includes/header.tex}
+
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+\section{What is regression?}
+
+
+
+
+\begin{frame}{Curve Fitting (Regression) Examples}
+% We will consider curve fitting, supervised learning
+
+
+We will be considering \textit{curve fitting} or \textit{supervised learning}.
+\begin{itemize}
+\item Given a dataset of $N$ examples of inputs and outputs...
+\item predict what the output will be for a new input.
+\end{itemize}
+
+\pause
+
+
+\vspace{0.7cm}
+
+\emph{Image classification}. Inputs $\in \mathbb{R}^D$, outputs $\in \mathbb{N}$:
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-intro-curvefitting/invariance-examples}
+  \end{figure}
+
+\pause
+\vspace{0.2cm}
+
+\emph{Translation}. Inputs $\in \bigcup_{\ell=1}^\infty \mathbb{N}^\ell$, outputs $\in \bigcup_{k=1}^\infty \mathbb{N}^k$:
+\vspace{0.3cm}
+
+\texttt{Wiskunde is belangrijk.}  $\qquad\to\qquad$ \texttt{Mathematics is important.} \\
+\hspace{1.7cm}Dutch\hspace{5.7cm}English
+\end{frame}
+
+
+
+\begin{frame}{Regression Example}
+% Mathematically these examples are conceptually similar to curve fitting in 1D
+Curve fitting in 1D. Inputs $\in \mathbb{R}$, outputs $\in \mathbb{R}$:
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.5\hsize]{./figures-intro-curvefitting/polynomial5}
+  \end{figure}  
+\end{frame}
+
+
+
+
+
+\begin{frame}{Curve fitting}
+\begin{center}
+{\Large \textit{``All the impressive achievements of deep learning \\ amount to just curve fitting.''}} \\
+--- Judea Pearl
+\end{center}
+
+% Now, I'm not the only person who says that there is a relationship between the simple 1D curve fitting
+% from the previous slide, and complicated applications like machine translation.
+% Judea Pearl, a Turing award winner, even went so far to say that 
+
+% "All the impressive achievements of deep learning amount to just curve fitting."
+
+% What is interesting about this quote, is that 
+% Professor Pearl made this remark in the context of describing things that are wrong about deep learning.
+% One argument he makes, is that curve fitting, and therefore deep learning, does not give our Artifically Intelligent systems
+%  an idea about _causality_, or _why_ the output is what it is, in response to the input.
+% However, he also notes that the achievements are impressive. And I certainly think that the achievements
+% of deep learning over the last few years have been impressive. And if that's all done using curve fitting,
+% then we better understand curve fitting really well.
+
+\end{frame}
+
+
+% \begin{frame}
+%   \frametitle{Curve Fitting: Mathematical Description}
+
+%   \begin{columns}[t]
+
+%     \column{0.65\hsize}
+%     \begin{center}
+%       \Large Big Question: How do we describe the problem of curve fitting mathematically?
+%     \end{center}
+%     \column{0.3\hsize}
+  
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
+%   \end{figure}
+  
+  
+% \end{columns}
+
+% \pause
+
+% % Let's start by examining our assumptions
+% \begin{itemize}
+% \item Each input is associated with a single output. \pause
+% \item Equivalent mathematical notion: A \emph{function}. \pause
+% \end{itemize}
+
+% So...
+% \begin{itemize}
+% \item Given a dataset of $N$ input-output pairs $\{(\vec x_n, y_n)\}_{n=1}^N$... \\
+% where $\vec x_n \in \mathcal{X}$ (usually $\mathbb R^D$), $y_n \in \mathcal{Y}$ (in our case, usually $\Reals$) \pause
+% \item Find a function $f: \mathcal{X} \to \mathcal{Y}$ that predicts well.
+% \end{itemize}
+% \end{frame}
+
+
+
+\section{Regression as Minimising a Loss}
+
+
+
+\begin{frame}[t]{Regression Example}
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-regression.png}
+  \end{figure}
+\vspace{-0.3cm}
+For some observed $x$, the world is generating data from $\pi(y|x)$.
+
+We can choose two possible goals for regression:
+\begin{itemize}
+\item Loss view: Find a function $f(x)$ that goes ``near'' outputs $y$.
+\item Stats view: Match a statistical model $p(y|x,\vtheta)$ to $\pi(y|x)$.
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Loss view: Good and bad functions}
+We now have many functions that we can choose from:
+  \begin{figure}
+    \centering
+    \includegraphics[width = \hsize]{./figures-intro-curvefitting/linear-regression}
+    {\tiny Left: example functions. Middle: Training set. Right: A good fit.$\qquad$ Source: Mathematics for Machine Learning book.}
+  \end{figure} \pause
+
+    \begin{center}
+      \Large Little question: Which function do we pick?
+    \end{center}
+\pause
+
+\begin{itemize}
+\item Need to define what good and bad functions are. Good functions have $f(\vec x_i,\vec\theta^*)\approx y_i$. \pause
+\item Define a \cemph{loss function}, e.g., $L(\vec\theta) = \sum_{i=1}^N(y_i - f(\vec x_i,
+   \vec\theta))^2$ \pause
+\item Choose a good function, i.e.~${\vec \theta}^* = \argmin_{\vec\theta} L(\vec\theta)$
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}
+  \frametitle{Curve Fitting: Representing functions}
+  \vspace{-0.8cm}
+  \begin{columns}[t]
+
+    \column{0.65\hsize}
+    \vspace{0.4cm}
+    \begin{center}
+      \Large Little question: How do we represent functions?
+    \end{center}
+    \column{0.3\hsize}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
+  \end{figure}
+  
+  
+\end{columns}
+
+\pause
+
+\begin{itemize}
+\item We need a \textit{collection} of functions from which to pick a good one. \pause
+\item \emph{Parameterise} a set of functions, i.e.~take some numbers $\vec \theta$ that map to a function. \pause
+\end{itemize}
+
+\vspace{0.3cm}
+
+For example, linear or polynomial functions:
+\begin{align}
+f_{\vec \theta}(x) &= a\cdot x + b\,, && \vec\theta = \begin{bmatrix}a \\ b\end{bmatrix} \,, \\
+f_{\vec \theta}(x) &= a\cdot x^3 + b\cdot x^2 + c\cdot x + d\,, && \vec\theta = \begin{bmatrix}a && b && c && d\end{bmatrix}^{\tiny\mathrm T} \,.
+\end{align}
+% Neural networks are also parameterised functions, but complicated ones.
+\end{frame}
+
+
+
+\section{A Statistical View on Regression}
+
+\begin{frame}{Maximum Likelihood Estimation}
+Revision from \texttt{50008: Probability \& Statistics}
+\begin{itemize}
+\item Model is a probability distribution on data: $p(y|\vtheta)$
+\item For an observed dataset (fixed), we can evaluate the probability assigned to it for different $\vtheta$
+\item This defines the likelihood $\ell(\vtheta) = p(y|\vtheta)$
+\end{itemize} \pause
+
+\vspace{0.3cm}
+
+Maximum likelihood does:
+\begin{align}
+\vtheta^* = \argmax_{\vtheta} \ell(\vtheta) = \argmax_{\vtheta} \log \ell(\vtheta)
+\end{align}
+
+\end{frame}
+
+
+\begin{frame}{Likelihood for Linear Regression}
+Assume:
+\begin{itemize}
+\item Gaussian deviations from the function:
+\begin{align}
+p(y_n|x_n, \vtheta) = \NormDist{y_n; f_{\vtheta}(x_n), \sigma^2}
+\end{align}
+\item Independent deviations between datapoints. So denoting $y\in\Reals^N$, $x\in\Reals^N$ for $N$ datapoints, we get the likelihood:
+\begin{align}
+p(y|x,\vtheta) = \prod_{n=1}^N\NormDist{y_n; f_{\vtheta}(x_n), \sigma^2}
+\end{align}
+\item You will show that this is equivalent to the loss view (exercises).
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\section{Conclusion}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Curve Fitting Summary}
+
+  \begin{columns}[t]
+
+    \column{0.65\hsize}
+     \begin{itemize}
+     \item Training data, e.g., $N$ pairs $(\vec x_i, y_i)$ of inputs
+      $\vec x_i$ and observations $y_i$
+     \item \cemph{Parameterise} functions as $f(\vx_i, \vec\theta)$
+  \item \cemph{Training the model} means finding parameters $\vec\theta^*$, such
+    that
+    \begin{itemize}
+      \item $f(\vec x_i,\vec\theta^*)\approx y_i$ (loss is minimised)
+      \item $p(y_n|x_n,\vtheta) \approx \pi(y_n|x_n,\vtheta)$ (max likelihood)
+    \end{itemize} \pause
+    \item Not discussed: How to find $\vtheta^*$
+  \end{itemize}
+    \column{0.3\hsize}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
+  \end{figure}
+  
+  
+\end{columns}
+
+\end{frame}
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
