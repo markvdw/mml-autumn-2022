@@ -143,3 +143,20 @@ A^{-1} = \begin{pmatrix}
 Therefore we have $\x = A^{-1} \mathbf{b} = (-1, 3/2, 43/12)^\top$.
 
 c) $\text{rank}(A) = 3$: as $A$ is invertible, it must have full rank.
+
+\paragraph{Question \ref{q:eigen_decomp}}
+
+a) When $A$ is symmetric, then $A = Q \Lambda Q^\top$, and $\x^\top A \x = \x^\top Q \Lambda Q^\top \x = (Q^\top \x)^\top \Lambda (Q^\top \x)$. As $Q$ is an orthonormal matrix, we have $\x \rightarrow Q^\top \x$ a one-to-one mapping. Therefore we have
+$$\x^\top A \x = \bm{z}^\top \Lambda \bm{z} = \sum_{i=1}^d \lambda_i z_i^2, \quad \bm{z} = (z_1, ..., z_d)^\top = Q^\top \x.$$
+Therefore $\x^\top A \x \geq 0 \Leftrightarrow \sum_{i=1}^d \lambda_i z_i^2 \geq 0$. This is true for any $\x \in \mathbb{R}^{d \times 1}$ if and only if $\lambda_i \geq 0$ for all $i = 1,..., d$.
+
+b) We use the permuation invariance property of matrix trace to show the result:
+$$Tr(A) = Tr(Q \Lambda Q^{-1}) = Tr(Q^{-1} Q \Lambda) = Tr(\Lambda) = \sum_{i=1}^d \lambda_i.$$
+
+c) We use the product rule of matrix determinant to show the result:
+$$det(A) = det(Q \Lambda Q^{-1}) = det(Q) det(\Lambda) det(Q^{-1}) = det(Q) det(\Lambda) det(Q)^{-1} = det(\Lambda) = \prod_{i=1}^d \lambda_i.$$
+
+d) Let us assume the statement is false, i.e., there exists a solution $\lambda^* \neq \lambda_i, \forall i = 1, ..., d$ for the equation $A \bm{q} = \lambda \bm{q}, \bm{q} \neq 0$. Then we can rewrite the equation as
+$$A \bm{q} = \lambda^* \bm{q} \quad \Rightarrow \quad (A - \lambda^* I) \bm{q} = \bm{0} \quad \Rightarrow \quad Q (\Lambda - \lambda^* I) Q^{-1} \bm{q} = 0.$$
+By definition, the column vectors of $Q$ forms a basis of $\mathbb{R}^d$. Notice that the diagonal entries of $\Lambda - \lambda^* I$ are non-zero as we assume $\lambda^* \neq \lambda_i$. This indicates a contradiction to the assumption of $\bm{q} \neq 0$:
+$$Q (\Lambda - \lambda^* I) Q^{-1} \bm{q} = 0 \quad \Rightarrow \quad Q^{-1}\bm{q} = \bm{0} \quad \Rightarrow \quad \bm{q} = \bm{0}.$$
