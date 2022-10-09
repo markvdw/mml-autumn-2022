@@ -1,0 +1,200 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress, mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\slidesettitle}{\imperialBlue{Mathematics for Machine Learning: Course Overview}}
+\newcommand{\footertitle}{Course Overview}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 3, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\usepackage{../includes/MarkMathCmds}
+\input{../includes/header.tex}
+
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+
+\begin{frame}{Goal}
+In this course you will learn mathematical principles used to
+\begin{center}
+\Large 1. \emph{create} ML algorithms. \\ \pause
+2. \emph{analyse} ML algorithms.
+\end{center}
+\pause
+Key skills
+\begin{itemize}
+\item Probability meets linear algebra, i.e.~multiple variables
+\item Linear algebra and statistics underlying learning algorithms
+\item Probability to analyse learning algorithms
+\end{itemize}
+
+Follows on from:
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Course book: Mathematics for Machine Learning (\url{https://mml-book.github.io})
+\item We have to assume knowledge of vector spaces \& linear algebra (ch 2-3)
+\item Problem driven: We introduce mathematical techniques in the context of fundamental ML methods.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Prerequisites}
+This course follows on from:
+\begin{itemize}
+\item \texttt{40016} - Y1 - Calculus
+\item \texttt{40017} - Y2 - Linear Algebra
+\item \texttt{50008} - Y2 - Probability \& Statistics
+\end{itemize}
+
+\vspace{0.5cm}
+
+An incomplete collection of skills that will be assumed:
+\begin{itemize}
+\item Linear Algebra (e.g.~change of basis, eigenvectors)
+\item Differentiation \& Integration
+\item Probability and basic stats (maximum likelihood)
+\end{itemize}
+
+\vspace{0.5cm}
+
+We collected exercises to support you in revising this.
+\end{frame}
+
+
+
+\begin{frame}{Logistics: In-person teaching}
+Two lecturers: Myself, and Dr Yingzhen Li.
+
+Teaching schedule:
+\begin{itemize}[<+->]
+\item MvdW: Weeks 2-3 (Mon), 5 (Fri)-7 (Mon).
+\item YL \hspace{0.6cm}: Weeks 3 (Fri)-5 (Mon), 7 (Mon)-8.
+\item In-person teaching. Lectures are recorded, but best to show up.
+\item In-person TA sessions on Fri 10-11am.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Coursework}
+Two courseworks.
+\begin{itemize}
+\item Coding exercise, designed to put the theory into practice.
+\item Code submission to LabTS, where it will be automatically graded by unittests.
+\item Feedback provided by TAs.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Exercise sheet}
+\begin{itemize}
+\item Unassessed but crucial for your practice.
+\item TAs are here \textbf{every week} to provide feedback.
+\item But, your responsibility to instigate.
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{TA sessions}
+\begin{itemize}
+\item Your opportunity ask questions, discuss exercises, get feedback.
+\item This is \emph{student led}: up to you to make the most of it. Suggestion:
+\begin{itemize}
+\item Discuss specific questions about the course material.
+\item Go through (selection of) exercises. You explain your solution to the TAs. TA gives feedback on your solution.
+\item Discuss differences to the solution provided.
+\item Discuss steps you are uncertain about (e.g.~why is a step needed).
+\end{itemize}
+\item You will need to sign up to a specific TA beforehand (to be communicated over EdStem).
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{EdStem}
+You can also ask questions on EdStem, and TAs or lecturers will respond.
+\end{frame}
+
+
+
+
+
+\begin{frame}{Course overview}
+In this course, we will consider two machine learning problems:
+\begin{itemize}
+\item Supervised learning
+\item Unsupervised learning
+\end{itemize}
+
+\vspace{0.3cm}
+
+We will teach you the mathematics needed to \emph{implement} and \emph{analyse} the methods, e.g.:
+
+\begin{itemize}
+\item Linear Regression
+\begin{itemize}
+\item Differentiation, Optimisation (implementation)
+\item Probability and Statistics (analysis)
+\end{itemize}
+\end{itemize}
+
+We care catering to students with a wide variety of backgrounds. Some need to catch up, so there is a lot of material. Focus on the skills needed for implementation if it is too much.
+\end{frame}
+
+
+\begin{frame}{Course materials}
+\begin{itemize}
+\item The \textbf{only} link you need for material: \texttt{https://scientia.doc.ic.ac.uk/2223/modules/70015}
+\item This links to all our materials on GitHub:
+\texttt{https://github.com/markvdw/mml-autumn-2022}
+\item All \LaTeX\ sources are on GitHub too.
+\item Please do suggest improvements to exercise solutions, fix typos, etc. Just fork and submit a PR.
+\item For those who contribute, there will be cake.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

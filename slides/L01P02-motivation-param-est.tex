@@ -1,0 +1,180 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress, mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\slidesettitle}{\imperialBlue{Motivation: Parameter Estimation}}
+\newcommand{\footertitle}{Course Overview}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 3, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\usepackage{../includes/MarkMathCmds}
+\input{../includes/header.tex}
+
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+\begin{frame}{Machine Learning}
+\begin{itemize}
+\item ML's goals: \emph{predict} the world, and \emph{optimise} outcomes \pause
+\item Things in the world are influenced by many (hidden) factors \pause
+\item Things seem random to us, until we understand them \pause
+\item In ML, we use data to improve understanding \pause
+\item To express our understanding, we use \emph{probability} \pause
+\end{itemize}
+\begin{center}
+\Large Machine Learning and Statistics \\
+are \emph{almost the same}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Example: The shaking desk}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\vsize,clip,trim=0 0 19.5cm 0]{./figures-motivation-param-est/xkcd-resonance.png}
+    \caption{xkcd \#228}
+  \end{figure}
+
+  \begin{itemize}
+    \item Why is it shaking?
+    \item How can I stop it?
+    \item How much will it shake?
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{The shaking desk: Gathering data}
+Measure amplitude at various fixed points during the day.
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-marginal-histogram.png}
+  \end{figure} \pause
+  \vspace{-0.3cm}
+  \begin{itemize}
+    \item Can we predict whether the shaking will happen? \pause \arrow No. \pause
+    \item Does this give \emph{some} information about our world? \pause \arrow Yes! \pause
+    \item We can at least predict: Unlikely to be small amplitude.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{The shaking desk: Gathering data}
+More data: Also measure whether your colleague is present ($C$).
+  \onslide*<1>{
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-cond-histogram.png}
+  \end{figure}
+}
+  \onslide*<2>{
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-cond-probs.png}
+  \end{figure}
+}
+  \vspace{-0.3cm}
+With this data...
+  \begin{itemize}
+    \item It seems that $C=1$ indicates larger shaking
+    \item Given $C$, we can now predict with more certainty!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: The shaking desk}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\vsize,clip,trim=0 0 10.7cm 0]{./figures-motivation-param-est/xkcd-resonance.png}
+    \caption{xkcd \#228}
+  \end{figure}
+
+  \begin{itemize}
+    \item Why is it shaking?
+    \item How can I stop it?
+    \item How much will it shake?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{The shaking desk: Gathering more data}
+More data: Also measure whether your colleague is present ($C$).
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-regression.png}
+  \end{figure}
+
+  \vspace{-0.3cm}
+With this data...
+  \begin{itemize}
+    \item We should be able to predict the amplitude very accurately!
+    \item Uncertainty reduces, predictions improve.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: The shaking desk}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\vsize]{./figures-motivation-param-est/xkcd-resonance.png}
+    \caption{xkcd \#228}
+  \end{figure}
+
+  \begin{itemize}
+    \item Why is it shaking?
+    \item How can I stop it?
+    \item How much will it shake?
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[t]{Curve Fitting}
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-regression.png}
+  \end{figure}
+
+  \vspace{-0.3cm}
+\begin{center}
+\Large Curve fitting problem! \\ \pause
+\emph{Regression}
+\end{center}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
