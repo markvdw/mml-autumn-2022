@@ -1,0 +1,269 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\slidesettitle}{\imperialBlue{Motivation: Parameter Estimation}}
+\newcommand{\footertitle}{Course Overview}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 3, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\usepackage{../includes/MarkMathCmds}
+\input{../includes/header.tex}
+
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+\begin{frame}{Machine Learning}
+\begin{itemize}
+\item ML's goals: \emph{predict} the world, and \emph{optimise} outcomes \pause
+\item Things in the world are influenced by many (hidden) factors \pause
+\item Things seem random to us, until we understand them \pause
+\item In ML, we use data to improve understanding \pause
+\item To express our understanding, we use \emph{probability} \pause
+\end{itemize}
+\begin{center}
+\Large Machine Learning and Statistics \\
+are \emph{almost the same}
+\end{center}
+\end{frame}
+
+\section{Probability}
+
+\begin{frame}{Assumed: Probabilities and Densities}
+I assume that you know about:
+\begin{itemize}
+\item Probability spaces and random variables
+\item Probability densities, e.g.~$P(0.4 \leq X \leq 0.5) = \int_{0.4}^{0.5} p_X(x) \calcd x$
+\item Joint random variables, e.g.~$P(X=3,Y=4)$
+\item Joint random densities, e.g.
+\begin{align}
+P(0.4 \leq X \leq 0.5, 0.8 \leq Y \leq 0.85) = \int_{0.4}^{0.5} \int_{0.8}^{0.85} p_{XY}(x, y) \calcd y \calcd x
+\end{align}
+\end{itemize}
+
+\vspace{0.3cm}
+See exercise sheet for recap of notation, exercises, and pointers to revision material.
+\end{frame}
+
+
+\begin{frame}{Probabilities and vectors}
+\begin{itemize}
+\item Statistical modelling deals with many random variables at a time. \pause
+\item Collect them in \emph{vectors} for easier notation. \pause
+\item Not conceptually different from joint distributions on scalars. \pause
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Skill: Probabilities and vectors}
+\begin{itemize}
+\item For multiple joint random variables $X_1, X_2, X_3 \in \Reals$ with density
+\begin{align}
+p_{X_1,X_2,X_3}(x_1, x_2,x_3) \,,
+\end{align}
+we can interchangably denote this using a vector RV $X \in \Reals^3$ with density $p_X(\vx)$. \pause
+\item This can shorten notation when specifying densities, e.g.~for $0 \leq x_n \leq 1$, we can have
+\begin{align}
+p(x_1, x_2, x_3) = \frac{1}{C}(x_1^2 + x_2^2 + x_3^2) = \frac{1}{C} ||\vx||^2
+\end{align} \pause
+\item See exercise sheet for some practice.
+\end{itemize}
+\end{frame}
+
+
+\section{Statistical Modelling}
+
+\begin{frame}{Example: The shaking desk}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\vsize,clip,trim=0 0 19.5cm 0]{./figures-motivation-param-est/xkcd-resonance.png}
+    \caption{xkcd \#228}
+  \end{figure}
+
+  \begin{itemize}
+    \item Why is it shaking?
+    \item How can I stop it?
+    \item How much will it shake?
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Statistical View on the World}
+\begin{myblock}{Data Generating Process}
+We assume that the data we observe is the outcome of some random process. Each observation is one random variable. In this course, probabilities of the data generating process are denoted with $\mathbb P(\cdot)$, and which has distribution $\pi(\cdot)$.
+\end{myblock} \pause
+
+Example:
+\begin{itemize}
+\item We observe a dataset of 3 values $\{x_n\}_{n=1}^3$.
+\item This has density $\pi_{X_1,X_2,X_3}(x_1, x_2, x_3)$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Independent Identically Distributed}
+\begin{myblock}{Independent Identically Distributed (iid) Assumption}
+Often, we assume that random variables in a dataset are independent and identically distributed, which means that each random variable has the same distribution. Groups of RVs can also be iid.
+\end{myblock} \pause
+
+Examples:
+\begin{align*}
+\pi_{X_1,X_2,X_3}(x_1, x_2, x_3) &= \prod_{n=1}^3\pi(x_n) \\
+\pi_{X_1,Y_1,X_2,Y_2,\dots}(x_1, y_1, x_2, y_2, \dots) &= \pi_{X,Y}(\vx,\vy) && \vx,\vy\in\Reals^N \\
+&= \prod_{n=1}^N \pi(x_n, y_n)
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Statistical Model}
+\begin{myblock}{Statistical Model}
+A statistical model is a random process used by a statistician (i.e.~``us'') to explain data coming from the data generating process. In this course, probabilities of the model are denoted with $P(\cdot)$, which has the distribution $p(\cdot)$.
+\end{myblock}
+\pause
+\begin{itemize}
+\item The data generating process $\pi(\cdot)$ is unknown, and therefore usually different to our statistical model $p(\cdot)$.
+\item Our goal is to make them similar!
+\item A model often depends on some parameters $\vtheta$, denoted as $p(\cdot|\vtheta)$, which are used to adjust the statistical model to fit the data.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[t]{The shaking desk: Gathering data}
+\vspace{-0.5cm}
+Measure amplitude at various fixed points during the day.
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-marginal-histogram.png}
+  \end{figure} \pause
+  \vspace{-0.3cm}
+  \begin{itemize}
+    \item We observe data as an iid sample from $\pi(y)$.
+    \item Our model for unknown phenomenon: $p(y|\vtheta)$.\pause
+    \item Parameters $\vtheta$ adjust shape of $p(y|\vtheta)$  \pause \arrow Find from data.
+    \item Can we predict whether the shaking will happen? \pause \arrow No. \pause
+    \item We can at least predict: Unlikely to be small amplitude.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{The shaking desk: Gathering data}
+More data: Also measure whether your colleague is present ($C$).
+  \onslide*<1>{
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-cond-histogram.png}
+  \end{figure}
+}
+  \onslide*<2>{
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-cond-probs.png}
+  \end{figure}
+}
+  \vspace{-0.3cm}
+  \begin{itemize}
+    \item Now we observe pairs $c_n, y_n$ from a generating process $\pi(c, y)$
+    \item We now find two models $p(y|C=0,\vtheta)$ and $p(y|C=1,\vtheta)$
+    \item It seems that $C=1$ indicates larger shaking
+    \item Given $C$, we can now predict with more certainty!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: The shaking desk}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\vsize,clip,trim=0 0 10.7cm 0]{./figures-motivation-param-est/xkcd-resonance.png}
+    \caption{xkcd \#228}
+  \end{figure}
+
+  \begin{itemize}
+    \item Why is it shaking?
+    \item How can I stop it?
+    \item How much will it shake?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{The shaking desk: Gathering more data}
+Data: For colleague present ($C=1$), measure jiggling frequency $x$.
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-regression.png}
+  \end{figure}
+
+  \vspace{-0.3cm}
+  \begin{itemize}
+    \item Could we estimate on model per $x$? I.e.~$p(y|x, \vtheta)$.
+    \item We should be able to predict the amplitude very accurately!
+    \item Uncertainty reduces, predictions improve
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: The shaking desk}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\vsize]{./figures-motivation-param-est/xkcd-resonance.png}
+    \caption{xkcd \#228}
+  \end{figure}
+
+  \begin{itemize}
+    \item Why is it shaking?
+    \item How can I stop it?
+    \item How much will it shake?
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[t]{Curve Fitting}
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\hsize]{./resonance-example/resonance-regression.png}
+  \end{figure}
+
+  \vspace{-0.3cm}
+\begin{center}
+\Large Curve fitting problem! \\ \pause
+\emph{Regression}
+\end{center}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

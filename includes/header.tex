@@ -1,0 +1,356 @@
+\selectcolormodel{rgb}
+\usepackage{ifxetex,ifluatex}
+\newif\ifxetexorluatex
+\ifxetex
+  \xetexorluatextrue
+\else
+  \ifluatex
+    \xetexorluatextrue
+  \else
+    \xetexorluatexfalse
+  \fi
+\fi
+
+\usepackage{textpos}
+%\usepackage{arabtex}
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{mindmap,trees,backgrounds}
+
+\tikzstyle{every picture}+=[remember picture]
+
+%\usepackage{movie15}
+% \usepackage{pdfpages}
+%\usepackage{xmpmulti}
+
+\usepackage{anyfontsize}
+\usepackage{wrapfig}
+\usepackage{animate}
+\usepackage{multirow}
+\usepackage{multimedia}
+\usepackage{xmpmulti}
+%\usepackage[latin9]{inputenc}
+\usepackage[english]{babel}
+\usepackage{scalefnt}
+\usepackage{verbatim}
+\usepackage{url}
+% \usepackage{pgf,pgfarrows,pgfnodes}
+\usepackage{textpos}
+\usepackage[tight,ugly]{units}
+\usepackage{url}
+\usepackage{bbm}
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+\usepackage{bm} % correct bold symbols, like \bm
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{color}
+\usepackage{cancel}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathrsfs}
+\usepackage{listings}
+\usepackage{graphicx} % for pdf, bitmapped graphics files
+\usepackage{mathtools}
+\usepackage{units}
+\usepackage{subfig}
+\usepackage{enumerate}
+\usepackage{natbib}
+\usepackage{dsfont}
+
+
+\ifxetexorluatex
+\usepackage{fontspec}
+\setmainfont[Scale=0.8]{OpenDyslexic-Regular}
+\else
+\usefonttheme{professionalfonts}
+\fi
+
+\renewcommand{\vec}[1]{{\boldsymbol{{#1}}}} % vector
+\newcommand{\mat}[1]{{\boldsymbol{{#1}}}} % matrix
+% \newcommand{\KL}[2]{\mathrm{KL}(#1\|#2)} % KL divergence
+\newcommand{\R}[0]{\mathds{R}} % real numbers
+\newcommand{\Z}[0]{\mathds{Z}} % integers
+\newcommand{\tr}[0]{\text{tr}} % trace
+% \newcommand{\inv}{^{-1}}
+% \DeclareMathOperator*{\diag}{diag}
+\newcommand{\E}{\mathds{E}} % expectation
+\newcommand{\var}{\mathds{V}}
+\newcommand{\gauss}[2]{\mathcal{N}\big(#1,\,#2\big)}
+\newcommand{\gaussx}[3]{\mathcal{N}\big(#1\,|\,#2,\,#3\big)}
+\newcommand{\gaussBig}[2]{\mathcal{N}\left(#1,\,#2\right)}
+\newcommand{\gaussxBig}[3]{\mathcal{N}\left(#1\,\left|\,#2,\,#3\right.\right)}
+\newcommand{\Ber}[0]{\mathrm{Ber}} % Bernoulli distribution
+\DeclareMathOperator{\cov}{Cov}
+\ifxetexorluatex
+\renewcommand{\T}[0]{^\top}
+\renewcommand{\d}[0]{\text{d}} % derivative
+\else
+\newcommand{\T}[0]{^\top}
+\renewcommand{\d}[0]{\text{d}} % derivative
+\fi
+% calculus
+\newcommand{\pdiff}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\pdiffF}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\diffF}[2]{\frac{{\d}#1}{{\d}#2}}
+\newcommand{\diffFII}[2]{\frac{{\d}^2 #1}{{\d}#2^2}}
+\newcommand{\diff}[1]{\frac{{\d}}{{\d}#1}}
+\newcommand{\diffII}[1]{\frac{{\d}^2}{{\d}#1^2}}
+\newcommand{\class}[0]{\mathcal{C}}
+
+\newcommand{\idx}[1]{{(#1)}}
+% \newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\proj}[1]{\tilde{#1}}
+\newcommand{\pcacoord}{z}
+\newcommand{\pcacoordnew}{\zeta}
+\newcommand{\latent}{z}
+% \newcommand{\given}{\,|\,}
+\newcommand{\genset}[1]{\mathrm{span}[#1]} % generating set
+\newcommand{\set}[1]{\mathcal{#1}} % set
+\newcommand{\fixgmfont}[1]{\scalebox{0.8}{#1}}
+
+
+
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{{\color{green!40!black}\ding{51}}}%
+\newcommand{\xmark}{{\color{red}\ding{55}}}%
+\newcommand{\green}[1]{{\bf{\textcolor{green}{#1}}}}
+\newcommand{\red}[1]{{\bf{\textcolor{red}{#1}}}}
+
+\newcommand<>\red[1]{{\color#2[rgb]{1,0,0}#1}}
+\newcommand<>\blue[1]{{\color#2[rgb]{0,0,1}#1}}
+\newcommand<>\yellow[1]{{\color#2{camyellow}#1}}
+\newcommand<>\green[1]{{\color#2[rgb]{0,0.6,0.0}#1}}
+\newcommand<>\violet[1]{{\color#2[rgb]{0.6,0,0.6}#1}}
+\newcommand<>\orange[1]{{\color#2[rgb]{1,0.5,0}#1}}
+\newcommand<>\black[1]{{\color#2[rgb]{0,0,0}#1}}
+\newcommand<>\steel[1]{{\color#2[rgb]{0,0,0.8}#1}}
+\newcommand<>\darkblue[1]{{\color#2[rgb]{0,0,0.6}#1}}
+\newcommand<>\lightblue[1]{{\color#2[rgb]{0.4,0.4,0.7}#1}}
+\newcommand<>\gray[1]{{\color#2[rgb]{0.4,0.4,0.4}#1}}
+\newcommand<>\greenish[1]{{\color#2[rgb]{0.45, 0.66, 0.45}#1}}
+\newcommand<>\redish[1]{{\color#2[rgb]{0.7843    0.3706    0.3706}#1}}
+\definecolor{redishTIKZ}{rgb}{0.7843, 0.3706, 0.3706}
+\definecolor{imperialBlue}{rgb}{0.058, 0.219, 0.418}
+\definecolor{aimsbrown}{rgb}{0.539, 0.117, 0.015}
+% \definecolor{imperialGray}{rgb}{0.414, 0.488, 0.671 }
+\definecolor{imperialGray}{RGB}{109,153, 204}
+\definecolor{aimslightbrown}{RGB}{138,88,84}
+\newcommand<>\imperialBlue[1]{{\color#2[rgb]{0.058, 0.219, 0.418}#1}}
+\newcommand<>\aimsbrown[1]{{\color#2[rgb]{0.539, 0.117, 0.015}#1}}
+%\newcommand<>\imperialGray[1]{{\color#2[rgb]{0.414, 0.488, 0.671}#1}}
+\newcommand<>\imperialGray[1]{{\color#2[RGB]{109,153, 204}#1}}
+\newcommand<>\aimslightbrown[1]{{\color#2[RGB]{138,88,84}#1}}
+\newcommand<>\lightgray[1]{{\color#2[rgb]{0.8,0.8,0.8}#1}}
+%\newcommand<>\highlightcolor[1]{{\color#2[rgb]{0,0,1}#1}}
+\newcommand{\highlight}[1]{{\bf\steel{#1}}}
+%\newcommand{\newblock}[0]{}
+
+%\newcommand{\arrow}[0]{\includegraphics[height=5pt]{./figures/arrow}\hspace{3pt}}
+
+\renewcommand{\emph}[1]{\textbf{\steel{{#1}}}}
+
+\renewcommand{\alert}[1]{{\bf\red{{#1}}}}
+
+\newcommand{\arrow}{
+\begin{tikzpicture}
+\draw [black!40!green, fill=black!40!green] (0,-0.12) -- (0,0.12) --
+(0.15,0);
+\draw [black!40!green, fill=black!40!green] (0.15,-0.12) -- (0.15,0.12) --
+(0.3,0); 
+\end{tikzpicture}
+}
+
+\geometry{left=0.45cm,top=0cm,right=0.45cm}
+
+
+\newcommand{\logoimagepath}{./figures/imperial}
+\newcommand{\highlightcolor}{blue!80!black}
+%\newcommand{\headbarcolor}{imperialBlue}
+\newcommand{\headbarcolor}{imperialBlue}
+\institute{}
+
+\newcommand{\coursetitle}{}
+
+\newcommand{\slidesetsubtitle}{}
+\newcommand{\slidesetnumber}{01}
+\usefonttheme{professionalfonts}
+
+
+\usetikzlibrary{decorations.fractals}
+\input{../includes/tikzlibrarybayesnet.code.tex}
+\input{../includes/tikzlibraryipe.code.tex}
+\usetikzlibrary{matrix,positioning,decorations.pathreplacing}
+\usetikzlibrary{calc,quotes,angles}
+\usetikzlibrary{arrows, arrows.meta, patterns}
+
+\usetikzlibrary{decorations.pathreplacing}
+\tikzset{
+    position label/.style={
+       above = 3pt,
+       text height = 2ex,
+       text depth = 1ex
+    }
+}
+
+% \usetikzlibrary{decorations.markings}
+\tikzset{
+  font={\fontsize{14pt}{12}\selectfont}
+}
+
+
+
+\useoutertheme[subsection=false,shadow]{miniframes}
+\useinnertheme{default}
+\usefonttheme{serif}
+%\usepackage{palatino}
+\usepackage{mathpazo}
+%\usepackage{utopia}
+\usepackage{stmaryrd} % for varodot, bigodot 
+\usepackage{mathabx} % for \coAsterisk
+%\usepackage{mnsymbol}
+%\setbeamertemplate{itemize item}{\scriptsize\raise1.7pt\hbox{\donotcoloroutermaths$\Asterisk$}}
+%\setbeamertemplate{itemize item}{\scriptsize\raise1.7pt\hbox{\donotcoloroutermaths$\varodot$}}
+%\setbeamertemplate{itemize subitem}{\scriptsize\raise1.25pt\hbox{\donotcoloroutermaths$\rhd$}}
+
+\usepackage{xifthen}% provides \isempty tesst
+
+\setbeamerfont{title like}{shape=\scshape}
+\setbeamerfont{frametitle}{}
+
+
+
+\setbeamercolor*{lower separation line head}{bg=blue} 
+\setbeamercolor*{normal text}{fg=black,bg=white} 
+\setbeamercolor*{alerted text}{fg=red} 
+\setbeamercolor*{example text}{fg=black} 
+%\setbeamercolor*{frametitle}{fg=aimsbrown} 
+\setbeamercolor*{frametitle}{fg=imperialBlue} 
+\setbeamercolor*{structure}{fg=black} 
+ 
+\setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
+\setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
+
+%\renewcommand{\(}{\begin{columns}}
+%\renewcommand{\)}{\end{columns}}
+%\newcommand{\<}[1]{\begin{column}{#1}}
+%\renewcommand{\>}{\end{column}}
+
+% ======================================
+% custom commands 
+\newcommand{\cemph}[1]{\textcolor{\highlightcolor}{#1}}
+\newcommand{\calert}[1]{\textcolor{red}{#1}}
+
+\setbeamertemplate{navigation symbols}{}
+%\renewcommand\frametitle[1]{{\textsc{\Large \textcolor{\highlightcolor}{#1}}}\vspace{0.6cm}\par}
+
+\setbeamertemplate{frametitle}
+{
+{\textsc\bf \insertframetitle}\vspace{0.2cm}\par
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{headline}{% 
+	\setbeamercolor{head1}{bg=\headbarcolor}
+	 \hbox{%
+  \begin{beamercolorbox}[wd=.01\paperwidth,ht=2.25ex,dp=50ex,center]{head1}%
+  \fontsize{5}{5}\selectfont  
+  \end{beamercolorbox}%
+  }
+  \vspace{-50ex}
+}
+\setbeamertemplate{footline}{
+\begin{tiny}
+\setbeamercolor{foot1}{fg=black,bg=gray!10}
+\setbeamercolor{foot2}{fg=gray,bg=gray!15}
+\setbeamercolor{foot3}{fg=gray,bg=gray!10}
+\setbeamercolor{foot4}{fg=black,bg=gray!20}
+\setbeamercolor{foot5}{fg=gray,bg=gray!15}
+\setbeamercolor{foot6}{fg=black,bg=gray!20}
+
+% taken from theme infolines and adapted
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.45\paperwidth,ht=2.25ex,dp=1ex,center]{foot1}%
+  \fontsize{5}{5}\selectfont
+  \flushleft \hspace*{2ex}{\footertitle}
+  \end{beamercolorbox}%
+  % \begin{beamercolorbox}[wd=.08\paperwidth,ht=2.25ex,dp=1ex,center]{foot2}
+  % \end{beamercolorbox}%
+  %   \begin{beamercolorbox}[wd=.05\paperwidth,ht=2.25ex,dp=1ex,center]{foot3}
+  % \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.45\paperwidth,ht=2.25ex,dp=1ex,center]{foot4}%
+  \fontsize{5}{5}\selectfont
+  \authorname\hspace{5mm}@\location, \talkDate%\ (\authorweb) 
+  \end{beamercolorbox}%
+  % \begin{beamercolorbox}[wd=.05\paperwidth,ht=2.25ex,dp=1ex,center]{foot5}
+  % \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{foot6}%
+	\insertframenumber{}  \hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+\end{tiny}
+\vskip0pt
+}
+
+
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+
+\newenvironment<>{myblock}[1]{%
+  \begin{actionenv}#2%
+      \def\insertblocktitle{#1}%
+      \par%
+      \mode<presentation>{%
+%       \setbeamercolor{block title}{fg=black,bg=aimslightbrown!50!white}
+      \setbeamercolor{block title}{fg=black,bg=imperialBlue!45!white}
+       \setbeamercolor{block body}{fg=black,bg=gray!20}
+       \setbeamercolor{itemize item}{fg=blue!40!white}
+       \setbeamertemplate{itemize item}[triangle]
+     }%
+      \usebeamertemplate{block begin}}
+    {\par\usebeamertemplate{block end}\end{actionenv}}
+
+\newenvironment<>{myblock2}[1]{%
+  \begin{actionenv}#2%
+      \def\insertblocktitle{#1}%
+      \par%
+      \mode<presentation>{%
+       \setbeamercolor{block title}{fg=white,bg=blue!80!black}
+       \setbeamercolor{block body}{fg=black,bg=gray!20}
+       \setbeamercolor{itemize item}{fg=green!60!black}
+       \setbeamertemplate{itemize item}[triangle]
+     }%
+      \usebeamertemplate{block begin}}
+    {\par\usebeamertemplate{block end}\end{actionenv}}
+
+\gdef\colchar#1#2{%
+  \tikz[baseline]{%
+%  \node[anchor=base,inner sep=2pt,outer sep=0pt,fill = #2!20]
+%  {\large{#1}};
+  \node[anchor=base,inner sep=1pt,outer sep=0pt,fill = #2!20]
+  {{\fontsize{11}{13}\selectfont #1}};
+    }%
+}%
+\gdef\drawfontframe#1#2{%
+  \tikz[baseline]{%
+  \node[anchor=base,inner sep=2pt,outer sep=0pt,fill = #2!20] {#1};
+    }%
+  }%
+
+
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "2018-09-arusha-linear-regression"
+%%% End:

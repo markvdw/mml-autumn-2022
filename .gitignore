@@ -6,3 +6,7 @@
 *.out
 *.run*
 *.toc
+*.snm
+\#*
+.*
+*.nav
