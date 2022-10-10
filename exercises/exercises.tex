@@ -220,7 +220,7 @@ We will cover conditional probability more later, but for now just think it thro
 \end{question}
 
 \begin{question}[Multivariate Integration]
-Consider two continuous random variables $X,Y$ with joint density $p(x, y) = C\cdot (x^2 + xy)$.
+Consider two continuous random variables $X,Y$ with joint density $p(x, y) = C\cdot (x^2 + xy)$ when $x \in [0, 1]$ and $y \in [0, 1]$, and $0$ elsewhere.
 \begin{enumerate}[label=\alph*.]
     \item Find $C$.
     \item Find $\prob{0.3 \leq X \leq 0.5}$.
@@ -245,7 +245,7 @@ Check your answers by performing numerical integration, e.g.~in Python.
 \input{linear_algebra_questions_warmup}
 
 
-\section{Lecture 1: Vectors \& Probability}
+\section{Lecture 1: Probability, Vectors, Differentiation}
 \begin{question}[Vector notation]
 We define the probability density on the vector $\vx \in \Reals^3$ with all elements $0 \leq x_k \leq 1$ as
 \begin{align}
@@ -254,21 +254,10 @@ p(\vx) = \frac{1}{C} (x_1^2 + x_1x_2 + x_2^2 + 2x_2x_3) \,.
 Put this into notation that only uses $\vx$ as a single whole vector.
 \end{question}
 
-\begin{question}[Vector independence]
-Consider the density on $\vx \in \Reals^4$ with all elements $0 \leq x_k \leq 1$ as
-\begin{align}
-p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0\end{bmatrix} \vx \,.
-\end{align}
-\begin{enumerate}[label=\alph*.]
-\item Rewrite the density in terms of $\tilde\vx = [x_1, x_3, x_2, x_4]\transpose$. Note that you can do this by a substitution $\vx = \mat P \tilde\vx$, where $\mat P$ is a permutation matrix. You will see that you just need to swap the relevant rows and columns of the matrix. However, make sure that you understand the mathematical steps that really show this.
-\item Divide up $\vx$ into two sub vectors $\vy = [x_2, x_4]\transpose$ and $\vz = [x_1, x_3]\transpose$. Show that $\vy \ci \vz$, i.e.~that they are independent.
-\end{enumerate}
-\end{question}
-
 \begin{question}[Noise conditional independence]
 Consider the probability of the data in linear regression, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X \in \Reals^{N\times D}$ where $\mat X = \{\vx_1, \dots, \vx_N\}$:
 \begin{align}
-p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vx, \sigma^2 \eye}
+p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose\vx, \sigma^2 \eye}
 \end{align}
 Show that all $y_n$s are independent, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X$.
 \end{question}
@@ -284,12 +273,60 @@ Show that all $y_n$s are independent, for a fixed setting of the parameters $\vt
 Show that the solution to the Maximum Likelihood estimator for linear regression is the same as the minimum squared loss estimator.
 \end{question}
 
+\begin{question}[MML 5.1-5.3]
+This is revision. Compute the derivatives for w.r.t.~$x$ for
+\begin{enumerate}[label=\alph*.]
+\item $f(x) = \log (x^4) \sin (x^3)$
+\item $f(x) = (1 + \exp(-x))^{-1}$
+\item $f(x) = \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$
+\end{enumerate}
+\end{question}
+
+\section{Lecture 2: Vector Differentiation}
+\begin{question}[MML 5.5-5.6]
+First find the dimensions, then the Jacobian. Think about whether it's easier to use the index method or the chain rule.
+\begin{enumerate}[label=\alph*.]
+\item $f(\vx) = \sin(x_1)\cos(x_2)$, find $\calcd f/\calcd\vx$.
+\item $f(\vx) = \vx\transpose\vy$, find $\calcd f/\calcd\vx$.
+\item $f(\vx) = \vx\vx\transpose$, find $\calcd f/\calcd\vx$.
+\item $f(\vt) = \sin(\log(\vt\transpose\vt))$, find $\calcd f/\calcd\vt$.
+\item $f(\mat X) = \Tr(\mat A \mat X \mat B)$ for $\mat A \in \Reals^{D\times E}$, $\mat X \in \Reals^{E\times F}$, $\mat B \in \Reals^{F\times D}$, find $\calcd f/\calcd\mat X$.
+\end{enumerate}
+\end{question}
+
+
+\begin{question}[MML 5.7-5.8: Chain rule]
+Compte the derivatives $\calcd f /\calcd\vx$ of the following functions by using the chain rule. Provide the dimensions of every single partial derivative. Describe your steps in detail.
+\begin{enumerate}[label=\alph*.]
+\item $f(z) = \log(1+z), \qquad z = \vx\transpose\vx, \qquad \vx \in \Reals^D$.
+\item $f(\vz) = \sin(\vz), \qquad \vz = \mat A\vx + \vb, \qquad \mat A \in \Reals^{E\times D}$. What sizes are $\vx$ and $\vb$?
+\item $f(z) = \exp(-\frac{1}{2}z), \qquad z = \vy\transpose \mat S\inv \vy, \qquad \vy = \vx -\vmu$.
+\item $f(\mat A) = \Tr(\mat A), \qquad \mat A = \vx\vx\transpose + \sigma^2 \mat I$.
+\item $\vf(\vz) = \tanh(\vz), \qquad \vz = \mat A \vx + \vb, \qquad \mat A \in \Reals^{M\times N}$.
+\end{enumerate}
+Remember: Generally, scalar functions are applied elementwise to vectors/matrices.
+\end{question}
+
+
 % \begin{question}[]
 % Consider sampling a bent coin twice, with a probability of heads $p_H = 0.9$.
 % \begin{enumerate}[label=\alph*.]
 % \item 
 % \end{enumerate}
 % \end{question}
+
+\section{Lecture $N$: Multivariate Probability}
+\begin{question}[Vector independence] {\color{red}While you can probabily figure this one out already, we will discuss this in more detail later.}
+Consider the density on $\vx \in \Reals^4$ with all elements $0 \leq x_k \leq 1$ as
+\begin{align}
+p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0\end{bmatrix} \vx \,.
+\end{align}
+\begin{enumerate}[label=\alph*.]
+\item Rewrite the density in terms of $\tilde\vx = [x_1, x_3, x_2, x_4]\transpose$. Note that you can do this by a substitution $\vx = \mat P \tilde\vx$, where $\mat P$ is a permutation matrix. You will see that you just need to swap the relevant rows and columns of the matrix. However, make sure that you understand the mathematical steps that really show this.
+\item Divide up $\vx$ into two sub vectors $\vy = [x_2, x_4]\transpose$ and $\vz = [x_1, x_3]\transpose$. Show that $\vy \ci \vz$, i.e.~that they are independent.
+\end{enumerate}
+\end{question}
+
 
 
 
