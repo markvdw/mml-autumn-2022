@@ -1,5 +1,5 @@
 %% Time-stamp: <2018-10-18 20:24:12 (marc)>
-\documentclass[xcolor=x11names,compress, mathserif]{beamer}
+\documentclass[xcolor=x11names,compress,mathserif,handout]{beamer}
 
 \newcommand{\hackspace}{\hspace{4.2mm}}
 \newcommand{\showstudent}[1]{}
@@ -149,6 +149,60 @@ Curve fitting in 1D. Inputs $\in \mathbb{R}$, outputs $\in \mathbb{R}$:
 % \end{frame}
 
 
+\section{Representing Functions}
+\begin{frame}
+  \frametitle{Curve Fitting: Representing functions}
+  \vspace{-0.8cm}
+  \begin{columns}[t]
+
+    \column{0.65\hsize}
+    \vspace{0.4cm}
+    \begin{center}
+      \Large Q: How do we represent functions?
+    \end{center}
+    \column{0.3\hsize}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
+  \end{figure}
+  
+  
+\end{columns}
+
+\pause
+
+\begin{itemize}
+\item We need a \textit{collection} of functions from which to pick a good one. \pause
+\item \emph{Parameterise} a set of functions, i.e.~take some numbers $\vec \theta$ that map to a function. \pause
+\end{itemize}
+
+\vspace{0.3cm}
+
+For example, linear or polynomial functions:
+\begin{align}
+f_{\vec \theta}(x) &= a\cdot x + b\,, && \vec\theta = \begin{bmatrix}a \\ b\end{bmatrix} \,, \\
+f_{\vec \theta}(x) &= a\cdot x^3 + b\cdot x^2 + c\cdot x + d\,, && \vec\theta = \begin{bmatrix}a && b && c && d\end{bmatrix}^{\tiny\mathrm T} \,.
+\end{align}
+% Neural networks are also parameterised functions, but complicated ones.
+\end{frame}
+
+
+\begin{frame}{Linear-in-the-Parameters representation}
+\begin{align}
+f_{\vtheta}(x) = \vphi(x)\transpose\vtheta \\
+\vphi(x) && \text{Feature vector} \\
+\vtheta && \text{Parameters}
+\end{align}
+
+\begin{itemize}
+\item Can use this to represent complicated functions.
+\item We call this ``linear in the parameters'' because the relationship betwen the function values and the parameters is linear.
+\item This enables regressio solutions to be found in closed form.
+\end{itemize}
+\end{frame}
+
+
 
 \section{Regression as Minimising a Loss}
 
@@ -181,7 +235,7 @@ We now have many functions that we can choose from:
   \end{figure} \pause
 
     \begin{center}
-      \Large Little question: Which function do we pick?
+      \Large Q: Which function do we pick?
     \end{center}
 \pause
 
@@ -201,46 +255,6 @@ We now have many functions that we can choose from:
 
 
 
-
-
-
-
-\begin{frame}
-  \frametitle{Curve Fitting: Representing functions}
-  \vspace{-0.8cm}
-  \begin{columns}[t]
-
-    \column{0.65\hsize}
-    \vspace{0.4cm}
-    \begin{center}
-      \Large Little question: How do we represent functions?
-    \end{center}
-    \column{0.3\hsize}
-  
-  \begin{figure}
-    \centering
-    \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
-  \end{figure}
-  
-  
-\end{columns}
-
-\pause
-
-\begin{itemize}
-\item We need a \textit{collection} of functions from which to pick a good one. \pause
-\item \emph{Parameterise} a set of functions, i.e.~take some numbers $\vec \theta$ that map to a function. \pause
-\end{itemize}
-
-\vspace{0.3cm}
-
-For example, linear or polynomial functions:
-\begin{align}
-f_{\vec \theta}(x) &= a\cdot x + b\,, && \vec\theta = \begin{bmatrix}a \\ b\end{bmatrix} \,, \\
-f_{\vec \theta}(x) &= a\cdot x^3 + b\cdot x^2 + c\cdot x + d\,, && \vec\theta = \begin{bmatrix}a && b && c && d\end{bmatrix}^{\tiny\mathrm T} \,.
-\end{align}
-% Neural networks are also parameterised functions, but complicated ones.
-\end{frame}
 
 
 
@@ -293,9 +307,29 @@ p(y|x,\vtheta) = \prod_{n=1}^N\NormDist{y_n; f_{\vtheta}(x_n), \sigma^2}
 \begin{frame}
   \frametitle{Curve Fitting Summary}
 
-  \begin{columns}[t]
+%   \begin{columns}[t]
 
-    \column{0.65\hsize}
+%     \column{0.65\hsize}
+%      \begin{itemize}
+%      \item Training data, e.g., $N$ pairs $(\vec x_i, y_i)$ of inputs
+%       $\vec x_i$ and observations $y_i$
+%      \item \cemph{Parameterise} functions as $f(\vx_i, \vec\theta)$
+%   \item \cemph{Training the model} means finding parameters $\vec\theta^*$, such
+%     that
+%     \begin{itemize}
+%       \item $f(\vec x_i,\vec\theta^*)\approx y_i$ (loss is minimised)
+%       \item $p(y_n|x_n,\vtheta) \approx \pi(y_n|x_n,\vtheta)$ (max likelihood)
+%     \end{itemize} \pause
+%     \item Not discussed: How to find $\vtheta^*$
+%   \end{itemize}
+%     \column{0.3\hsize}
+  
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
+%   \end{figure}
+% \end{columns}
+
      \begin{itemize}
      \item Training data, e.g., $N$ pairs $(\vec x_i, y_i)$ of inputs
       $\vec x_i$ and observations $y_i$
@@ -308,15 +342,7 @@ p(y|x,\vtheta) = \prod_{n=1}^N\NormDist{y_n; f_{\vtheta}(x_n), \sigma^2}
     \end{itemize} \pause
     \item Not discussed: How to find $\vtheta^*$
   \end{itemize}
-    \column{0.3\hsize}
-  
-  \begin{figure}
-    \centering
-    \includegraphics[width = \hsize]{./figures-intro-curvefitting/polynomial5}
-  \end{figure}
-  
-  
-\end{columns}
+
 
 \end{frame}
 
