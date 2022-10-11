@@ -1,4 +1,8 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
+\paragraph{\questionref{q:hessian}} TODO
+The matrix $\Phi(X)\transpose\Phi(X)$ needs to be invertible. It certainly won't be if $M > N$, since $\rank \Phi(X)\transpose\Phi(X) < M$. However, even if $N>M$, the rank may be deficient if there are linearly dependent rows in $\Phi(X)$. This can happen if you observe repeated input points. A case that is harder to predict and observe is if you observe points that make the feature vectors $\vphi(\vx_n)$ linearly dependent. It would be good to find a good reference in a textbook for when this happens, and what this looks like. However, this final case doesn't happen very often, and usually the inversion is possible if $N \geq M$. And if the inversion is possible, that means that there is no zero eigenvalue in the matrix, and so the matrix is positive definite, and the optimum is proven to be a minimum.
+
 \paragraph{\questionref{q:autodiff}} TODO
+
