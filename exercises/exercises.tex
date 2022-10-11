@@ -11,6 +11,7 @@
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm,marginparwidth=1.75cm]{geometry}
 
 %% Useful packages
+\usepackage{multicol}
 \usepackage{paralist}
 \usepackage{amsmath}
 \usepackage{bm,bbm}
@@ -29,6 +30,7 @@
 
 \usepackage{enumitem}
 \usepackage{epsdice}
+
 
 \input{YingzhenMathNotations}
 
@@ -290,6 +292,35 @@ Consider a vector function $\vx(t) = \begin{bmatrix}\cos t & \sin t\end{bmatrix}
 \item Draw the set of points that this function passes through.
 \item To build intuition, draw the velocity vector at a few points by considering the direction that the point moves in.
 \item Find the derivative $\calcd\vx / \calcd t$. Draw this vector for some point t.
+\end{enumerate}
+\end{question}
+
+\begin{question}[Index notation] Turn the following matrix-vector expressions into index notation:
+\begin{multicols}{2}
+\begin{enumerate}[label=\alph*.]
+\item $\mat A \mat B \mat C \vx$
+\item $\Tr(\mat A)$
+\item $\Tr(\mat A \mat B)$
+\item $\vy\transpose \mat A\transpose \vx$
+\end{enumerate}
+\end{multicols}
+Turn the following index expressions back to matrix-vector notation:
+\begin{multicols}{2}
+\begin{enumerate}[label=\alph*.]
+\item $\sum_{ijk} A_{ij}B_{jk}C_{ki}$
+\item $b_i + \sum_j A_{ij}b_j$
+\item $x_ix_j$
+\item $\sum_j \delta_{ij}a_j$
+\end{enumerate}
+\end{multicols}
+\end{question}
+
+\begin{question}[Index notation proofs]
+Using index notation, show that
+\begin{enumerate}
+\item $\vx\transpose \mat A\vy = \vy\transpose \mat A\vx$ if $\mat A$ is symmetric, i.e.~$\mat A = \mat A\transpose$.
+\item $\vx\transpose\vy = \Tr(\vx\transpose\vy) = \Tr(\vy\transpose\vx)$, for $\vx,\vy\in\Reals^D$.
+\item $\Tr(\mat A\mat B\mat C) = \Tr(\mat C\mat A\mat B)$.
 \end{enumerate}
 \end{question}
 
