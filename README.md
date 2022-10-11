@@ -5,12 +5,14 @@ Lecturers: [Mark van der Wilk](https://mvdw.uk), [Yingzhen Li](http://yingzhenli
 Lecture materials for the Imperial College London course "Mathematics for Machine Learning". Some material is based on an earlier version of the course by [Marc Deisenroth](https://www.deisenroth.cc/) We welcome any suggestions and fixes from students. For those who make contributions, there will be cake.
 
 ## Syllabus
+Below is a syllabus of the course, together with a rough plan for the term. This is subject to change.
+
 - Pre-course exercises
     - Basic probability, events, mutual exclusivity, independence, RVs
     - Probability densities, multivariate ones, multivariate integrals
     - Simple maximum likelihood
     - Statistical terminology (estimator, statistic, ...)
-- Lecture 1: A (Hopefully) Familiar Collection of Maths (MvdW)
+- Lecture 1: A (Hopefully (Reasonably)) Familiar Collection of Maths (MvdW)
     - Introduction (MvdW)
         - What is this course about?
         - Who is it for?
@@ -46,3 +48,4 @@ Lecture materials for the Imperial College London course "Mathematics for Machin
     - Exercises: Simple Bayesian inference (coins), derive BLR.
 - Lecture 12: Bias-variance trade-off (YL)
 - Lecture 13 & 14: Dimensionality Reduction & PCA (YL 2L)
+ 
