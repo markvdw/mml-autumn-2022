@@ -1,0 +1,160 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Hessians \\ {\Large Second Derivatives in Vector Calculus}}}
+\newcommand{\footertitle}{Differentiation}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 12, 2021}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+\makeatletter
+\newcommand{\Pause}[1][]{\unless\ifmeasuring@\relax
+\pause[#1]%
+\fi}
+\makeatother
+
+
+
+\begin{frame}{Optimisation of Vector-Valued Functions}
+
+Back to our linear regression problem:
+\begin{equation}
+L(\vtheta) = \sum_{n=1}^N (y_n - \vphi(x_n)\transpose\vtheta)^2 = ||\vy - \Phi(X)\vtheta||^2
+\end{equation} \pause
+
+\vspace{-0.1cm}
+We found the gradient:
+\begin{align}
+\pderiv[L]{\vtheta} = 2(\Phi(X)\vtheta - \vy)\transpose \Phi(X)
+\end{align} \pause
+
+\vspace{-0.1cm}
+We can solve for zero:
+\begin{align}
+\pderiv[L]{\vtheta} &= 2\vtheta\transpose\Phi(X)\transpose\Phi(X) - 2\vy\transpose\Phi(X) = 0 \\
+\implies \vtheta &= \left[\Phi(X)\transpose\Phi(X)\right]\inv\Phi(X)\transpose\vy
+\end{align} \pause
+
+\vspace{-0.1cm}
+But is it a minimum? \pause 2nd derivative check.
+
+\end{frame}
+
+
+\begin{frame}{Directional derivative}
+
+ \begin{figure}
+   \centering
+   \includegraphics[width=0.7\hsize]{./figures-vectorcalc/directional-deriv.png}
+ \end{figure}
+
+ We are at a minimum if we cannot decrease the function \emph{in any direction}.
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+  \frametitle{Second Directional Derivative}
+
+  \begin{columns}[t]
+
+    \column{0.65\hsize}
+From last time: \\ Want the second derivative along the line.
+\begin{equation*}
+\nabla_{\vv} \underbrace{\left[\diffF{f}{\vtheta}\vec v\right]}_{\text{scalar}} = \diffF{}{\vtheta}\Big[\underbrace{\diffF{f}{\vtheta}}_{\text{row vector}}\vec v\Big]\vec v
+\end{equation*}
+
+    \column{0.3\hsize}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width = \hsize]{./figures-vectorcalc/directional-deriv}
+  \end{figure}
+  
+  
+\end{columns}
+\pause
+
+\begin{itemize}
+\item It may be tempting to try to take the gradient of the vector $\deriv[f]{\vtheta}$, but keep in mind: our convention is that row vectors are for the variables that we're taking the derivative of. \pause
+\item Our chain rule only works when taking derivatives of \emph{scalars} or \emph{column vectors} w.r.t.~vectors. \pause
+\item Fortunately, we can tackle any problem with index notation.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Second Directional Derivative}
+So let's solve the problem in such a way that we only take derivatives w.r.t.~scalars.
+\begin{align*}
+\deriv[f]{\vtheta}\vv &= \sum_j \pderiv[f]{\theta_j} v_j \\
+\pderiv[]{\theta_i} \left[\deriv[f]{\vtheta}\vv\right] &= \sum_{j} \pderiv[]{\theta_i}\pderiv[f]{\theta_j} v_j = \sum_j \underbrace{\pderiv[{}^2f]{\theta_i\partial\theta_j}}_{=\mathbf H}v_j \\
+\nabla_{\vv} \left[\diffF{f}{\vtheta}\vec v\right] &= \vec v\transpose \mathbf{H} \vec v
+\end{align*} \pause
+\begin{itemize}
+\item $\mathbf H$ is the ``Hessian'': the matrix of all partial second derivatives
+\item We are at a minimum if $\vec v\transpose\mathbf H\vec v > 0$, $\forall \vec v$.
+\item If true, then $\mathbf H$ is called \textit{positive definite} (positive eigenvalues)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Exercise}
+You are now ready to find the solution to linear regression.
+
+The loss function for linear regression is
+\begin{equation}
+L(\vtheta) = \sum_{n=1}^N (y_n - \vphi(x_n)\transpose\vtheta)^2 = ||\vy - \Phi(X)\vtheta||^2 \,,
+\end{equation}
+with $\vphi_i(x_n)$ being the vector containing \textit{basis functions} that build up our class of functions (e.g.~polynomials), and $\Phi(X)$ being all $\vphi(\vx_n)\transpose$ vectors stacked from top to bottom.
+\begin{enumerate}
+\item Write out $\Phi(X)$ for 3 points ($x_1 \dots x_3$) and $\vphi(x)\transpose = \begin{bmatrix}1\,\, x \,\, x^2\end{bmatrix}$.
+\item Find $\vtheta$ for which $L(\vtheta)$ is minimised. Check that you found a minimum.
+\item Thinking back to your linear algebra knowledge, discuss when your formula fails.
+\end{enumerate}
+\end{frame}
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
