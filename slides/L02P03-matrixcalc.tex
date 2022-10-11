@@ -1,0 +1,343 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Matrix \& Array Derivatives}}
+\newcommand{\footertitle}{Differentiation}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 12, 2021}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+\makeatletter
+\newcommand{\Pause}[1][]{\unless\ifmeasuring@\relax
+\pause[#1]%
+\fi}
+\makeatother
+
+
+\begin{frame}{Motivation: Next level curve fitting}
+You have now solved Linear Regression. A key design choice was which \emph{basis functions} to use, e.g.:
+\begin{equation}
+\vphi(x)\transpose = \begin{bmatrix}x^3 \,\, x^2 \,\, x \,\, 1\end{bmatrix}
+\end{equation} \pause
+
+\begin{center}
+Instead, can we learn the basis functions? \pause
+\end{center}
+
+A \emph{neural network} parameterises functions:
+\begin{align}
+f_{\ell}(\vx) = \sigma(\mathbf A_\ell \vx + \mathbf b_\ell) \\
+f_{NN}(\vx) = f_L(f_{L-1}(\dots f_1(\vx) \dots))
+\end{align} \pause
+\vspace{-0.4cm}
+\begin{itemize}
+\item Parameters are $\vtheta = \{\mathbf A_\ell, \mathbf b_\ell\}_{\ell=1}^L$. \pause
+\item How do we differentiate w.r.t.~matrices?
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Derivatives of matrices/arrays}
+How should we find derivatives like $\deriv[]{\theta}\vx\transpose\mathbf A(\theta)\vx$ or $\deriv[]{\mathbf A}||\mathbf A\vx - \vy||^2$? \pause \\
+\begin{itemize}
+\item By the same arguments as before (can look at differences of any array, and directional derivative arguments), we can just collect the gradients of all outputs w.r.t.~all inputs:
+\begin{align}
+\pderiv[f_{ijkl}]{x_{abc}}
+\end{align} \pause
+% \item In index notation, the chain rule works in the same way too, e.g.~for $f(\mat G(\vx))$, with $G: \Reals^D \to \Reals^{N\times M}$:
+% \begin{align}
+% \pderiv[f]{x_d} = \sum_{ij} \pderiv[f]{G_{ij}}\pderiv[G_{ij}]{x_d}
+% \end{align}
+% \item Exactly the same principle as vector derivatives, but with reshaped inputs/outputs.
+\end{itemize}
+
+
+\begin{center}
+Wouldn't it be nice if there was a chain rule?
+\end{center}
+\begin{align*}
+\deriv[f]{\theta} = \deriv[f]{\mathbf A}\deriv[\mathbf A]{\theta} \text{?} && \text{or} && \deriv[f]{\mathbf A} =  \deriv[f]{\vg}\deriv[\vg]{\mathbf A} \text{?}
+\end{align*}
+
+\end{frame}
+
+
+\begin{frame}{Chain rule}
+A function of a matrix $\mathbf A \in \Reals^{M\times N}$ is \emph{just a multivariate function}:
+\begin{align*}
+f(\mathbf A) &= ||\mathbf A\vx - \vy||^2 \\
+f(A_{11}, A_{21}, \dots, A_{M1} \dots A_{MN}) &= \sum_{i} (\sum_{ij}A_{ij}x_j - y_i)^2
+\end{align*} \pause
+
+We just \emph{arrange} the numbers in a different way. \pause
+So the chain rule is the same!
+\begin{gather}
+f(\vg) = ||\vg||^2\,, \qquad \vg(\mathbf A) = \mathbf A\vx - \vy \\
+\pderiv[f]{A_{ij}} = \sum_{k} \pderiv[f]{g_k} \pderiv[g_k]{A_{ij}}
+\end{gather} \pause
+\begin{gather}
+f(\mathbf A) = \vx\transpose\mathbf A\vx \\
+\pderiv[f]{\theta} = \sum_{jk} \pderiv[f]{A_{jk}} \pderiv[A_{jk}]{\theta}
+\end{gather}
+\end{frame}
+
+
+
+\begin{frame}{Chain rule is not straightforward}
+\begin{align*}
+f(\mathbf A) &= \vx\transpose\mathbf A\vx && f(\vg) = ||\vg||^2\,, \, \vg(\mathbf A) = \mathbf A\vx - \vy \\
+\pderiv[f]{\theta} &= \sum_{jk} \pderiv[f]{A_{jk}} \pderiv[A_{jk}]{\theta} && \pderiv[f]{A_{ij}} = \sum_{k} \pderiv[f]{g_k} \pderiv[g_k]{A_{ij}}
+\end{align*}
+Can we find a convenient notation like earlier?
+\begin{align}
+\deriv[f]{\theta} = \deriv[f]{\mathbf A} \deriv[\mathbf A]{\theta} \text{?} && \deriv[f]{\mat A} = \deriv[f]{\vg} \deriv[\vg]{\mathbf A} \text{?}
+\end{align} \pause
+\vspace{-0.4cm}
+\begin{itemize}
+\item NOT matrix multiplication, even though both $\deriv[f]{\mathbf A}$ and $\deriv[\mathbf A]{\theta}$ look like matrices. \pause Check the shapes!
+\item Shape of $\deriv[\vg]{\mathbf A}$ isn't even a matrix!
+\end{itemize}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Derivatives with Respect to Matrices}
+
+  \begin{itemize}
+  \item Recall: A function $\vec
+  f:\R^\text{\colchar{\scriptsize{$N$}}{blue}}\to\R^\text{\colchar{\scriptsize{$M$}}{orange}}$
+  has a gradient that is an
+  $M\times N$-matrix
+  with
+    $$
+    \diffF{\vec f}{\vec x}\in \R^{M\times N}\,,\qquad \mathrm{d}\vec f[m,n] =
+    \frac{\partial f_m}{\partial x_n}
+    $$
+    \begin{center}
+     Gradient dimension: \colchar{ \# target dimensions }{orange} $\times$ \colchar{\# input dimensions}{blue}
+    \end{center}
+    \pause
+  \item This generalizes to when the inputs ($N$) or targets ($M$) are \emph{matrices}
+  \pause
+\item Function $\vec
+  f:\R^\text{\colchar{\scriptsize{$M\times N$}}{blue}}\to
+  \R^\text{\colchar{\scriptsize{$P\times Q$}}{orange}}$, has a
+  gradient that is a \mbox{\colchar{$(P\times Q)$}{orange} $\times$ \colchar{$(M\times N)$}{blue}} object (array)
+  $$
+    \diffF{\vec f}{\mat X}\in \R^{(P\times Q) \times (M \times N)}\,,\qquad 
+    \mathrm{d}\vec f[p,q,m,n] =\frac{\partial f_{pq}}{\partial X_{mn}}
+    $$
+  \end{itemize} \pause
+\begin{center}
+Autodiff packages have similar consistency of shapes.
+\end{center}
+  
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Example 1: Derivatives with Respect to Matrices}
+
+  \begin{align*}
+    \vec f = \mat A\vec x\,,\quad \vec f\in\R^M, \mat A\in\R^{M\times
+    N}, \vec x \in\R^N 
+  \end{align*}
+ {\scriptsize 
+		\begin{align*}
+        \begin{bmatrix}
+          \colchar{$y_1$}{red}\\
+          \vdots\\
+          \colchar{$y_M$}{blue}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          \colchar{$f_1(\vec x)$}{red}\\
+          \vdots\\
+          \colchar{$f_M(\vec x)$}{blue}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          \colchar{$A_{11}x_1$}{red} + \colchar{$A_{12}x_2$}{red} + &
+          \cdots & + \colchar{$A_{1N}x_N$}{red}\\
+          \vdots \qquad \qquad \vdots & \vdots & \quad  \vdots \\
+          \colchar{$A_{M1}x_1$}{blue} + \colchar{$A_{M2}x_2$}{blue} + & 
+          \cdots & 
+          + \colchar{$A_{MN}x_N$}{blue}
+        \end{bmatrix}
+      \end{align*}}
+      
+\begin{align*}
+    &\diffF{\vec f}{\mat A} \in\R^{\only<1>{\colchar{$?$}{green}} \visible<2>{\colchar{$ \text{\# target dim} \times \text{\# input dim}$}{green} = \colchar{$M\times (M\times N)$}{green}}}\\
+    \visible<2>{&\frac{d\vec f}{d \mat A} =
+    \begin{bmatrix}
+      \frac{\partial f_1}{\partial \mat A}\\
+      \vdots\\
+      \frac{\partial f_M}{\partial \mat A}
+    \end{bmatrix}\,,\quad \frac{\partial f_i}{\partial \mat A}\in\R^{1\times (M\times N)}}
+\end{align*}
+  
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Example 2: Derivatives with Respect to Matrices}
+  \vspace{-5mm}
+  \begin{align*}
+    f_i &= \sum_{j=1}^NA_{ij} x_j, \quad i = 1,\dotsc, M
+  \end{align*}
+  \vspace{-4mm}
+  { 
+		\begin{align*}
+        \begin{bmatrix}
+          y_1\\
+          \vdots\\
+          \colchar{$y_i$}{red}\\
+		  \vdots\\
+          y_M
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          f_1(\vec x)\\
+          \vdots\\
+          \colchar{$f_i(\vec x)$}{red}\\
+          \vdots\\
+          f_M(\vec x)
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          A_{11}x_1 + A_{12}x_2 + &
+          \cdots & + A_{1N}x_N\\
+          \vdots \qquad \qquad \vdots & \vdots & \quad  \vdots \\
+          \colchar{$A_{i1}x_1$}{red} + \colchar{$A_{i2}x_2$}{red} & 
+          \cdots &  +\colchar{$A_{iN}x_N$}{red}\\
+          \vdots \qquad \qquad \vdots & \vdots & \quad \vdots  \\
+          A_{M1}x_1 + A_{M2}x_2 + & 
+          \cdots & + A_{MN}x_N
+        \end{bmatrix}
+    \end{align*}}
+    \vspace{-3mm}
+    \begin{align*}
+    	\frac{\partial f_i}{\partial A_{iq}} = \only<1>{\colchar{$?$}{green}} \visible<2-5>{\underbrace{x_q}_{\in \: \R}}
+    \quad
+    \frac{\partial f_i}{\partial A_{i,:}} = \only<1-2>{\colchar{$?$}{green}} \visible<3-5>{\underbrace{\vec x\T}_{\in \: \R^{1\times 1\times N}}}
+    \quad
+    \frac{\partial f_i}{\partial A_{k\neq i,:}} = \only<1-3>{\colchar{$?$}{green}} \visible<4-5>{\underbrace{\vec 0\T}_{\in \R^{1\times 1\times  N}}}
+    \quad
+    \frac{\partial f_i}{\partial \mat A} =
+    \only<1-4>{\colchar{$?$}{green}}
+    \visible<5>{\footnotesize \underbrace{\begin{bmatrix}
+      \vec 0\T\\
+      \vdots\\
+      \vec x\T\\
+      \vdots\\
+      \vec 0\T
+    \end{bmatrix}}_{\in \: \R^{1\times (M\times N)}}}    
+  \end{align*}
+  {\color{gray} Index notation on the board}
+\end{frame}
+
+
+
+\begin{frame}{Chain rule}
+\begin{itemize}
+\item We now understand how gradients involving matrices are arranged in ``multidimensional arrays'' or ``tensors''. \pause
+\item How do we perform the chain rule? Can we find a meaning for convenient notation like:
+\begin{align}
+\deriv[f]{\theta} = \deriv[f]{\mathbf A} \deriv[\mathbf A]{\theta} \text{?} && \deriv[f]{\theta} = \deriv[f]{\vg} \deriv[\vg]{\mathbf A} \text{?}
+\end{align} \pause
+\item Recall: Function $\vec
+  f:\R^\text{\colchar{\scriptsize{$M\times N$}}{blue}}\to
+  \R^\text{\colchar{\scriptsize{$P\times Q$}}{orange}}$, has a
+  gradient that is a \mbox{\colchar{$(P\times Q)$}{orange} $\times$ \colchar{$(M\times N)$}{blue}} object (tensor)
+  $$
+    \diffF{\vec f}{\mat X}\in \R^{(P\times Q) \times (M \times N)}\,,\qquad 
+    \mathrm{d}\vec f[p,q,m,n] =\frac{\partial f_{pq}}{\partial X_{mn}}
+    $$
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Chain rule (2)}
+\begin{itemize}
+\item Start from index notation chain rule (\emph{always correct!}):
+\begin{align*}
+\pderiv[f_{pq}]{X_{mn}} = \sum_{rs} \pderiv[f_{pq}]{A_{rs}}\pderiv[A_{rs}]{X_{mn}}
+\end{align*}\pause
+\item Like matrix multiplication, but with \emph{vectorised} (vectors stacked column-by-column) matrices! 
+\begin{align*}
+\deriv[\mathrm{vec} (\vec f)]{\mathrm{vec} (\mat X)} = \deriv[\mathrm{vec} (\vec f)]{\mathrm{vec} (\mat A)}\deriv[\mathrm{vec} (\mat A)]{\mathrm{vec} (\mat X)}
+\end{align*}
+\pause
+\item Keep track of grouping, sum over grouped indices:
+\begin{align*}
+\underbrace{\deriv[\vec f]{\mathbf X}}_{\text{\colchar{$(P\times Q)$}{orange} $\times$ \colchar{$(M\times N)$}{blue}}} = \underbrace{\deriv[\vec f]{\mathbf A}}_{\text{\colchar{$(P\times Q)$}{orange} $\times$ \colchar{$(R\times S)$}{green}}} \cdot \underbrace{\deriv[\mathbf A]{\mathbf X}}_{\text{\colchar{$(R\times S)$}{green} $\times$ \colchar{$(M\times N)$}{blue}}}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Summary: Matrix differentiation}
+We saw:
+\begin{itemize}
+\item Principle is the same for matrix and vector differentiation \pause
+\item Difference: Management of the numbers. It's about \emph{convention} \pause
+\item Mathematical principle is index notation, convention is defined \pause
+\end{itemize}
+
+\vspace{0.4cm}
+
+You should be able to:
+\begin{itemize}
+\item Do the bookkeeping of matrix derivative shapes
+\item Compute derivatives of matrices
+\item Abstract complex derivatives into the well-defined chain rule.
+\item Describe the detailed index-wise summation for the chain rule.
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}
