@@ -1,0 +1,514 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Vector Calculus}}
+\newcommand{\footertitle}{Differentiation}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 12, 2021}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+\makeatletter
+\newcommand{\Pause}[1][]{\unless\ifmeasuring@\relax
+\pause[#1]%
+\fi}
+\makeatother
+
+
+
+
+
+
+
+\section{Index Notation}
+
+\begin{frame}{Vector Differentiation: Index Notation}
+Back to our linear regression problem:
+\begin{equation}
+L(\vtheta) = \sum_{n=1}^N (y_n - \vphi(x_n)\transpose\vtheta)^2 = ||\vy - \Phi(X)\vtheta||^2
+\end{equation}
+
+How to find $\pderiv[L]{\vtheta} = [\pderiv[L]{\theta_i}]_i$? \pause
+
+\begin{itemize}
+\item Vector expressions can always be written in terms of operations on scalars. \pause
+\item We know how to find partial derivatives of scalar expressions $\implies$ rewrite into index notation. \pause
+\item Take partial derivatives using tricks.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Index Notation of Vector Expressions}
+\begin{align}
+\norm{\vx}^2 &= \sum_i x_i^2 \\ \Pause
+\vx\transpose\vy &= \sum_i x_i y_i \\ \Pause
+\vy = f(\vx) \vx &\implies y_i = f(\vx) x_i \\ \Pause
+\mat A \vx &=\, ? \\ \Pause
+{[\mat{A} \vx]_j} &= \sum_{j} A_{ij} x_j \\ \Pause
+\mat A\vx &= \left[\sum_j A_{ij} x_j\right]_i
+\end{align}
+\end{frame}
+
+
+\begin{frame}{Index Notation of Vector Expressions}
+Back to our linear regression problem:
+\begin{align}
+L(\vtheta) &= \sum_{n=1}^N (y_n - \vphi(x_n)\transpose\vtheta)^2 = ||\vy - \Phi(X)\vtheta||^2 \\
+&= \sum_{n=1}^N \left(y_n - \sum_{m=1}^M\phi_m(x_n) \theta_m\right)^2
+\end{align}
+
+We want to find $\pderiv[L]{\vtheta}$, i.e.~$[\pderiv[L]{\theta_i}]_i$ for all $i$.\pause
+\begin{align}
+&\pderiv{\theta_i} \sum_{n=1}^N \left(y_n - \sum_{m=1}^M\phi_m(x_n) \theta_m\right)^2 \\ \Pause
+ &= \sum_n 2\left(y_n - \sum_{m=1}^M\phi_m(x_n)\theta_m\right) \pderiv{\theta_i} \left(y_n - \sum_{k=1}^M\phi_k(x_n) \theta_k\right)
+\end{align}
+\end{frame}
+
+\begin{frame}{Index Differentiation}
+\begin{align}
+\pderiv[L]{\theta_i} &=  -2\sum_{n} \left(y_n - \sum_{m=1}^M\phi_m(x_n)\theta_m\right) \sum_k \phi_k(x_n) \pderiv[\theta_k]{\theta_i}
+\end{align} \pause
+\begin{itemize}
+\item Think about $\pderiv[\theta_k]{\theta_i}$. What value does it take?\pause
+\item If $i\neq k$, then $0$; if $i = k$, then $1$. \pause
+\item Denoted as \emph{kronecker delta} $\delta_{ik}$. \pause
+\item Think about what happens to $\sum_k \delta_{ik}$. \pause
+\item Think about what happens to $\sum_a v_a \delta_{ai}$. \pause
+\end{itemize}
+\begin{align}
+\pderiv[L]{\theta_i}  &= -2\sum_{n} \left(y_n - \sum_{m=1}^M\phi_m(x_n)\theta_m\right) \sum_k \phi_k(x_n) \delta_{ki} \\ \Pause
+&= -2\sum_{n} \left(y_n - \sum_{m=1}^M\phi_m(x_n)\theta_m\right)\phi_i(x_n)
+\end{align}
+\end{frame}
+
+
+\begin{frame}{Vector Notation of Index Expressions}
+\begin{align}
+\pderiv[L]{\theta_i}  &= -2\sum_{n} \left(y_n - \sum_{m=1}^M\phi_m(x_n)\theta_m\right)\phi_i(x_n)
+\end{align}
+
+Sometimes we prefer a compact vector expression again. Index notation is ambiguous about row/col vector. If we remember convention, we can go back:
+\begin{align}
+&\pderiv[L]{\vtheta} = \uncover<2->{2\sum_n (\vphi(x_n)\transpose\vtheta-y_n)\vphi(x_n)\transpose && \text{Remember: } \vphi(x_n) \in \Reals^M} \nonumber \\
+&= \onslide<3->{2\sum_n [\Phi(X)\vtheta - \vy]_n \vphi(x_n)\transpose && \text{Define: } \Phi(X)\!\in\!\Reals^{N\times M}, \Phi_{n:}(X) = \vphi(\vx_n)\transpose} \nonumber \\
+&= \onslide<4->{2(\Phi(X)\vtheta - \vy)\transpose \Phi(X)} \nonumber\\
+&= \onslide<5->{2(\vtheta\transpose\Phi(X)\transpose\Phi(X) - \vy\transpose\Phi(X))}
+\end{align}
+\end{frame}
+
+
+\section{Differentiation of vector-valued functions}
+
+\begin{frame}
+  \frametitle{Chain Rule}
+Back to our linear regression problem:
+\begin{equation}
+L(\vtheta) = \sum_{n=1}^N (y_n - \vphi(x_n)\transpose\vtheta)^2 = ||\vy - \Phi(X)\vtheta||^2
+\end{equation}
+
+\pause
+\begin{itemize}
+\item We could manually take partial derivatives of $L(\vtheta)$ \pause
+\item Or, we could see our scalar function $L(\vtheta)$ as a function composition:
+\end{itemize}
+\begin{align*}
+f(\vec g(\vtheta)) && f: \Reals^{D}\to\Reals \,, \qquad \vec g: \Reals^{E}\to\Reals^D
+\end{align*}
+\pause
+\vspace{-0.4cm}
+\begin{itemize}
+\item Wouldn't it be nice to have a chain rule? \pause $\diffF{f(\vec g(\vtheta))}{\vtheta} = \diffF{f}{\vec g}\diffF{\vec g}{\vtheta}$ \pause
+\item But how does a derivative of a vector w.r.t.~a vector work?
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Differentiation of a vector w.r.t.~a scalar}
+\begin{itemize}
+\item Differentiation quantifies how an output changes, \\
+\hspace{4.3cm} in response to an input change. \pause
+\item Change is measured by subtraction. {\color{gray} Draw vector subtraction.} \pause
+\item Can use the same limiting argument as with scalars: \pause
+\begin{align}
+\deriv[\vx]{t} = \lim_{\Delta t\to 0} \frac{\vx(t + \Delta t) - \vx(t)}{\Delta t}
+\end{align}
+But now, derivative is a vector! \pause
+\item Subtraction is elementwise, so we can reduce to scalar case:
+\begin{align}
+\left[\deriv[\vx]{t}\right]_i = \lim_{\Delta t\to 0} \frac{x_i(t + \Delta t) - x_i(t)}{\Delta t}
+\end{align}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Example: Circle}
+Function that describes a point going round a circle, with period 1s:
+\begin{align}
+\vx = \begin{bmatrix}\cos 2\pi t & \sin 2\pi t\end{bmatrix}\transpose
+\end{align}
+{\color{gray} Draw on board} \pause
+
+\begin{itemize}
+\item Based on intuition, what should the speed be? \pause $2\pi$ m/s. \pause
+\item Find velocity vector $\calcd\vx / \calcd t$.\pause
+\item Find speed from the norm.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Summary: Differentiation of a vector w.r.t.~a scalar}
+\begin{myblock}{Derivative of a vector}
+The derivative of a vector-valued function is given by the derivative of each of its elements.
+\end{myblock}
+\end{frame}
+
+
+
+
+
+
+
+\section{Multivariate Chain Rule}
+\begin{frame}[t]{Multivariate Chain Rule w.r.t.~scalar}
+It turns out, there is a multivariate chain rule:
+\only<1>{
+\begin{align*}
+\deriv[f(a(t), b(t))]{t} = \pderiv[f]{a}\deriv[a]{t} + \pderiv[f]{b}\deriv[b]{t}
+\end{align*}}
+\only<2->{
+\begin{align*}
+\deriv[f(\vec g(t))]{t} = \sum_{i=1}^D\pderiv[f]{g_i}\deriv[g_i]{t} && \vec g(t) \in \Reals^D
+\end{align*}} \pause \pause
+This is an inner product. Can write in vector form:
+\begin{align*}
+\deriv[f(\vec g(t))]{t} = \underbrace{\deriv[f]{\vec g}}_{\text{row}}\cdot\underbrace{\deriv[\vec g]{t}}_{\text{column}}
+\end{align*} \pause
+\vspace{-0.3cm}
+\begin{itemize}
+\item $\deriv[\vec g]{t}$ is the derivative of a column vector. We keep this to be a column vector.
+\item Can also be derived from a limit argument, like the scalar derivative (\emph{board}: Circle Example).
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Example: Chain Rule}
+  \begin{itemize}
+    \item 
+  Consider $f:\R^2\to \R, \quad \vec x:\R \to \R^2$
+  \begin{align*}
+    f(\vec x)&= f(x_1, x_2) = x_1^2+2x_2\,,\\
+    \vec x(t) &=
+                \begin{bmatrix}
+                  x_1(t)\\ x_2(t)
+                \end{bmatrix} =
+                \begin{bmatrix}
+      \sin(t)\\ \cos (t)
+    \end{bmatrix}
+  \end{align*}
+  \vspace{-2mm}
+  \pause
+\item What are the dimensions of \blue{$\diffF{f}{\vec x}$} and \red{$\diffF{ \vec x}{t}$}?\\
+  \only<2>{\qquad \qquad \qquad \emph{Work it out with your neighbors}}
+  \pause \qquad \qquad \qquad \qquad \qquad \blue{$1\times 2$} and \red{$2\times 1$}
+\item Compute the gradient $\diffF{f}{t}$ using the chain rule:
+  \pause
+  \begin{align*}
+    \diffF{ f}{t} = \blue{\diffF{f}{\vec x}} \red{\diffF{\vec x}{t}}
+     &= \blue{\begin{bmatrix}
+		\frac{\partial f}{\partial x_1} & 
+		\frac{\partial f}{\partial x_2}
+		\end{bmatrix}}
+		\red{\begin{bmatrix}
+    	\frac{\partial x_1}{\partial t}\\[2mm]
+        \frac{\partial x_2}{\partial t}
+     	\end{bmatrix}}
+ 	= \blue{\begin{bmatrix}
+		2\sin t & 2
+		\end{bmatrix}}
+        \red{\begin{bmatrix}
+        \cos t\\
+        -\sin t
+        \end{bmatrix}}\\
+     &= 2\sin t\cos t - 2\sin t = 2\sin t(\cos t -1)
+  \end{align*}
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}[t]{Multivariate Chain Rule}
+We saw the chain rule if we were differentiating w.r.t.~a scalar:
+\only<1>{
+\begin{align*}
+\deriv[f(a(t), b(t))]{t} = \pderiv[f]{a}\deriv[a]{t} + \pderiv[f]{b}\deriv[b]{t}
+\end{align*}}
+\only<2->{
+\begin{align*}
+\deriv[f(\vec g(t))]{t} = \sum_{i=1}^D\pderiv[f]{g_i}\deriv[g_i]{t} = \underbrace{\deriv[f]{\vec g}}_{\text{row}}\cdot\underbrace{\deriv[\vec g]{t}}_{\text{column}} && \vec g(t) \in \Reals^D
+\end{align*}} \pause \pause
+What happens if we differentiate w.r.t.~a vector? \pause \\
+$\implies$ As before, we just stack the derivatives w.r.t.~each of the inputs.
+\begin{align*}
+\pderiv[f(\vec g(\vx))]{x_j} = \sum_{i=1}^D\pderiv[f]{g_i}\pderiv[g_i]{x_j} && \vec g(\vx) \in \Reals^D
+\end{align*}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Multivariate Chain Rule w.r.t.~vector}
+This is a matrix multiplication! Can write in vector form:
+\begin{align*}
+\deriv[f(\vec g(\vx))]{\vx} = \underbrace{\deriv[f]{\vec g}}_{\text{row}}\cdot\underbrace{\deriv[\vec g]{\vx}}_{\text{matrix}}
+\end{align*} \pause
+\begin{itemize}
+\item $\deriv[\vec g]{\vx}$ is the derivative of a column vector w.r.t.~the input vector $\vx$. We put the elements of $\vec g$ (i.e.~i) along the column, and the dimensions of the derivative (i.e.~j) along the row. \pause
+\item Can also be derived from a directional derivative argument, but for a vector.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Vector Field Differentiation $f: \R^N\to\R^M$}
+  \begin{align*}
+    \vec y &= \vec f(\vec x) \in\R^M\,,\quad \vec x \in \R^N\\
+    \begin{bmatrix}
+     \colchar{$ y_1$}{red}\\
+     \vdots\\
+     \colchar{$y_M$}{blue}
+    \end{bmatrix}
+    &=
+    \begin{bmatrix}
+      \colchar{$f_1(\vec x)$}{red}\\
+      \vdots\\
+      \colchar{$f_M(\vec x)$}{blue}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \colchar{$f_1(x_1,\dotsc, x_N)$}{red}\\
+      \vdots\\
+      \colchar{$f_M(x_1,\dotsc, x_N)$}{blue}
+    \end{bmatrix}
+  \end{align*}
+  
+  \pause
+  \begin{itemize}    
+    \item \cemph{Jacobian} matrix (collection of all partial derivatives)
+      \begin{align*}
+        \begin{bmatrix}
+          \colchar{$\frac{d y_1}{d\vec x}$}{red}\\
+          \vdots\\
+          \colchar{$\frac{d y_M}{d\vec x}$}{blue}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          \colchar{$\frac{\partial f_1}{\partial
+              x_1}$}{red} &
+          \cdots & \colchar{$\frac{\partial
+              f_1}{\partial x_N}$}{red}\\
+          \vdots &  & \vdots\\
+          \colchar{$\frac{\partial f_M}{\partial x_1}$}{blue} & \cdots & \colchar{$\frac{\partial
+            f_M}{\partial x_N}$}{blue}
+        \end{bmatrix}
+                                                       \in\R^{M\times N}
+      \end{align*}
+    \end{itemize}
+  
+\end{frame}
+
+
+
+
+
+\begin{frame}{Dimensionality of the Gradient}
+  In general: A function $\vec
+  f:\R^\text{\colchar{\scriptsize{$N$}}{blue}}\to\R^\text{\colchar{\scriptsize{$M$}}{orange}}$
+  has a gradient that is an
+  $M\times N$-matrix
+  with
+    $$
+    \diffF{\vec f}{\vec x}\in \R^{M\times N}\,,\qquad \mathrm{d}\vec f[m,n] =
+    \frac{\partial f_m}{\partial x_n}
+    $$
+    \begin{center}
+     Gradient dimension: \colchar{ \# target dimensions }{orange} $\times$ \colchar{\# input dimensions}{blue}
+    \end{center}
+
+\pause
+A function composition $\vf(\vx) = (\vg \circ \mathbf h)(\vx)$ has the constraint that the \emph{output dimension} of $\mathbf h(\cdot)$ has to equal the \emph{input dimension} of $\vg(\cdot)$, so that we can compute $\vg(\mathbf h(\vx))$. \pause
+
+This ensures that the shapes of the chain rule work out:
+\begin{gather}
+\vf : \Reals^\text{\colchar{\scriptsize{$N$}}{blue}} \to \Reals^\text{\colchar{\scriptsize{$M$}}{orange}} \qquad \qquad \vg : \Reals^\text{\colchar{\scriptsize{$L$}}{green}} \to \Reals^\text{\colchar{\scriptsize{$M$}}{orange}} \qquad \qquad \mathbf h : \Reals^\text{\colchar{\scriptsize{$N$}}{blue}} \to \Reals^\text{\colchar{\scriptsize{$L$}}{green}} \\
+\underbrace{\diffF{\vf}{\vx}}_{\text{\colchar{\scriptsize{$M$}}{orange}}\times\text{\colchar{\scriptsize{$N$}}{blue}}} = \underbrace{\diffF{\vg}{\mathbf h}}_{\text{\colchar{\scriptsize{$M$}}{orange}}\times\text{\colchar{\scriptsize{$L$}}{green}}} \underbrace{\diffF{\mathbf h}{\vx}}_{\text{\colchar{\scriptsize{$L$}}{green}}\times\text{\colchar{\scriptsize{$N$}}{blue}}}
+\end{gather}
+
+    
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Example: Vector Field Differentiation}
+
+\vspace{-5mm}
+\begin{align*}
+\vec f(\vec x) = \mat A\vec x\,,\qquad \vec f(\vec x)\in\R^M, \quad\mat A\in\R^{M\times
+  N}, \quad \vec x\in\R^N
+\end{align*}
+
+\vspace{-5mm}
+{\scriptsize 
+		\begin{align*}
+        \begin{bmatrix}
+          \colchar{$y_1$}{red}\\
+          \vdots\\
+          \colchar{$y_M$}{blue}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          \colchar{$f_1(\vec x)$}{red}\\
+          \vdots\\
+          \colchar{$f_M(\vec x)$}{blue}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+          \colchar{$A_{11}x_1$}{red} + \colchar{$A_{12}x_2$}{red} + &
+          \cdots & + \colchar{$A_{1N}x_N$}{red}\\
+          \vdots \qquad \qquad \vdots & \vdots & \quad  \vdots \\
+          \colchar{$A_{M1}x_1$}{blue} + \colchar{$A_{M2}x_2$}{blue} + & 
+          \cdots & 
+          + \colchar{$A_{MN}x_N$}{blue}
+        \end{bmatrix}
+      \end{align*}}
+\vspace{-1mm}
+\begin{itemize}
+\item Compute the gradient $\diffF{\vec f}{\vec x}$
+  \begin{itemize}
+  %\item Dimension of $\diffF{\vec f}{\vec x}$:
+  %  \pause Since $\vec f:\R^N\to \R^M$ it follows that
+  %  $\diffF{\vec f}{\vec x}\in\R^{M\times N}$
+    \pause
+  \item Gradient:
+  	\vspace{-1mm}
+    \begin{align*}
+      f_{i}(\vec x) &= \sum_{k=1}^NA_{ik}x_k \qquad 
+      \implies \frac{\partial f_i}{\partial x_j} =
+              \sum_{k}A_{ik}\pderiv[x_k]{x_j} = \sum_{k}A_{ik}\delta_{kj} = A_{ij} \nonumber\\
+      \onslide+<4>{
+      \implies \diffF{\vec f}{\vec x} &= \begin{bmatrix}
+        \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial
+          f_1}{\partial x_N}\\
+        \vdots & & \vdots\\
+        \frac{\partial f_M}{\partial x_1} & \cdots & \frac{\partial
+          f_M}{\partial x_N}
+      \end{bmatrix}
+                                                     =
+                                                     \begin{bmatrix}
+A_{11} & \cdots & A_{1N}\\
+\vdots & &\vdots\\
+A_{M1} & \cdots & A_{MN}
+\end{bmatrix}
+                  =\mat A \in\R^{M\times N}}
+    \end{align*}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Example: Multivariate Chain Rule}
+  \begin{itemize}
+    \item Consider the function
+  \begin{align*}
+    L(\vec e) &= \tfrac{1}{2}\|\vec e\|^2 = \tfrac{1}{2}\vec e\T\vec e\\
+    \vec e &= \vec y - \mat A\vec x\,,\quad \vec x\in\R^N\,,\mat
+             A\in\R^{M\times N}\,,\vec e,\vec y\in\R^M
+  \end{align*}
+\item Compute the gradient $\diffF{L}{\vec x}$. What is the dimension/size of $\diffF{L}{\vec
+  x}$?
+  \only<1>{
+  	\vspace{2mm}
+	\begin{center}
+	\textbf{Work it out with your neighbours}
+	\end{center}}
+
+  \pause
+  \begin{align}
+\diffF{L}{\vec x} &= \blue{\pdiffF{L}{\vec
+                     e}}\red{\pdiffF{\vec e}{\vec
+                     x}}\nonumber\\
+    \blue{\pdiffF{L}{\vec e}} &\blue{=\vec e\T}\in
+                                               \R^{1\times M}\,, \quad\quad \pderiv[L]{e_i} = \pderiv[]{e_i} \sum_{j}\frac{1}{2} e_j^2 = \sum_j \frac{1}{2} 2e_j \pderiv[e_j]{e_i} = e_i \nonumber \\
+    \red{\pdiffF{\vec e}{\vec x}} &\red{=-\mat
+                                                     A}\in\R^{M\times
+                                                     N} \nonumber\\
+    \implies \diffF{L}{\vec x} &=\blue{\vec e\T}(\red{-\mat A}) =
+                                     \red{-}\blue{(\vec y - \mat
+                                     A\vec x)\T} \red{\mat
+                                     A}\in\R^{1\times N}\nonumber
+  \end{align}
+\end{itemize}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary}
+\begin{itemize}
+\item Chain rule for multivariate functions
+\item Derivatives of vectors w.r.t.~scalars.
+\item Derivatives of vectors w.r.t.~vectors (and shapes).
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
