@@ -1,8 +1,42 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
-\paragraph{\questionref{q:hessian}} TODO
-The matrix $\Phi(X)\transpose\Phi(X)$ needs to be invertible. It certainly won't be if $M > N$, since $\rank \Phi(X)\transpose\Phi(X) < M$. However, even if $N>M$, the rank may be deficient if there are linearly dependent rows in $\Phi(X)$. This can happen if you observe repeated input points. A case that is harder to predict and observe is if you observe points that make the feature vectors $\vphi(\vx_n)$ linearly dependent. It would be good to find a good reference in a textbook for when this happens, and what this looks like. However, this final case doesn't happen very often, and usually the inversion is possible if $N \geq M$. And if the inversion is possible, that means that there is no zero eigenvalue in the matrix, and so the matrix is positive definite, and the optimum is proven to be a minimum.
+\paragraph{\questionref{q:hessian}}
+The objective function and gradient w.r.t.~$\vtheta$ (see lectures) for Linear Regression is
+\begin{align}
+L(\vtheta) = \norm{\vy - \Phi(X)\vtheta}^2 \,, &&
+\deriv[L]{\vtheta} = 2(\Phi(X)\vtheta - \vy)\transpose\Phi(X) \,.
+\end{align}
+We begin by finding the Hessian, i.e.~the matrix containing all second partial derivatives. We need to do this in index notation, as the vector conventions of our vector chain rule break down. So we first write the derivative in index notation, and then we take the derivative again, after which we return to vector notation:
+\begin{align}
+\pderiv[]{\theta_j} \left(\pderiv[L]{\theta_i}\right) &=
+\pderiv[]{\theta_j} \left(2\sum_k\left(\sum_m\Phi_{km}\theta_m - y_k\right)\Phi_{ki}\right) =
+\pderiv[]{\theta_j} \left(2\sum_k\left(\sum_m\Phi_{km}\theta_m - y_k\right)\Phi_{ki}\right) \\
+&= 2\sum_{km}\Phi_{km}\delta_{mj}\Phi_{ki} = 2\sum_{k}\Phi_{kj}\Phi_{ki} \,, \\
+\implies \mat H_{\vtheta}(L) &= 2 \Phi(X)\transpose\Phi(X) \,.
+\end{align}
+The Hessian doesn't depend on the parameter $\vtheta$, so if we prove that the matrix is positive definite, then the local where $\deriv[L]{\theta} = 0$ (see lecture slides) will be a minimum. For a matrix to be PD, we need $\vv\transpose\mat H\vv > 0$ for all $\vv$. We substitute our Hessian into $\mat H$ to prove this
+\begin{align}
+\vv\transpose \mat H \vv &= 2\vv\transpose \Phi(X)\transpose\Phi(X) \vv \\
+&= \vw\transpose\vw = \sum_i w_i^2\,, && \text{with } \vv = \Phi(X)\vv\,.
+\end{align}
+This already shows that $\vv\transpose \mat H \vv \geq 0$, with equality if there exists a $\vv$ such that $\Phi(X)\vv = 0$. So now we need to prove that \emph{there cannot be} a $\vv$ for which $\Phi(X)\vv = 0$. If $\mathrm{rank}\,\Phi(X) \geq M$, then this will not happen, by the rank-nullity theorem \citep[\S 2.7.3]{mml}.
+
+At this point, we need to assume this is the case. For full marks though, you should state the implications on the problem at hand, rather than in abstract maths. One \emph{necessary} implication of this is that $N\geq M$. This is only a necessary condition, rather than a sufficient one, since even of $N \geq M$, $\Phi(X)$ can still have many linearly dependent rows. This will at least happen if you observe repeated input points. However, to prove more than this, you need more information about $\Phi(X)$.\footnote{A case that is harder think about is if you observe points that make the feature vectors $\vphi(\vx_n)$ linearly dependent. One example is if you have a 2D input with $\vphi(\vx) = \vx\transpose$, and all your input points lie on a line.}
+
+So to summarise, we could prove that \textbf{if $\mathrm{rank}\,, \Phi(X) \geq M$, which at least needs $N\geq M$, then Linear Regression has a single minimum solution}.
+
+If we are coding up a linear regression problem, and we want to check numerically for a \emph{specific} regression problem whether there is a unique solution, we can compute the eigenvalues of $\Phi(X)\transpose\Phi(X)$, and see if they are all positive. This implies a PD Hessian because
+\begin{align}
+\vv\transpose \mat H \vv &= \vv\transpose \mat Q \mat \Lambda \mat Q\inv \vv && \text{(eigenvalue decomposition)} \\
+&= \vv\transpose \mat Q \mat \Lambda \mat Q\transpose\vv && \text{($\mat H = \mat H\transpose$, so $\mat Q\mat \Lambda \mat Q\inv = (\mat Q\mat \Lambda \mat Q\inv)\transpose$, so $\mat Q\inv = Q\transpose$)}\\
+&= \vz\transpose \Lambda \vz \,,
+\end{align}
+which is only $> 0$ if all the elements in the diagonal matrix $\Lambda$ are positive.
+
+If any of the linear algebra was unfamiliar, I recommend looking at chapter 2 in \citet{mml}, particularly \S2.3, \S2.6, and \S2.7, or the 1st year linear algebra course.
+
+
 
 \paragraph{\questionref{q:autodiff}} TODO
 
