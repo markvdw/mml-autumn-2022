@@ -1,1 +1,40 @@
-\section{Lecture 1: Answers}
+\section{Answers Lecture 1: Probability, Vectors, Differentiation}
+
+\paragraph{\questionref{q:vecnot}} 
+
+Given $p(\textbf{x}) = \frac{1}{C}(x_1^2 + x_1x_2 x_2^2 + 2x_2x_3)$, we need to rearrange the terms to find an expression as follows:
+\begin{equation}
+p(\textbf{x}) = \frac{1}{C}(\textbf{x}^T A \textbf{x}), \quad A\in \mathbb{R}^{3\times 3}
+\end{equation}
+Inspection of the terms in $p(\textbf{x})$ gives the following solution
+\begin{align*}
+\begin{pmatrix}
+x_1 & x_2 & x_3
+\end{pmatrix}^T
+\begin{pmatrix}
+1 & \frac{1}{2} & 0\\
+\frac{1}{2} & 1 & 1\\
+0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+x_1 & x_2 & x_3
+\end{pmatrix} =
+\begin{pmatrix}
+x_1 + \frac{x_2}{2}\\
+\frac{x_1}{2} + x_2 + x_3\\
+x_2
+\end{pmatrix}
+\begin{pmatrix}
+x_1 & x_2 & x_3
+\end{pmatrix} = x_1^2 + x_1x_2 x_2^2 + 2x_2x_3
+\end{align*}.
+Thus,
+\begin{equation}
+p(\textbf{x}) = \frac{1}{C}(\textbf{x}^T A \textbf{x}), \quad A = \begin{pmatrix}
+1 & \frac{1}{2} & 0\\
+\frac{1}{2} & 1 & 1\\
+0 & 1 & 0
+\end{pmatrix}
+\end{equation}
+
+

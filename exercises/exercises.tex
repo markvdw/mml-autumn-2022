@@ -2,6 +2,7 @@
 
 
 
+
 %% Language and font encodings
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -249,6 +250,7 @@ Check your answers by performing numerical integration, e.g.~in Python.
 
 \section{Lecture 1: Probability, Vectors, Differentiation}
 \begin{question}[Vector notation]
+\label{q:vecnot}
 We define the probability density on the vector $\vx \in \Reals^3$ with all elements $0 \leq x_k \leq 1$ as
 \begin{align}
 p(\vx) = \frac{1}{C} (x_1^2 + x_1x_2 + x_2^2 + 2x_2x_3) \,.
@@ -337,16 +339,24 @@ First find the dimensions, then the Jacobian. It's probably easiest here to use 
 
 
 \begin{question}[MML 5.7-5.8: Chain rule]
-Compte the derivatives $\calcd f /\calcd\vx$ of the following functions by using the chain rule. Give the results in vector notation if you can. Provide the dimensions of every single partial derivative. Describe your steps in detail.
+Comupte the derivatives $\calcd f /\calcd\vx$ of the following functions.
+\begin{itemize}
+\item First, write out the chain rule for the given decomposition.
+\item Give the shapes of intermediate results, and make clear which dimension(s) will be summed over.
+\item Provide expressions for the derivatives, and describe your steps in detail. Providing an expression means specifying everything up to the point where you could implement it.
+\item Give the results in vector notation if you can. 
+\end{itemize}
 \begin{enumerate}[label=\alph*.]
 \item $f(z) = \log(1+z), \qquad z = \vx\transpose\vx, \qquad \vx \in \Reals^D$.
 \item $f(\vz) = \sin(\vz), \qquad \vz = \mat A\vx + \vb, \qquad \mat A \in \Reals^{E\times D}$. What sizes are $\vx$ and $\vb$?
 \item $f(z) = \exp(-\frac{1}{2}z), \qquad z = \vy\transpose \mat S\inv \vy, \qquad \vy = \vx -\vmu$.
 \item $f(\mat A) = \Tr(\mat A), \qquad \mat A = \vx\vx\transpose + \sigma^2 \mat I$.
 \item $\vf(\vz) = \tanh(\vz), \qquad \vz = \mat A \vx + \vb, \qquad \mat A \in \Reals^{M\times N}$.
+\item $f(\mat A) = \vx\transpose\mat A\vx, \qquad \mat A = \vx\vx\transpose\,.$
 \end{enumerate}
 Remember: Generally, scalar functions are applied elementwise to vectors/matrices.
 \end{question}
+
 
 
 \begin{question}[Hessian of Linear Regression]
@@ -405,6 +415,7 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 
 
 \input{warm-up-answers}
+\input{answers-lecture-1}
 \input{answers-lecture2-diff}
 
 
