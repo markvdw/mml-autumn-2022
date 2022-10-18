@@ -1,0 +1,426 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+% talk/author information
+\newcommand{\authorname}{Yingzhen Li}
+\newcommand{\authoremail}{yingzhen.li@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{liyzhen2}
+\newcommand{\slidesettitle}{\imperialBlue{Gradient Descent Convergence}}
+\newcommand{\footertitle}{Gradient Descent Convergence}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 24, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+% load defaults
+%\usepackage{../MarkMathCmds}
+\input{../includes/header.tex}
+\input{../includes/YingzhenNotations.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+%\begin{frame}{Reading for this week}
+%
+%\begin{center}
+%Read MML book: Sections 4.1 - 4.4, 7.1, Chapter 9 up to 9.2.3 \\
+%Do MML book exercises: Exercises 4.1 - 4.7 \\
+%An extra exercise will be uploaded to course materials.
+%\end{center}
+%
+%\end{frame}
+
+
+%%%% linear regression example %%%%%%%
+
+%%%%%%%%%%%%%%%% convergence analysis %%%%%%%%%%%%%%
+
+\begin{frame}{Gradient descent}
+
+We can use gradient descent to find the solution of
+$$\mparam^* = \arg\min L(\mparam^*)$$
+
+But when does gradient descent converge to a (local) optimum?
+
+\end{frame}
+
+\begin{frame}{Gradient descent for linear regression}
+\begin{minipage}{0.55\linewidth}
+Fitting linear regression models:
+\begin{itemize}
+	\item Dataset: $\mathcal{D} = \{\X, \y\}$, \\$\X = [\x_1, ..., \x_N]^\top \in \mathbb{R}^{N\times D}$, \\$\y = [y_1,..., y_N]^\top \in \mathbb{R}^{N\times1}$
+	\item Goal: find \alert{$\mparam \in \mathbb{R}^{D\times 1}$} such that
+	$$\y \approx \X\alert{\mparam}$$
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth]{figures-gradient/linear_regression.png}
+\end{figure}
+\end{minipage}
+\end{frame}
+
+\begin{frame}{Gradient descent for linear regression}
+A typical linear regression model:
+\begin{itemize}
+	\item $\x \in \mathbb{R}^{D\times 1}$: input features; $y \in \mathbb{R}$: output value
+	\item Model and loss:
+	$$f(\x, \mparam ) = \x^\top \mparam, \quad y = f(\x, \mparam ) + \epsilon, \ \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+	$$L(\mparam ) = \frac{1}{2 \sigma^2} \sum_{n} (f(\x_n, \mparam ) - y_n)^2$$\pause
+	\item Rewriting the loss in matrix form:
+	$$L(\mparam ) = \frac{1}{2 \sigma^2} || \y - \X \mparam ||_2^2$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Gradient descent for linear regression}
+Gradient descent to find $\mparam^*$:
+
+Assume constant step-sizes $\gamma_t = \gamma$:
+\begin{enumerate}
+\item Define \emph{starting point} $\mparam_0$, set $t\gets 0$
+\item Set $\mparam_{t+1} = \mparam_t - \gamma_t \nabla_{\mparam} L(\mparam_t)$, $t \leftarrow t+1$
+\begin{equation*}
+\begin{aligned}
+\mparam_{t+1} &= \mparam_t - \gamma_t \nabla_{\mparam} L(\mparam_t) \\
+&= \mparam_t - \gamma \frac{1}{\sigma^2}\X^\top(\X \mparam_t - \y) \\ \pause
+&\textcolor{red}{= (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X) \mparam_t + \frac{\gamma}{\sigma^2} \X^\top \y}
+\end{aligned}
+\end{equation*}
+%
+\item Repeat 1 until stopping criterion.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Gradient descent for linear regression}
+Gradient descent to find $\mparam^*$:
+
+Assume constant step-sizes $\gamma_t = \gamma$:
+\begin{itemize}
+\item GD returns the following iterative updates:
+\begin{equation*}
+\mparam_{t+1} = (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X) \mparam_t + \frac{\gamma}{\sigma^2} \X^\top \y
+\end{equation*}
+%
+\item We would like to figure out $\mparam_{t}$ as a function of $\mparam_0$ and $\gamma$! \\ (and also other hyper-parameters \& data)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Gradient descent for linear regression}
+
+Arithmetico-geometric sequence:
+
+If a sequence $\{\mparam_0, \mparam_1, ..., \mparam_T \}$ is defined by
+$$\mparam_{t+1} = \BB \mparam_t + \bm{c}, \quad t \geq 0,$$
+Then we have
+$$\mparam_{t+1} = \BA (\mparam_t + \bm{\beta}) - \bm{\beta}, \quad \text{for some } \BA, \bm{\beta}.$$ \pause
+
+Let's work out what are $\BA$ and $\bm{\beta}$:
+\begin{equation*}
+\centering
+\begin{aligned}
+\mparam_{t+1} = &\mathbf{A}(\mparam_t + \bm{\beta}) - \bm{\beta} = \BB \mparam_t + \bm{c} \\
+\Leftrightarrow \quad &\mathbf{A}\mparam_t + (\mathbf{A} - \mathbf{I}) \bm{\beta} = \BB \mparam_t + \bm{c} \\
+\Leftrightarrow \quad &\BA = \BB, \quad \bm{\beta} = (\BB - \mathbf{I})^{-1} \bm{c}
+\end{aligned}
+\end{equation*}\pause
+%
+$$\Rightarrow \quad \mparam_{t+1} = \BB(\mparam_t + (\BB - \mathbf{I})^{-1} \bm{c} ) - (\BB - \mathbf{I})^{-1} \bm{c}$$
+$$\Rightarrow \quad \mparam_t = \BB^t(\mparam_0 + (\BB - \mathbf{I})^{-1} \bm{c} ) - (\BB - \mathbf{I})^{-1} \bm{c}$$
+\end{frame}
+
+
+\begin{frame}{Gradient descent for linear regression}
+Gradient descent to find $\mparam^*$:
+
+Assume constant step-sizes $\gamma_t = \gamma$:
+\begin{itemize}
+\item GD returns the following iterative updates:
+\begin{equation*}
+\mparam_{t+1} = (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X) \mparam_t + \frac{\gamma}{\sigma^2} \X^\top \y
+\end{equation*}
+%
+\item Solving this iterative update returns: \pause
+$$\mparam_{t} = (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^t (\mparam_0 - \mparam^*) + \mparam^*, \quad \mparam^* = (\X^\top \X)^{-1} \X^\top \y$$
+\item GD converges ($\mparam_t \rightarrow \mparam^*$) if $(\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^t (\mparam_0 - \mparam^*) \rightarrow \bm{0}$
+\end{itemize}
+\end{frame}
+
+
+%\begin{frame}{Eigen decomposition: Indications}
+%Indications of $\BA = \BQ \Lambda \BQ^{-1}$:
+%\begin{itemize}
+%\item If $\lambda$ is an eigenvalue of $\BA$, then $\lambda^t$ is an eigenvalue of $\BA^t$: \pause
+%$$\BA^t = \BQ \Lambda \BQ^{-1} \BQ \Lambda \BQ^{-1} \cdot\cdot\cdot \BQ^{-1} \Lambda \BQ^{-1} = \BQ \Lambda^t \BQ^{-1},$$
+%$$\Lambda^t = \text{diag}(\lambda_1^t, ..., \lambda_D^t)$$ \pause
+%\item If $\lambda$ is an eigenvalue of $\BA$, then $\lambda + \alpha$ is an eigenvalue of $\BA + \alpha \mathbf{I}$: \pause
+%$$\BA + \alpha \mathbf{I} = \BQ \Lambda \BQ^{-1} + \BQ \alpha \mathbf{I} \BQ^{-1} = \BQ (\Lambda + \alpha \mathbf{I}) \BQ^{-1}, $$
+%$$\Lambda + \alpha \mathbf{I} = \text{diag}(\lambda_1 + \alpha, ..., \lambda_D + \alpha)$$ \pause
+%\item Combine: If $\lambda$ is an eigenvalue of $\BA$, \\then $(\lambda + \alpha)^t$ is an eigenvalue of $(\BA + \alpha \mathbf{I})^t$
+%\end{itemize}
+%
+%\end{frame}
+
+
+%\begin{frame}{Eigen decomposition: Indications}
+%Indications of $\BA = \BQ \Lambda \BQ^{-1}$: Assume $\BA$ is symmetric
+%\begin{itemize}
+%\item Consider the following \alert{Rayleigh quotient}
+%$$R(\BA, \x) = \frac{\x^\top \BA \x}{|| \x ||_2^2}, \quad || \x ||_2^2 = \x^\top \x$$
+%\item We can show that
+%$$\lambda_{min}(\BA) \leq R(\BA, \x) \leq \lambda_{max}(\BA)$$
+%$$\Rightarrow \quad \lambda_{min}(\BA) || \x ||_2^2 \leq \x^\top \BA \x \leq \lambda_{max}(\BA) || \x ||_2^2$$
+%\end{itemize}
+%
+%\end{frame}
+
+%\begin{frame}
+%(break)
+%\end{frame}
+
+%\begin{frame}{Eigen decomposition: Indications}
+%Indications of $\BA = \BQ \Lambda \BQ^{-1}$: Assume $\BA$ is symmetric
+%\begin{itemize}
+%\item Consider the following \alert{Rayleigh quotient}
+%$$R(\BA, \x) = \frac{\x^\top \BA \x}{|| \x ||_2^2}, \quad || \x ||_2^2 = \x^\top \x$$
+%\item We can show: $\lambda_{min}(\BA) \leq R(\BA, \x) \leq \lambda_{max}(\BA)$\\
+%$\Rightarrow \quad \lambda_{min}(\BA) || \x ||_2^2 \leq \x^\top \BA \x \leq \lambda_{max}(\BA) || \x ||_2^2$
+%\end{itemize}
+%\vspace{12em}
+%\end{frame}
+
+%%%%%% analyse convergence %%%%%%%
+
+\begin{frame}{Convergence of GD for linear regression}
+Gradient descent with constant step-size to find $\mparam^*$:
+$$\mparam_{t} = (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^t (\mparam_0 - \mparam^*) + \mparam^*, \quad \mparam^* = (\X^\top \X)^{-1} \X^\top \y$$
+
+
+\begin{itemize}
+\item The $\ell_2$ distance between $\mparam_t$ and $\mparam^*$:
+\begin{equation*}
+\begin{aligned}
+|| \mparam_t - \mparam^* ||_2^2 &= || (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^t (\mparam_0 - \mparam^*) ||_2^2 \\
+&= | (\mparam_0 - \mparam^*)^\top (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^{2t} (\mparam_0 - \mparam^*) |
+\end{aligned}
+\end{equation*}
+%\only<1>{
+%\item Notice that a Rayleigh quotient satisfies $\lambda_{min}(\BA) || \x ||_2^2 \leq \x^\top \BA \x \leq \lambda_{max}(\BA) || \x ||_2^2$
+%\item Also if $\lambda$ is an eigenvalue of $\BA$, then $\lambda^{t}$ is an eigenvalue of $\BA^t$
+%}
+%
+\visible<2->{
+\item Fact: $\lambda_{min}(\BA) || \x ||_2^2 \leq \x^\top \BA \x \leq \lambda_{max}(\BA) || \x ||_2^2$:
+\only<2>{
+$$|| \mparam_t - \mparam^* ||_2^2 \geq \lambda_{min}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^{2t}) || \mparam_0 - \mparam^* ||_2^2$$
+$$|| \mparam_t - \mparam^* ||_2^2 \leq \lambda_{max}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^{2t}) || \mparam_0 - \mparam^* ||_2^2$$
+}
+\only<3>{
+$$|| \mparam_t - \mparam^* ||_2^2 \geq \textcolor{red}{\lambda_{min}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^{2})^t} || \mparam_0 - \mparam^* ||_2^2$$
+$$|| \mparam_t - \mparam^* ||_2^2 \leq \textcolor{red}{\lambda_{max}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^{2})^t} || \mparam_0 - \mparam^* ||_2^2$$
+}
+}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Convergence of GD for linear regression}
+Gradient descent with constant step-size to find $\mparam^*$:
+$$\lambda_{min}^{t} || \mparam_0 - \mparam^* ||_2^2 \leq || \mparam_t - \mparam^* ||_2^2 \leq \lambda_{max}^{t} || \mparam_0 - \mparam^* ||_2^2$$
+$$\lambda_{min} := \lambda_{min}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2) \geq 0, \quad \lambda_{max} := \lambda_{max}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2)$$ \pause
+
+Convergence properties in difference cases:
+\begin{enumerate}
+\item $\lambda_{max} < 1$: always converge
+\item $\lambda_{min} \geq 1$: always diverge
+\item $\lambda_{min} < 1$ but $\lambda_{max} \geq 1$: convergence depending on $\mparam_0$
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Convergence of GD for linear regression}
+Gradient descent with constant step-size to find $\mparam^*$:
+$$\lambda_{min}^{t} || \mparam_0 - \mparam^* ||_2^2 \leq || \mparam_t - \mparam^* ||_2^2 \leq \lambda_{max}^{t} || \mparam_0 - \mparam^* ||_2^2$$
+$$\lambda_{min} := \lambda_{min}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2) \geq 0, \quad \lambda_{max} := \lambda_{max}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2)$$
+
+Deriving the eigenvalues $\lambda_{min}, \lambda_{max}$: \pause
+\begin{itemize}
+\item If $\lambda$ is an eigenvalue of $\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X$, \\then $\lambda^2$ is an eigenvalue of $(\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2$ \pause
+\item If $\lambda$ is an eigenvalue of $\X^\top \X$, \\
+then $1 - \frac{\gamma \lambda}{\sigma^2}$ is an eigenvalue of $\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X$:
+$$\X^\top \X \bm{q} = \lambda \bm{q} \quad \Leftrightarrow \quad (\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X) \bm{q} = (1 - \frac{\gamma \lambda}{\sigma^2}) \bm{q}$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Convergence of GD for linear regression}
+Gradient descent with constant step-size to find $\mparam^*$:
+$$\lambda_{min}^{t} || \mparam_0 - \mparam^* ||_2^2 \leq || \mparam_t - \mparam^* ||_2^2 \leq \lambda_{max}^{t} || \mparam_0 - \mparam^* ||_2^2$$
+$$\lambda_{min} := \lambda_{min}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2) \geq 0, \quad \lambda_{max} := \lambda_{max}((\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2)$$
+
+\begin{itemize}
+\item If $\lambda$ is an eigenvalue of $\X^\top \X$, \\
+then $(1 - \frac{\gamma \lambda}{\sigma^2})^2$ is an eigenvalue of $(\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X)^2$ \pause
+\item $\X^\top \X$ is positive semi-definite $\Rightarrow \lambda \geq 0$ \pause
+\item Ensuring convergence: we want $\lambda_{max} = \max (1 - \frac{\gamma \lambda}{\sigma^2})^2 < 1$
+$$\Rightarrow \gamma < \frac{2 \sigma^2}{\lambda_{max}(\X^\top \X)} $$
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Choosing step-size for linear regression}
+
+To ensure convergence at \alert{any} initialisation: $\gamma < 2 \sigma^2 / \lambda_{max}(\X^\top \X)$
+
+\alert{Q:} Can we use larger step-sizes?\\ \pause
+\alert{A:} Yes and No.
+
+\begin{enumerate}
+\item You choose a step-size $\gamma \geq 2 \sigma^2 / \lambda_{min}(\X^\top \X) \quad \Rightarrow$ diverge  \pause
+\item You choose a step-size $\gamma \in [ \frac{2\sigma^2}{\lambda_{max}(\X^\top \X)},  \frac{2\sigma^2}{\lambda_{min}(\X^\top \X)} ) \quad \Rightarrow$ good luck
+\begin{itemize}
+	\item Convergence result may be sensitive to initialisation $\bm{\theta}_0$
+\end{itemize}
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Choosing step-size for linear regression}
+
+To ensure convergence at \alert{any} initialisation: $\gamma < 2 \sigma^2 / \lambda_{max}(\X^\top \X)$
+
+If you want to test your luck: choose $\gamma \in [ \frac{2\sigma^2}{\lambda_{max}(\X^\top \X)},  \frac{2\sigma^2}{\lambda_{min}(\X^\top \X)} )$
+
+Is my choice of $\gamma$ robust to initialisation of $\mparam_0$? \pause
+\begin{itemize}
+\item Depending on the \alert{condition number}:
+$$ \kappa(\X^\top \X) := \frac{\lambda_{max}(\X^\top \X)}{\lambda_{min}(\X^\top \X)} $$
+\end{itemize}
+\vspace{-0.5em}
+
+\hspace{7em}
+\begin{minipage}{0.18\linewidth}
+\includegraphics[width=1\linewidth]{figures-gradient/well_conditioned.png}
+\end{minipage}
+\hspace{3em}
+\begin{minipage}{0.25\linewidth}
+\includegraphics[width=1\linewidth]{figures-gradient/ill_conditioned.png}
+\end{minipage}
+
+\begin{itemize}
+\item Need careful choice of step-sizes if the loss is ``very stretched'' \pause
+\item Note: $\kappa(\X^\top \X) = \kappa(\X)^2 = \frac{\sigma_{max}(\X)}{\sigma_{min}(\X)}$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Choosing step-size: general case}
+
+In general the loss function is non-quadratic nor convex:
+\only<1>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{figures-gradient/loss_landscape_conditioning0.png}
+  \end{figure}}
+\only<2>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{figures-gradient/loss_landscape_conditioning1.png}
+  \end{figure}}
+  
+\visible<2>{
+Local quadratic approximation when $\mparam_t \approx \mparam^*$:
+\begin{itemize}
+\item locally approximate $L(\mparam_t) \approx L(\mparam^*) + \frac{1}{2} (\mparam_t - \mparam^*)^\top \nabla^2 L(\mparam^*) (\mparam_t - \mparam^*)$ \\
+(in linear regression $\nabla^2 L(\mparam) \ \propto \ \X^\top \X$)
+\item $\kappa(\nabla^2 L )$ can tell whether the loss is ``locally stretched''
+\end{itemize}
+}
+
+\hfill \tiny{\url{https://distill.pub/2017/momentum/}}
+\end{frame}
+
+\begin{frame}{Choosing step-size: general case}
+Let's see what happens for different step-sizes.
+\only<1>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-gradient/gd-step-1.png}
+  \end{figure}}
+\only<2>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-gradient/gd-step-2.png}
+  \end{figure}}
+\only<3>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-gradient/gd-step-3.png}
+  \end{figure}}
+\only<4>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-gradient/gd-step-4.png}
+  \end{figure}}
+\only<5>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-gradient/gd-step-5.png}
+  \end{figure}}
+\only<6>{
+  \begin{figure}
+    \centering
+    \includegraphics[width = 1.0\hsize]{./figures-gradient/gd-step-6.png}
+  \end{figure}}
+Image shows:
+\begin{itemize}
+\item Path of $\mparam_t$ from Gradient Descent
+\item Constant step size $\gamma_t = \gamma$
+\end{itemize}
+
+\hfill \tiny{\url{https://distill.pub/2017/momentum/}}
+\end{frame}
+
+\begin{frame}{Choosing step-size: summary}
+
+Summary on choosing step size:
+\begin{itemize}
+\item too small: slow convergence
+\item too large: divergence
+\item just right: depends on problem (often: trial and error)
+\end{itemize}\pause
+
+\begin{center}
+Rule of thumb: \\ 
+Start from a relatively large step size, \\
+decrease step size as getting closer to a (local) optimum.
+\end{center}
+\end{frame}
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
