@@ -237,28 +237,47 @@ Dimensions are
 \frac{\partial f}{\partial \textbf{x}} \in \mathbb{R}^{M\times N}, \quad \frac{\partial f}{\partial \textbf{z}}\in\mathbb{R}^{M\times M}, \quad \frac{\partial z}{\partial \textbf{x}}\in\mathbb{R}^{M\times N}
 \]
 
-\item f(A) = \textbf{x}\transpose A \textbf{x}, \quad A=\textbf{x}\textbf{x}\transpose, \quad A\in\mathbb{R}^{N\times N}
+\item $f(A) = \textbf{x}\transpose A \textbf{x}, \quad A=\textbf{x}\textbf{x}\transpose, \quad A\in\mathbb{R}^{N\times N}$
 
 Note that $A$ is symmetric. We apply the chain rule straightforwardly.
 \begin{align*}
-\frac{d f}{d \textbf{x}} &= \frac{\partial f}{\partial \textbf{x}} + \frac{\partial f}{\partial A} \frac{\partial A}{\partial \textbf{x}} = \frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}} + \sum_{ij}\left(\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial A}\right)_{ij} \frac{\partial\textbf{x}\textbf{x}^T}{\partial\textbf{x}}
+\frac{d f}{d \textbf{x}} &= \frac{\partial f}{\partial \textbf{x}} + \frac{\partial f}{\partial A} \frac{\partial A}{\partial \textbf{x}} = \frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}} + \sum_{i,j}\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}} \frac{\partial a_{ij}}{\partial\textbf{x}}
 \end{align*}
 
 The first term can be computed using vector calculus rules
 \begin{align*}
-\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}}  = 2A\textbf{x}
+\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}}  = 2A\textbf{x} = 2\textbf{x}\textbf{x}^T\textbf{x} = 2 ||\textbf{x}||^2\textbf{x}
 \end{align*}
-
+Using vector calculus rules we have
 \begin{align*}
-\frac{\partial (\textbf{x}^T A \textbf{x})}{\partial \textbf{A}} = \textbf{x}\textbf{x}^T = A
+\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial A}  = \textbf{x}\textbf{x}^T = A
 \end{align*}
-
-From Question \questionref{q:mml55-56} c), we have
-
+and from Question \questionref{q:mml55-56} c),
 \begin{align*}
-\frac{\partial A}{\partial \textbf{x}} = \textbf{x}\textbf{x}^T = A
+\frac{\partial a_{ij}}{\partial x_k} = \delta_{ik}x_j + \delta_{jk}x_i
+\end{align*}
+were we use that $a_{ij} =x_ix_j$. Finally, we can compute the second term of $\frac{df}{d\textbf{x}}$ using index notation, i.e. the derivative with respect to $x_k$.
+\begin{align*}
+\sum_{i,j}\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}} \frac{\partial a_{ij}}{\partial x_k} &= \sum_{i,j} a_{ij}\left(\delta_{ik}x_j + \delta_{jk}x_i\right) = \sum_{i,j} a_{ij}\delta_{ik}x_j + \sum_{i,j} a_{ij}\delta_{jk}x_i\\
+&= \sum_{j} a_{kj}x_j + \sum_{i} a_{ik}x_i = 2 \sum_{i} x_k x_i^2 = 2 ||\textbf{x}||^2x_k
+\end{align*}
+Using vector form, the second term is as follows
+\begin{align*}
+\sum_{i,j}\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}} \frac{\partial a_{ij}}{\partial\textbf{x}} = 2 \sum_{i} x_k x_i^2 = 2 ||\textbf{x}||^2\textbf{x}
+\end{align*}
+In conclusion, we have
+\begin{align*}
+\frac{d f}{d \textbf{x}} &= \frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}} + \sum_{i,j}\left(\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}}\right) \frac{\partial a_{ij}}{\partial\textbf{x}} = 2 ||\textbf{x}||^2\textbf{x}+ 2 ||\textbf{x}||^2\textbf{x} = 4 ||\textbf{x}||^2\textbf{x}
 \end{align*}
 
+Extra: one can check the previous result is true by simplifying the initial form of $f$, which we maintained for illustrative purposes, i.e. $f(\textbf{x}) = ||\textbf{x}||^4$. We can compute the derivative using index notation
+\begin{align*}
+\frac{df}{d x_i} = \frac{d}{d x_i}\left(\sum_{i=1}^N x_i^2 \right)^2 = 2||\textbf{x}||^2 2x_i = 4||\textbf{x}||^2 x_i,
+\end{align*}
+where in vector form is expressed as follows
+\begin{align*}
+\frac{df}{d x} = 4||\textbf{x}||^2 \textbf{x}
+\end{align*}
 
 \end{enumerate}
 
