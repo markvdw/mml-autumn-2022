@@ -367,6 +367,7 @@ For the stationary point of linear regression, find the Hessian, and prove that 
 \end{question}
 
 
+\section{Lecture 3: Automatic Differentiation}
 \begin{question}[Product rule]
 \label{q:autodiff-productrule} Consider the function $f(a, b) = a\cdot b$, where $a = a(x), b = b(x)$, i.e.~unspecified functions of $x$.
 \begin{itemize}
@@ -379,13 +380,14 @@ For the stationary point of linear regression, find the Hessian, and prove that 
 
 \begin{question}[Multivariate Autodiff]
 \label{q:autodiff} This is a rather big question that should test your understanding of all material in the first three lectures.
-Consider the function:
+Consider the overall function $f(\boldsymbol \ell, \mat X)$ consisting of the parts:
 \begin{align}
-f(\boldsymbol \ell, \mat X) &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\inv \vy\,, \\
+f &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\inv \vy\,, \\
 \mat K_a &= \exp\left(\mat \Lambda_a\right) \,, \\
 \mat \Lambda_a &= -\frac{\mat D_a}{2\ell_a^2} \,, \\
-\mat D_a &= (\mat X[:, a, \text{\texttt{None}}] - \mat X[:, \text{\texttt{None}}, b])^2 \,.
+\mat D_a &= (\mat X[:, \text{\texttt{None}}, a] - \mat X[\text{\texttt{None}}, :, a])^2 \,,
 \end{align}
+where we use \texttt{numpy} broadcasting notation in the final equation.
 \begin{enumerate}[label=\alph*.]
 \item Given $\boldsymbol \ell \in \Reals^2$ and $\mat X \in \Reals^{N\times 2}$, find the shape of all intermediate computations.
 \item Draw the computational graph for $f(\boldsymbol\ell, \mat X)$.
@@ -394,10 +396,10 @@ f(\boldsymbol \ell, \mat X) &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\in
 \end{question}
 
 % Lecture 4: Probabilistic Modelling Principles 
-\input{prob_modelling_questions}
+% \input{prob_modelling_questions}
 
 % Lecture 5: Gradient Descent Convergence
-\input{gradient_descent_questions}
+% \input{gradient_descent_questions}
 
 
 \section{Lecture $N$: Multivariate Probability}
@@ -411,7 +413,6 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 \item Divide up $\vx$ into two sub vectors $\vy = [x_2, x_4]\transpose$ and $\vz = [x_1, x_3]\transpose$. Show that $\vy \ci \vz$, i.e.~that they are independent.
 \end{enumerate}
 \end{question}
-
 
 
 
@@ -434,8 +435,8 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 \input{warm-up-answers}
 \input{answers-lecture2-diff}
 
-\input{prob_modelling_answers}
-\input{gradient_descent_answers}
+% \input{prob_modelling_answers}
+% \input{gradient_descent_answers}
 
 
 

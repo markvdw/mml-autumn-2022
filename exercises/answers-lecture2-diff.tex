@@ -37,6 +37,10 @@ which is only $> 0$ if all the elements in the diagonal matrix $\Lambda$ are pos
 If any of the linear algebra was unfamiliar, I recommend looking at chapter 2 in \citet{mml}, particularly \S2.3, \S2.6, and \S2.7, or the 1st year linear algebra course.
 
 
+\section{Answers Lecture 3: Automatic Differentiation}
+
+
+
 \paragraph{\questionref{q:autodiff-productrule}}
 We begin by drawing the computational graph (\cref{fig:qproductrule-compgraph}). % We make the distinction between $v_i$ and the functions to highlight the difference between an \emph{evaluation} of a function, and the function itself. All the $v_i$s refer to specific evaluations, and are therefore numbers.
 We now find the primal trace and the forward tangent trace:
@@ -75,5 +79,70 @@ If we substitute $a(x) = x, b(x) = x$, then we obtain $\calcd f / \calcd x = 2x$
 
 
 
-\paragraph{\questionref{q:autodiff}} TODO
+\paragraph{\questionref{q:autodiff}}
+\begin{figure}[h]
+\centering
+  \tikz{
+ \node[const] (l) {$\boldsymbol\ell$};%
+ \node[const,  below=of l] (X) {$\mat X$};%
+ \node[latent, right=of X] (v0) {$v_0$};%
+ \node[latent, right=of v0] (D1) {$D_1$};
+ \node[latent, right=of v0, yshift=-1.25cm] (D2) {$D_2$};
+ \node[latent, right=of D1, yshift=0.6125cm] (L1) {$\Lambda_1$};
+ \node[latent, right=of D2, yshift=0.6125cm] (L2) {$\Lambda_2$};
+ \node[latent, above=of D1,yshift=-0.4333cm] (vn1) {$v_{-1}$};%
+ \node[latent, right=of L1] (K1) {$K_1$};
+ \node[latent, right=of L2] (K2) {$K_2$};
+ \node[latent, right=of K2, yshift=0.6125cm] (K)  {$v_1$};
+ \node[latent, right=of K] (Kinv)  {$v_2$};
+ \node[latent, right=of Kinv] (v3)  {$v_3$};
+ \node[const, right=of v3] (out)  {out};
+ % \node[latent, right=of v0, yshift=0.6125cm] (v1) {$v_1$};
+ % \node[latent, right=of v0, yshift=-0.6125cm] (v2) {$v_2$};
+ % \node[latent, right=of v1, yshift=-0.6125cm] (v3) {$v_3$};
+ % \node[const, right=of v3] (out) {out};
+ \edge {l}  {vn1};
+ \edge {X}  {v0};
+ \edge {v0} {D1};
+ \edge {v0}  {D2};
+ \edge {D1} {L1};
+ \edge {D2} {L2}; 
+ \edge {vn1} {L1,L2};
+ \edge {L1} {K1};
+ \edge {L2} {K2}; 
+ \edge {K1, K2} {K};
+ \edge {K} {Kinv};
+ \edge {Kinv} {v3};
+ \edge {v3} {out};
+}
+\caption{Computational graph for \questionref{q:autodiff}, where we define $v_1 = \mat K_1 + \mat K_2$, $v_2 = v_1\inv$, and $v_3 = \vy\transpose v_1 \vy$.}
+\label{fig:qautodiff}
+\end{figure}
+\begin{enumerate}[label=\alph*.]
+\item
+\begin{align}
+D_a &: \Reals^{N\times 2} &&\to \Reals^{N\times N} \\
+\Lambda_a &: \Reals^{N\times N}\times \Reals^{2} &&\to \Reals^{N\times N} \\
+K_a &: \Reals^{N\times N} &&\to \Reals^{N\times N} \\
+f &: \Reals^{N\times N}\times\Reals^{N\times N} &&\to \Reals
+\end{align}
+\item See \cref{fig:qautodiff}. We use names evident from the question for some nodes, but give new names to some additional intermediate notes.
+\item Let's first consider \textbf{forward mode} for the derivatives w.r.t.~$\mat X$.
+\begin{align}
+v_{-1} &= \boldsymbol \ell && \dot v_{-1,iab} = \pderiv[{[v_{-1}]}_{i}]{X_{ab}} = 0 && v_{-1} \in \Reals^{2 \times (N\times 2)}\,, O(N) \\ % \pderiv[v_{-1}]{\boldsymbol\ell} = \mat I_2
+v_0 &= X && \dot v_0 = \pderiv[{[v_0]}_{ij}]{X_{ab}} = \delta_{ia}\delta_{jb}  &&  \dot v_0 \in \Reals^{(N\times 2)\times (N\times 2)}\,, O(N^2) \\
+D_z &= \dots && \pderiv[{[D_z]}_{nm}]{v_{0ij}} = \pderiv{v_{0ij}} (v_{0nz} - v_{0mz})^2 &&  \dot D_z \in \Reals^{(N\times N) \times (N\times 2)}  \nonumber \\
+& && \qquad = 2(v_{0nz} - v_{0mz})(\delta_{ni}\delta_{zj} - \delta_{mi}\delta_{zj}) &&\\
+& && \dot D_{znmab} = \left[\pderiv[D_z]{v_0} \dot v_0\right]_{nmab} && O(N) \text{ for sum, so total } O(N^4). \\
+& && \quad = 2 (v_{0nz} - v_{0mz}) (\dot v_{0nzab} - \dot v_{0mzab})&& \text{Structure allows } O(N^3). \\
+\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \pderiv[\Lambda_{zij}]{D_{znm}} = - \frac{D_z}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \dot \Lambda_z \in \Reals^{(N\times N) \times (N\times 2)} \\
+& && \pderiv[\Lambda_{zij}]{v_{-1,k}} = \frac{D_{zij}}{v_{-1z}^3} \delta_{zk} && \\
+& && \dot \Lambda_{zijab} = \left[\pderiv[\Lambda_{z}]{D_{z}} \dot D_{z} + \pderiv[\Lambda_{z}]{v_{-1}} \dot v_{-1}\right]_{ijab} && O(N^2)\text{ for sum, so total }O(N^5)\,.
+\end{align}
+\item {\color{red} To be continued...}
+\end{enumerate}
 
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercises"
+%%% End: 
