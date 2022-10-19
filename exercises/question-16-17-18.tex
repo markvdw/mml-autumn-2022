@@ -1,0 +1,62 @@
+\paragraph{Question \ref{q:MLE-Niid}}
+a) 
+    Let $X={x_1, \dots, x_N}$ be $N$ i.i.d samples. 
+    Assuming Gaussian prior, the new probability distribution is defined as follows:
+    $$p(X \mid \mu', \sigma') = \mathcal{N}(X; \mu', \sigma') = \prod_{i=1}^N \mathcal{N}(x_i; \mu', \sigma')$$
+    The log-likelihood of the above distribution can be defined as:
+    $$\log \mathcal{L}(X; \mu', \sigma') = \log \prod_{i=1}^N \mathcal{N}(x_i; \mu', \sigma') = \log \prod_{i=1}^N \frac{1}{\sigma'\sqrt{2\pi}}\exp(-\frac{(x_i - \mu')^2}{2\sigma'^2})$$
+    $$\Rightarrow -N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2}$$
+
+    We estimate the parameters $\mu', \sigma'$ by maximizing the above likelihood function, which corresponds to:
+    $$\mu' = argmax_{\mu'} -N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2}$$
+    $$ \Rightarrow \frac{\partial (-N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2})}{\partial \mu'} = 0$$
+    $$ \Rightarrow  2\sum_{i=1}^N \frac{(x_i - \mu')}{2\sigma'^2} = 0$$
+    $$ \Rightarrow \mu' = \frac{1}{N} \sum_{i=1}^N x_i$$
+
+    Similarly, $\sigma' = argmax_{\sigma'} -N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2}$.
+    $$ \Rightarrow \frac{\partial (-N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2})}{\partial \sigma'} = 0$$
+    $$ \Rightarrow -\frac{N}{\sigma'} + \sum_{i=1}^N \frac{(x_i - \mu')^2}{\sigma'^3} = 0$$
+    $$ \Rightarrow \sigma' = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \mu')^2}$$
+
+b) Similar to $\mu'$ estimation is the above part.
+    
+    
+
+\paragraph{Question \ref{q:MLEReg}}
+
+Let $(X,Y)=\{(X_1,y_1) \dots, (X_N, y_N)\}$ be observed $N$ i.i.d samples and $f(X_i; W, \beta) = W^TX_i + \beta$ be a linear regression model.
+Let's consider two cases for estimating parameters $W, \beta$
+
+\textbf{case 1:} Maximum Likelihood Estimate (MLE), with an assumption of Gaussian prior this estimate looks like: $(W_1*, \beta_1*) = argmax_{w_1, \beta_1} \mathcal{L}(Y; f(X; W_1, \beta_1), \mathbb{I}\sigma^2)$
+
+\textbf{case 2:} Minimum Squared Estimate (MSE)
+$(W_2*, \beta_2*) = argmin_{W_2, \beta_2} \frac{1}{N}\sum_{i=1}^N(Y_i - f(X_i; W_2, \beta_2))^2$
+
+Task is to show $W_1* = W_2*$ and $\beta_1* = \beta_2*$
+
+Consider case 1:$(W_1*, \beta_1*) = argmax_{w_1, \beta_1} \mathcal{L}(Y; f(X; W, \beta), \mathbb{I}\sigma^2)$
+$$ \Rightarrow \frac{\partial \mathcal{L}(Y; f(X; W, \beta), \mathbb{I}\sigma^2)}{\partial (W_1, \beta_1)} = 0 $$
+$$ \Rightarrow \frac{\partial \log \prod_{i=1}^N \sigma^{-1}(2\pi)^{-1/2} \exp(-0.5\sigma^{-2}(y_i - W^TX_i - \beta)^2}{\partial (W_1, \beta_1)} = 0 $$
+$$ \Rightarrow \frac{-0.5\sigma^{-2}\partial \sum_{i=1}^N (y_i - W^TX_i - \beta)^2}{\partial (W_1, \beta_1)} = 0 $$
+$$ \Rightarrow \frac{\partial \frac{1}{N}\sum_{i=1}^N (y_i - W^TX_i - \beta)^2}{\partial (W_1, \beta_1)} = 0 $$
+
+The above expression can be seen as: $(W_1, \beta_1) = argmin_{W_1, \beta_1} \frac{1}{N}\sum_{i=1}^N(Y_i - f(X_i; W_1, \beta_1))^2$, resulting in MSE estimates.
+
+
+
+
+\paragraph{Question \ref{q:chainrule}}
+\begin{enumerate}[label=\alph*.]
+\item $f(x) = \log (x^4) \sin (x^3)$
+        $$\frac{d f(x)}{dx} = \sin(x^3) \frac{d \log(x^4}{dx} + \log (x^4)\frac{d \sin(x^3)}{dx}$$
+        $$\Rightarrow f'(x) = \sin(x^3)\frac{4}{x} + 12\log(x)cos(x^3)x^2$$
+        
+\item $f(x) = (1 + \exp(-x))^{-1}$
+         $$\frac{d f(x)}{dx} = \frac{d (1 + \exp(-x))^{-1}}{dx}$$
+         $$\Rightarrow f'(x) = \frac{\exp(-x)}{(1 + \exp(-x))^2}$$
+        
+\item $f(x) = \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$
+         $$\frac{d f(x)}{dx} = \frac{d \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)}{dx}$$
+         $$\Rightarrow f'(x) = -\frac{(x-\mu)}{\sigma^2}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$
+
+\end{enumerate}
