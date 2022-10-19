@@ -37,6 +37,43 @@ which is only $> 0$ if all the elements in the diagonal matrix $\Lambda$ are pos
 If any of the linear algebra was unfamiliar, I recommend looking at chapter 2 in \citet{mml}, particularly \S2.3, \S2.6, and \S2.7, or the 1st year linear algebra course.
 
 
+\paragraph{\questionref{q:autodiff-productrule}}
+We begin by drawing the computational graph (\cref{fig:qproductrule-compgraph}). % We make the distinction between $v_i$ and the functions to highlight the difference between an \emph{evaluation} of a function, and the function itself. All the $v_i$s refer to specific evaluations, and are therefore numbers.
+We now find the primal trace and the forward tangent trace:
+\begin{align}
+v_0 &= x && \pderiv[v_0]{x} = 1 \\
+v_1 &= a(x) && \pderiv[v_1]{x} = \pderiv[v_1]{v_0}\pderiv[v_0]{x} = \pderiv[a(x)]{x} \\
+v_2 &= b(x) && \pderiv[v_2]{x} = \pderiv[v_2]{v_0}\pderiv[v_0]{x} = \pderiv[b(x)]{x} \\
+v_3 &= v_1 \cdot v_2 && \pderiv[v_3]{x} = \sum_{j \in \mathrm{inputs}(3)}\pderiv[v_3]{v_j}\pderiv[v_j]{x} = v_2\pderiv[a(x)]{x} + v_1\pderiv[b(x)]{x} \,.
+\end{align}
+This means that for any x, forward mode autodiff calculates the derivative to be:
+\begin{align}
+\deriv[f]{x} = b(x)\deriv[a(x)]{x} + a(x)\deriv[b(x)]{x} \,.
+\end{align}
+Which is the product rule.
+
+If we substitute $a(x) = x, b(x) = x$, then we obtain $\calcd f / \calcd x = 2x$, as expected.
+
+
+\begin{figure}[t]
+\centering
+  \tikz{
+ \node[const] (x) {$x$};%
+ \node[latent, right=of x] (v0) {$v_0$};%
+ \node[latent, right=of v0, yshift=0.6125cm] (v1) {$v_1$};
+ \node[latent, right=of v0, yshift=-0.6125cm] (v2) {$v_2$};
+ \node[latent, right=of v1, yshift=-0.6125cm] (v3) {$v_3$};
+ \node[const, right=of v3] (out) {out};
+ \edge {x}  {v0};
+ \edge {v0} {v1,v2};
+ \edge {v1,v2}  {v3};
+ \edge {v3}     {out};
+}
+\caption{Computational graph for \questionref{q:autodiff-productrule}.}
+\label{fig:qproductrule-compgraph}
+\end{figure}
+
+
 
 \paragraph{\questionref{q:autodiff}} TODO
 

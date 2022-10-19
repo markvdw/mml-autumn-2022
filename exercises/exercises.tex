@@ -32,6 +32,9 @@
 \usepackage{enumitem}
 \usepackage{epsdice}
 
+\input{../includes/tikzlibrarybayesnet.code.tex}
+\input{../includes/tikzlibraryipe.code.tex}
+
 
 \input{YingzhenMathNotations}
 
@@ -364,8 +367,18 @@ For the stationary point of linear regression, find the Hessian, and prove that 
 \end{question}
 
 
-\begin{question}[Autodiff]
-\label{q:autodiff}
+\begin{question}[Product rule]
+\label{q:autodiff-productrule} Consider the function $f(a, b) = a\cdot b$, where $a = a(x), b = b(x)$, i.e.~unspecified functions of $x$.
+\begin{itemize}
+\item Show that by following forward mode autodiff, you effectively calculate the product rule.
+\item Show that if $a(x) = x, b(x) = x$, which means that the overall function $f(x) = x^2$, the gradient that is computed will be $2x$.
+\end{itemize}
+(Note from MvdW (autumn 2022): I somewhat messily described this on the board. The question is included here to provide a clearer explanation.)
+\end{question}
+
+
+\begin{question}[Multivariate Autodiff]
+\label{q:autodiff} This is a rather big question that should test your understanding of all material in the first three lectures.
 Consider the function:
 \begin{align}
 f(\boldsymbol \ell, \mat X) &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\inv \vy\,, \\
