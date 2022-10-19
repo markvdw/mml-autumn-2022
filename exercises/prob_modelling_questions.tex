@@ -1,0 +1,35 @@
+\section{Lecture 4: Probabilistic Modelling Principles}
+
+\begin{question}[Training translation models]
+\label{q:translation}
+Imagine you want to train a neural network $T_{\mparam}(\cdot)$ to translate French words to English words. Assume you are given a dataset $\mathcal{D} = \{(f_n, e_n) \}_{n=1}^N$ where $f_n$ is a French word and $e_n$ is an English word. Suppose the vocabulary of French and English is $\mathcal{F}$ and $\mathcal{E}$, respectively.
+%
+\begin{itemize}
+    \item[a.] Assuming a probabilistic model $p(e | T_{\mparam}(f))$, which distribution would you choose for this model?
+    \item[b.] Continuing a), what is the corresponding MLE objective? 
+\end{itemize}
+%
+\end{question}
+
+\begin{question}[Clustering]
+\label{q:clustering_gmm}
+We consider a clustering task where given a dataset $\mathcal{D} = \{x_1, ...,x_N \}$, we would like to group them into $K$ clusters. The model we will use here is a Gaussian mixture model:
+$$\text{GMM:} \quad p(x | \mparam) = \sum_{k=1}^K \pi_k \mathcal{N}(x; \mu_k, \sigma^2), \quad \mparam = \{ \pi_k, \mu_k, \}_{k=1}^K, \sigma^2.$$
+%
+\begin{itemize}
+    \item[a.] What is the MLE objective for this clustering task?
+    \item[b.] Derive the gradient of the MLE objective w.r.t.~$\mu_k$. What is the fixed-point equation for finding the optimal $\{ \mu_k \}$ parameters?
+\end{itemize}
+
+\end{question}
+
+
+\begin{question}[Geometric interpretation of linear regression]
+\label{q:linear_regression_projection}
+Consider the following linear regression model:
+$$y = \mparam^\top \phi(\x) + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2).$$
+For a given dataset $\{ (\x_n, y_n) \}_{n=1}^N$, Writing $\bm{\Phi} = (\phi(\x_1), \phi(\x_2), ..., \phi(\x_N))^\top$ and $\y = (y_1, ..., y_N)^\top$, we have the optimal solution satisfies $\mparam^* = (\bm{\Phi}^\top \bm{\Phi})^{-1} \bm{\Phi}^\top \y$. Show that by using the optimal parameter $\mparam^*$, the prediction $\hat{\y} = (\hat{y}_1, ..., \hat{y}_N), \hat{y}_n = (\mparam^*)^\top \phi(\x_n)$ is the projection of $\y$ onto the sub-space spanned by the columns of $\Phi$.
+
+(Hint: consider singular value decomposition.)
+
+\end{question}
