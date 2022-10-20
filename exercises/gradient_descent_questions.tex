@@ -1,0 +1,50 @@
+\section{Lecture 5: Gradient Descent Convergence}
+
+\newcommand{\BA}{\mathbf A}
+
+\begin{question}[Rayleigh quotient]
+\label{q:rayleigh_quotient}
+The \emph{Rayleigh quotient} is defined for a symmetric matrix $\BA \in \mathbb{R}^{d \times d}$ and a non-zero vector $\x \in \mathbb{R}^{d \times 1}$:
+\begin{equation*}
+R(\BA, \x) = \frac{\x^\top \BA \x}{|| \x ||_2^2}, \quad || \x ||_2^2 = \x^\top \x.
+\end{equation*}
+Show that
+$R(\BA, \x) \in [\lambda_{min}(\BA), \lambda_{max}(\BA)].$
+
+This result immediately indicates that $\lambda_{min}(\BA) || \x ||_2^2 \leq \x^\top \BA \x \leq \lambda_{max}(\BA) || \x ||_2^2$, which is used to prove gradient descent convergence.
+\end{question}
+
+
+\begin{question}[Gradient descent with pre-conditioning]
+\label{q:pre_conditioned_gd}
+Consider the following update rule named \emph{pre-conditioned gradient descent}:
+$$\mparam_{t+1} = \mparam_t - \gamma_t \BP_t^{-1} \nabla_{\mparam} L(\mparam_t).$$
+Here $\BP_t$ is called \emph{pre-conditioner} at time step $t$. We consider linear regression as an example, and assume constant learning rate and pre-conditioner, i.e., $\gamma_t = \gamma$ and $\BP_t = \BP$ for all $t$. 
+%
+Show that with an appropriate choice of the pre-conditioner $\BP$, we can achieve a robust selection of the learning rate $\gamma$, i.e., if the selected $\gamma$ works for an initialisation $\mparam_0$, it will also work for all other initialisations.
+
+Hints: you can follow the below steps to solve the question:
+\begin{itemize}
+    \item[1.] Work out the pre-conditioned gradient descent update in linear regression, and derive $\mparam_t$ as a function of $\mparam_0$, $\gamma$, $\BP$ and the dataset $(\X, \y)$;
+    \item[2.] For a given $\BP$, work out the learning rates $\gamma_{min}$ and $\gamma_{max}$ such that pre-conditioned gradient descent converges when $\gamma < \gamma_{min}$, or diverges when $\gamma \geq \gamma_{max}$;
+    \item[3.] Select $\BP$ such that $\gamma_{min} = \gamma_{max}$, therefore there exist no interval (like $[\gamma_{min}, \gamma_{max})$) such that convergence depends on initialisation when $\gamma$ falls into such interval.
+\end{itemize}
+\end{question}
+
+
+\begin{question}[Momentum gradient descent]
+\label{q:momemtum_gd}
+Consider the following update rule named \emph{momemtum gradient descent}, with constant learning rate $\gamma$ and momentum step-size $\alpha$:
+$$\mparam_{t+1} = \mparam_t - \gamma \nabla_{\mparam} L(\mparam_t) + \alpha \Delta \mparam_t,$$
+$$\Delta \mparam_{t+1} = \mparam_{t+1} - \mparam_t, \quad \Delta \mparam_{0} = \bm{0}.$$
+
+Show that solving linear regression using momemtum gradient descent, if converges, converges to $\mparam^* = (\X^\top \X)^{-1} \X^\top \y$.
+
+Hint: follow the below steps and practice your linear algebra skills :)
+\begin{enumerate}
+    \item Write down the update equations for the parameters $\mparam_t$ and the momentum $\Delta \mparam_t$;
+    \item Collect both terms as a long vector $(\mparam_t^\top, \Delta \mparam_t^\top)^\top$, and merge the two linear update equations in step 1 into one ``joint'' linear equation using block matrices;
+    \item Apply the analysis techniques for gradient descent convergence for linear regression to show the converged solution (if converges).
+\end{enumerate}
+
+\end{question}

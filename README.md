@@ -2,7 +2,7 @@
 Autumn 2022
 Lecturers: [Mark van der Wilk](https://mvdw.uk), [Yingzhen Li](http://yingzhenli.net/home/en/)
 
-Lecture materials for the Imperial College London course "Mathematics for Machine Learning". Some material is based on an earlier version of the course by [Marc Deisenroth](https://www.deisenroth.cc/) 
+Lecture materials for the Imperial College London course "Mathematics for Machine Learning". Some material is based on an earlier version of the course by [Marc Deisenroth](https://www.deisenroth.cc/). Lecture recordings are available on [Panopto](https://imperial.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=ae57ded4-ce3a-42a1-9968-aedd014a24aa).
 
 ## Contributing
 We welcome any suggestions and fixes from students. For those who make contributions, there will be cake.
