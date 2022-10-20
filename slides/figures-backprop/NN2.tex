@@ -1,0 +1,253 @@
+\tikzstyle{ipe stylesheet} = [
+  ipe import,
+  even odd rule,
+  line join=round,
+  line cap=butt,
+  ipe pen normal/.style={line width=0.4},
+  ipe pen heavier/.style={line width=0.8},
+  ipe pen fat/.style={line width=1.2},
+  ipe pen ultrafat/.style={line width=2},
+  ipe pen normal,
+  ipe mark normal/.style={ipe mark scale=3},
+  ipe mark large/.style={ipe mark scale=5},
+  ipe mark small/.style={ipe mark scale=2},
+  ipe mark tiny/.style={ipe mark scale=1.1},
+  ipe mark normal,
+  /pgf/arrow keys/.cd,
+  ipe arrow normal/.style={scale=7},
+  ipe arrow large/.style={scale=10},
+  ipe arrow small/.style={scale=5},
+  ipe arrow tiny/.style={scale=3},
+  ipe arrow normal,
+  /tikz/.cd,
+  ipe arrows, % update arrows
+  <->/.tip = ipe normal,
+  ipe dash normal/.style={dash pattern=},
+  ipe dash dashed/.style={dash pattern=on 4bp off 4bp},
+  ipe dash dotted/.style={dash pattern=on 1bp off 3bp},
+  ipe dash dash dotted/.style={dash pattern=on 4bp off 2bp on 1bp off 2bp},
+  ipe dash dash dot dotted/.style={dash pattern=on 4bp off 2bp on 1bp off 2bp on 1bp off 2bp},
+  ipe dash normal,
+  ipe node/.append style={font=\normalsize},
+  ipe stretch normal/.style={ipe node stretch=1},
+  ipe stretch normal,
+  ipe opacity 10/.style={opacity=0.1},
+  ipe opacity 30/.style={opacity=0.3},
+  ipe opacity 50/.style={opacity=0.5},
+  ipe opacity 75/.style={opacity=0.75},
+  ipe opacity opaque/.style={opacity=1},
+  ipe opacity opaque,
+]
+\definecolor{red}{rgb}{1,0,0}%
+\definecolor{green}{rgb}{0,1,0}%
+\definecolor{blue}{rgb}{0,0,1}%
+\definecolor{yellow}{rgb}{1,1,0}%
+\definecolor{orange}{rgb}{1,0.647,0}%
+\definecolor{gold}{rgb}{1,0.843,0}%
+\definecolor{purple}{rgb}{0.627,0.125,0.941}%
+\definecolor{gray}{rgb}{0.745,0.745,0.745}%
+\definecolor{brown}{rgb}{0.647,0.165,0.165}%
+\definecolor{navy}{rgb}{0,0,0.502}%
+\definecolor{pink}{rgb}{1,0.753,0.796}%
+\definecolor{seagreen}{rgb}{0.18,0.545,0.341}%
+\definecolor{turquoise}{rgb}{0.251,0.878,0.816}%
+\definecolor{violet}{rgb}{0.933,0.51,0.933}%
+\definecolor{darkblue}{rgb}{0,0,0.545}%
+\definecolor{darkcyan}{rgb}{0,0.545,0.545}%
+\definecolor{darkgray}{rgb}{0.663,0.663,0.663}%
+\definecolor{darkgreen}{rgb}{0,0.392,0}%
+\definecolor{darkmagenta}{rgb}{0.545,0,0.545}%
+\definecolor{darkorange}{rgb}{1,0.549,0}%
+\definecolor{darkred}{rgb}{0.545,0,0}%
+\definecolor{lightblue}{rgb}{0.678,0.847,0.902}%
+\definecolor{lightcyan}{rgb}{0.878,1,1}%
+\definecolor{lightgray}{rgb}{0.827,0.827,0.827}%
+\definecolor{lightgreen}{rgb}{0.565,0.933,0.565}%%
+\definecolor{lightyellow}{rgb}{1,1,0.878}%
+\definecolor{black}{rgb}{0,0,0}%
+\definecolor{white}{rgb}{1,1,1}%
+\begin{tikzpicture}[ipe stylesheet]
+  \draw[ipe pen fat, white]
+    (144, 768) rectangle (160, 704);
+  \draw[ipe pen fat, white]
+    (256, 768) rectangle (272, 704);
+  \draw[ipe pen fat]
+    (432, 768) rectangle (448, 704);
+  \draw[white, ipe pen fat]
+    (96, 736) circle[radius=16];
+  \draw[ipe pen fat]
+    (496, 736) circle[radius=16];
+  \draw[white, ipe pen fat, <-]
+    (112, 736)
+     -- (144, 736);
+  \draw[white, ipe pen fat, ipe dash dashed, <-]
+    (272, 736)
+     -- (320, 736);
+  \draw[red, ipe pen fat, <-]
+    (448, 736)
+     -- (480, 736);
+  \node[ipe node, font=\Large, text=white]
+     at (91.741, 732.812) {$\vec{x}$};
+  \node[ipe node, font=\Large]
+     at (488.698, 734) {$\vec{f}_K$};
+  \node[ipe node, font=\Large, text=white]
+     at (135, 664) {$\vec{A}_1, \vec{b}_1$};
+  \node[ipe node, font=\Large]
+     at (408, 664) {$\vec{A}_{K}, \vec{b}_{K}$};
+  \draw[ipe pen fat]
+    (560, 736) circle[radius=16];
+  \draw[red, ipe pen fat, <-]
+    (512, 736)
+     -- (544, 736);
+  \node[ipe node, font=\Large]
+     at (555.221, 731.099) {$L$};
+  \draw[ipe pen fat]
+    (320, 768) rectangle (336, 704);
+  \draw[ipe pen fat]
+    (384, 736) circle[radius=16];
+  \draw[red, ipe pen fat, <-]
+    (336, 736)
+     -- (368, 736);
+  \node[ipe node, font=\Large]
+     at (371, 734) {$\vec{f}_{K-1}$};
+  \draw[red, ipe pen fat, <-]
+    (400, 736)
+     -- (432, 736);
+  \node[ipe node, font=\Large]
+     at (297, 664) {$\vec{A}_{K-1}, \vec{b}_{K-1}$};
+  \draw[white, ipe pen fat, ->]
+    (152, 680)
+     -- (152, 704);
+  \draw[white, ipe pen fat, ->]
+    (264, 680)
+     -- (264, 704);
+  \draw[ ipe pen fat, ->]
+    (328, 680)
+     -- (328, 704);
+  \draw[ipe pen fat, ->]
+    (440, 680)
+     -- (440, 704);
+  \draw[white, ipe pen fat]
+    (208, 736) circle[radius=16];
+  \draw[white, ipe pen fat, <-]
+    (160, 736)
+     -- (192, 736);
+  \node[ipe node, font=\Large, text=white]
+     at (202.794, 734) {$\vec{f}_1$};
+  \draw[white, ipe pen fat, <-]
+    (224, 736)
+     -- (256, 736);
+  \node[ipe node, font=\Large, text=white]
+     at (247, 664) {$\vec{A}_2, \vec{b}_2$};
+\end{tikzpicture}
+
+
+
+% \begin{tikzpicture}[ipe stylesheet]
+%   \draw[white, ipe pen fat]
+%     (144, 768) rectangle (160, 704);
+%   \draw[white, ipe pen fat]
+%     (256, 768) rectangle (272, 704);
+%   \draw[ipe pen fat]
+%     (432, 768) rectangle (448, 704);
+%   \draw[white, ipe pen fat]
+%     (96, 736) circle[radius=16];
+%   \draw[ipe pen fat]
+%     (496, 736) circle[radius=16];
+%   \draw[white, ipe pen fat, ->]
+%     (112, 736)
+%      -- (144, 736);
+%   \draw[white, ipe pen fat, ipe dash dashed, ->]
+%     (272, 728)
+%      -- (320, 728);
+%   \draw[ipe pen fat, ->]
+%     (448, 728)
+%      -- (480, 728);
+%   \node[ipe node, font=\Large, text=white]
+%      at (92.009, 732.912) {$\vec x$};
+%   \node[ipe node, font=\Large]
+%      at (488.899, 732.414) {$\vec f_K$};
+%   \node[ipe node, font=\Large, text=white]
+%      at (135.123, 664) {$\vec A_1, \vec b_1$};
+%   \node[ipe node, font=\Large]
+%      at (408.594, 664) {$\mat A_{K-1}, \vec b_{K-1}$};
+%   \draw[red, ipe pen fat, ->]
+%     (480, 744)
+%      -- (448, 744);
+%   \draw[white, ipe pen fat, ipe dash dashed, ->]
+%     (320, 744)
+%      -- (272, 744);
+%   \draw[ipe pen fat]
+%     (560, 736) circle[radius=16];
+%   \draw[ipe pen fat, ->]
+%     (512, 728)
+%      -- (544, 728);
+%   \draw[red, ipe pen fat, ->]
+%     (544, 744)
+%      -- (512, 744);
+%   \node[ipe node, font=\Large]
+%      at (555.221, 731.099) {$L$};
+%   \draw[ipe pen fat]
+%     (320, 768) rectangle (336, 704);
+%   \draw[ipe pen fat]
+%     (384, 736) circle[radius=16];
+%   \draw[ipe pen fat, ->]
+%     (336, 728)
+%      -- (368, 728);
+%   \node[ipe node, font=\Large]
+%      at (370.534, 732.508) {$\vec f_{K-1}$};
+%   \draw[red, ipe pen fat, ->]
+%     (368, 744)
+%      -- (336, 744);
+%   \draw[ipe pen fat, ->]
+%     (400, 728)
+%      -- (432, 728);
+%   \draw[red, ipe pen fat, ->]
+%     (432, 744)
+%      -- (400, 744);
+%   \node[ipe node, font=\Large]
+%      at (296.594, 664) {$\mat A_{K-2}, \vec b_{K-2}$};
+%   \draw[white, ipe pen fat, ->]
+%     (152, 680)
+%      -- (152, 704);
+%   \draw[white, ipe pen fat, ->]
+%     (264, 680)
+%      -- (264, 704);
+%   \draw[ipe pen fat, ->]
+%     (328, 680)
+%      -- (328, 704);
+%   \draw[ipe pen fat, ->]
+%     (440, 680)
+%      -- (440, 704);
+%   \pic[ipe mark large, white]
+%      at (152, 680) {ipe disk};
+%   \pic[ipe mark large, white]
+%      at (264, 680) {ipe disk};
+%   \pic[ipe mark large]
+%      at (328, 680) {ipe disk};
+%   \pic[ipe mark large]
+%      at (440, 680) {ipe disk};
+%   \draw[white, ipe pen fat]
+%     (208, 736) circle[radius=16];
+%   \draw[white, ipe pen fat, ->]
+%     (160, 728)
+%      -- (192, 728);
+%   \node[ipe node, font=\Large, text=white]
+%      at (200.899, 732.414) {$f_1$};
+%   \draw[white, ipe pen fat, ->]
+%     (192, 744)
+%      -- (160, 744);
+%   \draw[white, ipe pen fat, ->]
+%     (224, 728)
+%      -- (256, 728);
+%   \draw[white, ipe pen fat, ->]
+%     (256, 744)
+%      -- (224, 744);
+%   \node[ipe node, font=\Large, text=white]
+%      at (247.123, 664) {$A_2, b_2$};
+% \end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../lecture_vector_calculus"
+%%% End:

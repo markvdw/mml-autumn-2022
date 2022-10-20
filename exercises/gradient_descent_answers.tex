@@ -1,0 +1,85 @@
+\section{Answers Lecture 5: Gradient Descent Convergence}
+
+\paragraph{Question \ref{q:rayleigh_quotient}}
+
+As $\BA$ is symmetric, we can write the eigen-decomposition formula as $\BA = \BQ \Lambda \BQ^{\top}$ with $\BQ$ containing an orthonormal basis of $\mathbf{R}^{d\times 1}$. 
+Then using the fact that $\BQ \BQ^\top = \mathbf{I}$, we can define $\z = \BQ^\top \x$ and rewrite the Rayleigh quotient as:
+\begin{equation}
+R(\BA, \x) = \frac{\x^\top \BQ \Lambda \BQ^\top \x}{\x^\top \BQ \BQ^\top \x} = \frac{\z^\top \Lambda \z}{\z^\top \z}.
+\end{equation}
+As $\Lambda = \text{diag}(\lambda_1, ..., \lambda_d)$ is a diagonal matrix, we have (writing $\z = (z_1, ..., z_d)^\top$)
+\begin{equation}
+    \z^\top \Lambda \z = \sum_{i=1}^d \lambda_i z_i^2.
+\end{equation}
+Therefore the Rayleigh quotient can be written as the following weighted average of the eigenvalues
+\begin{equation}
+    R(\BA, \x) = \sum_{i=1}^d \frac{z_i^2}{|| \z ||^2_2} \lambda_i, \quad \text{with } \sum_{i=1}^d \frac{z_i^2}{|| \z ||^2_2} = 1.
+\end{equation}
+In summary, these derivations indicate that the Rayleigh quotient is bounded as
+\begin{equation}
+\begin{aligned}
+    &\lambda_{min}(\BA) \leq R(\BA, \x) \leq \lambda_{max}(\BA) \\
+\Rightarrow \quad &\lambda_{min}(\BA) || \x ||_2^2 \leq \x^\top \BA \x \leq \lambda_{max}(\BA) || \x ||_2^2,
+\end{aligned}
+\end{equation}
+where $\lambda_{min}(\BA)$ and $\lambda_{max}(\BA)$ are the smallest and largest eigenvalues of $\BA$, respectively.
+
+
+\paragraph{Question \ref{q:pre_conditioned_gd}}
+For linear regression we have $\nabla_{\mparam} L(\mparam) = \X^\top(\X \mparam_t - \y)$. Therefore in this case the pre-conditioned gradient descent update rule is
+$$\mparam_{t+1} =  \mparam_t - \frac{\gamma}{\sigma^2} \BP^{-1} \X^\top(\X \mparam_t - \y).$$
+%
+Under the formula of Arithmetico-geometric sequence, we have
+$$\mparam_{t} = (\mathbf{I} - \frac{\gamma}{\sigma^2} \BP^{-1} \X^\top \X)^t (\mparam_0 - \mparam^*) + \mparam^*, \quad \mparam^* = (\X^\top \X)^{-1} \X^\top \y.
+$$
+So this means if pre-conditioned gradient descent converges, it will converge to the right answer $\mparam^*$.
+
+Now we need to show that pre-conditioned gradient descent converges with the right choices of $\gamma$ and $\BP$. This requires us to analyse the eigenvalues of the matrix $(\mathbf{I} - \frac{\gamma}{\sigma^2} \BP^{-1} \X^\top \X)^2$, and for a given $\BP$:
+$$ \lambda \text{ is an eigenvalue of } \BP^{-1} \X^\top \X \quad \Rightarrow \quad (1 - \frac{\gamma}{\sigma^2})^2 \text{ is an eigenvalue of } (\mathbf{I} - \frac{\gamma}{\sigma^2} \BP^{-1} \X^\top \X)^2.$$
+Following the same idea as to prove convergence for gradient descent, we have the learning rates bounds
+$$ \gamma_{min} = 2 \sigma^2 / \lambda_{max}(\BP^{-1} \X^\top \X), \quad \gamma_{max} = 2 \sigma^2 / \lambda_{min}(\BP^{-1} \X^\top \X) .$$
+Now to set $\gamma_{min} = \gamma_{max}$, we should choose $\BP$ such that $\lambda_{min}(\BP^{-1} \X^\top \X) = \lambda_{max}(\BP^{-1} \X^\top \X)$, and an easy way to do so is to choose $\BP \propto \X^\top \X$.
+
+One can show that for linear regression problems, the Hessian matrix of $L(\mparam)$ is $\nabla^2_{\mparam} L(\mparam) \propto \X^\top \X$. In general for a given loss function $L(\mparam)$ we often set $\BP_t = \nabla^2_{\mparam_t} L(\mparam_t)$ if it can be computed in a fast way.
+
+
+\paragraph{Question \ref{q:momemtum_gd}}
+First note that $\nabla_{\mparam}L(\mparam_t) = \frac{1}{\sigma^2} \X^\top (\X \mparam_t - \y)$
+The update equations for both the parameter and the momentum are
+\begin{equation}
+\begin{aligned}
+    \mparam_{t+1} &= \mparam_t - \gamma \nabla_{\mparam} L(\mparam_t) + \alpha \Delta \mparam_t = \mparam_t - \frac{\gamma}{\sigma^2} \X^\top (\X \mparam_t - \y) + \alpha \Delta \mparam_t \\
+    \Delta \mparam_{t+1} &= \mparam_{t+1} - \mparam_t =  \alpha \Delta \mparam_t - \frac{\gamma}{\sigma^2} \X^\top (\X \mparam_t - \y).
+\end{aligned}
+\end{equation}
+Now collecting both equations together into a ``joint'' linear equation:
+\begin{equation}
+\begin{bmatrix}
+\mparam_{t+1} \\ \Delta \mparam_{t+1} 
+\end{bmatrix} =
+\begin{bmatrix}
+\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X & \alpha \mathbf{I} \\ - \frac{\gamma}{\sigma^2} \X^\top \X & \alpha \mathbf{I} 
+\end{bmatrix} 
+\begin{bmatrix}
+\mparam_t \\ \Delta \mparam_t 
+\end{bmatrix} + 
+\begin{bmatrix}
+\frac{\gamma}{\sigma^2} \X^\top \y \\ \frac{\gamma}{\sigma^2} \X^\top \y 
+\end{bmatrix}.
+\end{equation}
+Then we can apply the derivation of arithmetico–geometric sequences again, and show that
+\begin{equation}
+\begin{bmatrix}
+\mparam_{t} \\ \Delta \mparam_{t} 
+\end{bmatrix} =
+\begin{bmatrix}
+\mathbf{I} - \frac{\gamma}{\sigma^2} \X^\top \X & \alpha \mathbf{I} \\ - \frac{\gamma}{\sigma^2} \X^\top \X & \alpha \mathbf{I} 
+\end{bmatrix}^t 
+\begin{bmatrix}
+\mparam_0 - \mparam^* \\ \Delta \mparam_0 
+\end{bmatrix} + 
+\begin{bmatrix}
+\mparam^* \\ \bm{0} 
+\end{bmatrix},
+\end{equation}
+with $\mparam^* = (\X^\top \X)^{-1} \X^\top \y$. This equation also says if momentum GD converges, the momentum $\Delta \mparam_t$ will vanish to $\bm{0}$, which is as expected as $\Delta \mparam_{t} = \mparam_{t} - \mparam_{t-1} \rightarrow \bm{0}$.
