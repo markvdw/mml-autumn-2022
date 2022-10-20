@@ -215,7 +215,7 @@ We want to compute the gradient w.r.t.~$x_i$.
 \begin{itemize}
 \item For the input value $\vx = \va$, compute the numerical value of
 \begin{align}
-\pderiv[v_j]{x_i} = \sum_{k \in \mathrm{inputs}(i)} \pderiv[v_j]{v_k}\pderiv[v_k]{x_i} \label{eq:fwd}
+\pderiv[v_j]{x_i} = \sum_{k \in \mathrm{inputs}(j)} \pderiv[v_j]{v_k}\pderiv[v_k]{x_i} \label{eq:fwd}
 \end{align}
 \end{itemize} \pause
 \item We end up with $\partial \mathrm{out} / \partial x_i$. \pause
