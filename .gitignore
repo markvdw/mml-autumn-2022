@@ -9,4 +9,5 @@
 *.snm
 \#*
 .*
+!.github
 *.nav
