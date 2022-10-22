@@ -1,46 +1,80 @@
-\paragraph{Question \ref{q:MLE-Niid}}
+\paragraph{Question \ref{q:MLE-Niid}} 
 a) 
-    Let $X={x_1, \dots, x_N}$ be $N$ i.i.d samples. 
-    Assuming Gaussian prior, the new probability distribution is defined as follows:
-    $$p(X \mid \mu', \sigma') = \mathcal{N}(X; \mu', \sigma') = \prod_{i=1}^N \mathcal{N}(x_i; \mu', \sigma')$$
+    Our model assumes Gaussian density function defined over $N$ iid data samples given by, $x=\{x_1, \dots, x_N\}$.
+    The joint distribution over all the data points is described as:
+    $$p(x \mid \mu, \sigma) = \mathcal{N}(x; \mu, \sigma) = \prod_{i=1}^N \mathcal{N}(x_i; \mu, \sigma)=\prod_{i=1}^N \frac{1}{\sigma \sqrt{2\pi}}\exp(-\frac{(x_i - \mu)^2}{2\sigma^2})$$
+
+b) 
     The log-likelihood of the above distribution can be defined as:
-    $$\log \mathcal{L}(X; \mu', \sigma') = \log \prod_{i=1}^N \mathcal{N}(x_i; \mu', \sigma') = \log \prod_{i=1}^N \frac{1}{\sigma'\sqrt{2\pi}}\exp(-\frac{(x_i - \mu')^2}{2\sigma'^2})$$
-    $$\Rightarrow -N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2}$$
+    $$\log \mathcal{L}(x; \mu, \sigma) = \log \prod_{i=1}^N \frac{1}{\sqrt{2\pi \sigma^2}}\exp(-\frac{(x_i - \mu)^2}{2\sigma^2})$$
+    
+    $$\Rightarrow -N \log (\sqrt{2\pi \sigma^2}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma^2}$$
 
-    We estimate the parameters $\mu', \sigma'$ by maximizing the above likelihood function, which corresponds to:
-    $$\mu' = argmax_{\mu'} -N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2}$$
-    $$ \Rightarrow \frac{\partial (-N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2})}{\partial \mu'} = 0$$
-    $$ \Rightarrow  2\sum_{i=1}^N \frac{(x_i - \mu')}{2\sigma'^2} = 0$$
-    $$ \Rightarrow \mu' = \frac{1}{N} \sum_{i=1}^N x_i$$
+    Maximum likilehood estimates for $\mu, \sigma$ can be obtained by maximizing the above likelihood function, which corresponds to:
+    $$\mu^*, \sigma^{2*} = \argmax_{\mu, \sigma^2} -N \log (\sqrt{2\pi \sigma^2}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma^2}$$
+    
+    For estimating $\mu^*$, we differentiate the above likelihood function w.r.t $\mu$ and set that to zero:
+    $$ \Rightarrow \frac{\partial (-N \log (\sigma \sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma^2})}{\partial \mu} = 0$$
+    $$ \Rightarrow  2\sum_{i=1}^N \frac{(x_i - \mu)}{2\sigma^2} = 0$$
+    $$ \Rightarrow \mu^* = \frac{1}{N} \sum_{i=1}^N x_i$$
 
-    Similarly, $\sigma' = argmax_{\sigma'} -N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2}$.
-    $$ \Rightarrow \frac{\partial (-N \log (\sigma'\sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu')^2}{2\sigma'^2})}{\partial \sigma'} = 0$$
-    $$ \Rightarrow -\frac{N}{\sigma'} + \sum_{i=1}^N \frac{(x_i - \mu')^2}{\sigma'^3} = 0$$
-    $$ \Rightarrow \sigma' = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \mu')^2}$$
+    For variance estimation we differentiate the likelihood function w.r.t $\sigma^2$ at obtained $\mu^*$ and set that to zero:
+    
+    $$ \Rightarrow \frac{\partial (-N \log (\sqrt{2\pi\sigma^2}) - \sum_{i=1}^N \frac{(x_i - \mu^*)^2}{2\sigma'^2})}{\partial \sigma^2} = 0$$
+    $$ \Rightarrow -\frac{N}{2 \sigma^2} + \sum_{i=1}^N \frac{(x_i - \mu^*)^2}{2\sigma^4} = 0$$
+    $$ \Rightarrow \sigma^{2*} = \frac{1}{N} \sum_{i=1}^N (x_i - \mu^*)^2$$
+    
+    Computing Hessian for verifying maxima of the estimated parameters:
+    $$H = \begin{bmatrix} 
+            \frac{\partial^2 (-N \log (\sigma \sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma'^2})}{\partial \mu^2} & 
+            \frac{\partial^2 (-N \log (\sigma \sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma^2})}{\partial (\sigma^2) \partial \mu} \\ 
+            \frac{\partial^2 (-N \log (\sigma \sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma'^2})}{\partial \mu \partial (\sigma^2)} & 
+            \frac{\partial^2 (-N \log (\sigma \sqrt{2\pi}) - \sum_{i=1}^N \frac{(x_i - \mu)^2}{2\sigma^2})}{\partial (\sigma^2)^2} 
+        \end{bmatrix} = 
+        \begin{bmatrix} 
+            -\frac{N}{\sigma^2} &  
+            - \sum_{i=1}^N \frac{(x_i - \mu)}{\sigma^4} \\ 
+            - \sum_{i=1}^N \frac{(x_i - \mu) }{\sigma^4} & 
+            \frac{N}{2 \sigma^4} - \sum_{i=1}^N \frac{(x_i - \mu)^2}{\sigma^6} 
+        \end{bmatrix}$$
+    
+    Determinant of the computed Hessian at $\mu^*, \sigma^{2*}$:
+    $$ |H| = -\frac{N^2}{2 (\sigma^{2*})^3} + \frac{N}{(\sigma^{2*})^4} \sum_{i=1}^N (x_i - \mu^*)^2 - \frac{1}{(\sigma^{2*})^4} (\sum_{i=1}^N(x_i - \mu^*))^2$$
+    $$\Rightarrow \frac{N^2}{2 (\sigma^{2*})^3} - \frac{1}{(\sigma^{2*})^4} (\sum_{i=1}^N(x_i - \mu^*))^2 \geq +\frac{N^2}{2 (\sigma^{2*})^3} - \frac{1}{(\sigma^{2*})^4} \sum_{i=1}^N(x_i - \mu^*)^2$$
+    $$\Rightarrow |H| \geq \frac{N^2}{2 (\sigma^{2*})^3} - \frac{N}{(\sigma^{2*})^3}$$
+    
+    As $H[0,0]$ is negative and $det(H) \geq 0$ for $N \in \mathbb{Z}$ and $N \geq 2$, we conclude the $\mu^*$ and $\sigma^{2*}$ results in maximizing logliklihood of the distribution.
 
-b) Similar to $\mu'$ estimation is the above part.
     
     
 
 \paragraph{Question \ref{q:MLEReg}}
 
-Let $(X,Y)=\{(X_1,y_1) \dots, (X_N, y_N)\}$ be observed $N$ i.i.d samples and $f(X_i; W, \beta) = W^TX_i + \beta$ be a linear regression model.
-Let's consider two cases for estimating parameters $W, \beta$
+Let $\mat X$ be data matrix of all inputs with $\vy$ as the outputs and $f(\vx; \vw, \beta) = \vw^T\vx + \beta = \theta^T[\vx, 1]$ be a linear regression model, where $\theta=[\vw, \beta]$ is a vector of parameters including bias.
 
-\textbf{case 1:} Maximum Likelihood Estimate (MLE), with an assumption of Gaussian prior this estimate looks like: $(W_1*, \beta_1*) = argmax_{w_1, \beta_1} \mathcal{L}(Y; f(X; W_1, \beta_1), \mathbb{I}\sigma^2)$
+Let's consider two cases for estimating parameters $\theta$
 
-\textbf{case 2:} Minimum Squared Estimate (MSE)
-$(W_2*, \beta_2*) = argmin_{W_2, \beta_2} \frac{1}{N}\sum_{i=1}^N(Y_i - f(X_i; W_2, \beta_2))^2$
+\textbf{case 1:} Maximum Likelihood Estimate (MLE): 
+$\theta^* = \argmax_{\theta} \mathcal{L}(y; f(\vx; \theta), \mathbb{I}\sigma^2)$
 
-Task is to show $W_1* = W_2*$ and $\beta_1* = \beta_2*$
+\textbf{case 2:} Minimum Squared Estimate (MSE):
+$\theta^* = \argmin_{\theta} \frac{1}{N}\sum_{i=1}^N(y_i - f(\vx_i; \theta))^2$
 
-Consider case 1:$(W_1*, \beta_1*) = argmax_{w_1, \beta_1} \mathcal{L}(Y; f(X; W, \beta), \mathbb{I}\sigma^2)$
-$$ \Rightarrow \frac{\partial \mathcal{L}(Y; f(X; W, \beta), \mathbb{I}\sigma^2)}{\partial (W_1, \beta_1)} = 0 $$
-$$ \Rightarrow \frac{\partial \log \prod_{i=1}^N \sigma^{-1}(2\pi)^{-1/2} \exp(-0.5\sigma^{-2}(y_i - W^TX_i - \beta)^2}{\partial (W_1, \beta_1)} = 0 $$
-$$ \Rightarrow \frac{-0.5\sigma^{-2}\partial \sum_{i=1}^N (y_i - W^TX_i - \beta)^2}{\partial (W_1, \beta_1)} = 0 $$
-$$ \Rightarrow \frac{\partial \frac{1}{N}\sum_{i=1}^N (y_i - W^TX_i - \beta)^2}{\partial (W_1, \beta_1)} = 0 $$
+Task is to show that both estimates are same.
 
-The above expression can be seen as: $(W_1, \beta_1) = argmin_{W_1, \beta_1} \frac{1}{N}\sum_{i=1}^N(Y_i - f(X_i; W_1, \beta_1))^2$, resulting in MSE estimates.
+
+
+Consider case 1:$\theta^* = \argmax_{\theta} \mathcal{L}(y; f(\vx; \theta), \mathbb{I}\sigma^2)$
+
+$$ \Rightarrow \frac{\partial \mathcal{L}(y; f(\vx; \theta), \mathbb{I}\sigma^2)}{\partial \theta)} = 0 $$
+
+% $$ \Rightarrow \frac{\partial \log \prod_{i=1}^N \sigma^{-1}(2\pi)^{-1/2} \exp(-0.5\sigma^{-2}(y_i - \theta^T x)^2}{\partial \theta} = 0 $$
+
+$$ \Rightarrow \frac{-0.5\sigma^{-2}\partial \sum_{i=1}^N (y_i - \theta^T\vx_i)^2}{\partial \theta} = 0 $$
+
+$$ \Rightarrow \frac{\partial \frac{1}{N}\sum_{i=1}^N (y_i - \theta^T\vx_i)^2}{\partial \theta} = 0 $$
+
+As the above expression is linear in $\theta$, it can be also be seen as: $\theta^* = \argmin_{\theta} \frac{1}{N}\sum_{i=1}^N(y_i - f(\vx_i; \theta))^2$, resulting in MSE estimates.
 
 
 
@@ -48,11 +82,12 @@ The above expression can be seen as: $(W_1, \beta_1) = argmin_{W_1, \beta_1} \fr
 \paragraph{Question \ref{q:chainrule}}
 \begin{enumerate}[label=\alph*.]
 \item $f(x) = \log (x^4) \sin (x^3)$
-        $$\frac{d f(x)}{dx} = \sin(x^3) \frac{d \log(x^4}{dx} + \log (x^4)\frac{d \sin(x^3)}{dx}$$
+        $$\frac{d f(x)}{dx} = \sin(x^3) \frac{d \log(x^4)}{dx} + \log (x^4)\frac{d \sin(x^3)}{dx}$$
         $$\Rightarrow f'(x) = \sin(x^3)\frac{4}{x} + 12\log(x)cos(x^3)x^2$$
         
 \item $f(x) = (1 + \exp(-x))^{-1}$
          $$\frac{d f(x)}{dx} = \frac{d (1 + \exp(-x))^{-1}}{dx}$$
+         $$\Rightarrow f'(x) = \frac{d (1 + \exp(-x))^{-1})}{d(1 + \exp(-x))} \frac{d(1 + \exp(-x))}{dx}$$
          $$\Rightarrow f'(x) = \frac{\exp(-x)}{(1 + \exp(-x))^2}$$
         
 \item $f(x) = \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$
