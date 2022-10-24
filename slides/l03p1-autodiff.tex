@@ -52,7 +52,7 @@
 \item Check out the repo for the notebook to get started.
 \item We recommend to run this on the \emph{lab machines}.
 \item Soon, a GitLab repo will be created for you.
-\item Submit code to CATE for grading in LabTS.
+\item Submit solutions through LabTS. Submission is not automatic!
 \end{itemize}
 \end{frame}
 
@@ -95,7 +95,7 @@ Today we will discuss a method with the following wishlist: \pause
 
 \vspace{0.3cm}
 
-Will roughly be following the review article by \citet{baydin2018autodiff}.
+Will roughly be following the review article by \citet{baydin2018autodiff}\footnote{\uncover<7>{Reproduced images are under CC-BY licence.}}.
 \end{frame}
 
 
@@ -357,6 +357,28 @@ Consider the scalar case (remember, vector funcs are a special case): \pause
 \item $\implies$ same computational complexity. \pause
 \item Need to store \emph{all} intermediate results (or recompute). \pause
 \item \emph{However}, \pause cost of computing all derivatives is same as fwd pass.
+\end{itemize}
+\end{frame}
+
+
+
+\section{Comparison}
+\begin{frame}{Pros and cons}
+
+Forward mode:
+\begin{itemize}
+\item No memory burden.
+\item Constant factor cost increase (so same complexity) in \emph{outputs}
+\item Linear cost in number of inputs
+\end{itemize}
+
+\vspace{0.3cm}
+
+Reverse mode:
+\begin{itemize}
+\item Must store results of all intermediate variables \\ (so for NNs, linear in depth)
+\item Constant factor cost increase (so same complexity in \emph{inputs}
+\item Linear cost in number of outputs
 \end{itemize}
 \end{frame}
 
@@ -792,7 +814,11 @@ L(\vtheta_1, \vtheta_2,\vtheta_3) = ||\vy - \vec f_{\vtheta_3}(\vec f_{\vtheta_2
 
 \vspace{0.5cm}
 If you have a spare 1.5 hours, and want to see how \emph{minimal} an implementation of this can be, I \emph{highly} recommend Conal Elliott's talk on \textit{The Simple Essence of Automatic Differentiation}: 
-https://www.youtube.com/watch?v=ne99laPUxN4
+https://www.youtube.com/watch?v=ne99laPUxN4 \\
+
+\vspace{0.2cm}
+
+It's like speaking maths directly to the computer.
 \end{frame}
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

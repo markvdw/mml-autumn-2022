@@ -1,5 +1,5 @@
 \section{Warm-up Exercises Answers}
-\subsection{Warm-up Exercises}
+\subsection{Probability Theory}
 \paragraph{\questionref{q:setsprob}}
 \begin{enumerate}[label=\alph*.]
     \item We can choose any representation denoting the events, e.g. using abstract symbols $\Omega=\{ \epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4}, \epsdice{5}, \epsdice{6} \}$. Alternatively, we can represent each of the outcomes as a number $\Omega = \{1, 2, 3, 4, 5, 6\}$.
@@ -87,6 +87,121 @@ P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = P(A) = \lim_{i\xrightarrow{}\infty}
 
 \end{enumerate}
 
+\paragraph{\questionref{q:rv}}
+\begin{enumerate}[label=\alph*.]
+\item
+We choose to represent the outcomes of two dice as integer tuples:
+\begin{align*}
+\Omega = \{
+&(\dA,\dA), (\dA,\dB), (\dA,\dC), (\dA,\dD), (\dA,\dE), (\dA,\dF),  \\
+&(\dB,\dA), (\dB,\dB), (\dB,\dC), (\dB,\dD), (\dB,\dE), (\dB,\dF),  \\
+&(\dC,\dA), (\dC,\dB), (\dC,\dC), (\dC,\dD), (\dC,\dE), (\dC,\dF),  \\
+&(\dD,\dA), (\dD,\dB), (\dD,\dC), (\dD,\dD), (\dD,\dE), (\dD,\dF),  \\
+&(\dE,\dA), (\dE,\dB), (\dE,\dC), (\dE,\dD), (\dE,\dE), (\dE,\dF),  \\
+&(\dF,\dA), (\dF,\dB), (\dF,\dC), (\dF,\dD), (\dF,\dE), (\dF,\dF) \}
+\end{align*}
+\item
+We define random variables A and B to be:
+\begin{align*}
+A(s) =
+\begin{cases}
+1 &\text{, if } s \in \{ (\dA, \dA), (\dA,\dB), (\dA,\dC), (\dA,\dD), (\dA,\dE), (\dA,\dF) \} \\
+2 &\text{, if } s \in \{ (\dB, \dA), (\dB,\dB), (\dB,\dC), (\dB,\dD), (\dB,\dE), (\dB,\dF) \} \\
+3 &\text{, if } s \in \{ (\dC, \dA), (\dC,\dB), (\dC,\dC), (\dC,\dD), (\dC,\dE), (\dC,\dF) \} \\
+4 &\text{, if } s \in \{ (\dD, \dA), (\dD,\dB), (\dD,\dC), (\dD,\dD), (\dD,\dE), (\dD,\dF) \} \\
+5 &\text{, if } s \in \{ (\dE, \dA), (\dE,\dB), (\dE,\dC), (\dE,\dD), (\dE,\dE), (\dE,\dF) \} \\
+5 &\text{, if } s \in \{ (\dF, \dA), (\dF,\dB), (\dF,\dC), (\dF,\dD), (\dF,\dE), (\dF,\dF) \}
+\end{cases} \\
+B(s) =
+\begin{cases}
+1 &\text{, if } s \in \{ (\dA,\dA), (\dB,\dA), (\dC,\dA), (\dD,\dA), (\dE,\dA), (\dF,\dA) \} \\
+2 &\text{, if } s \in \{ (\dA,\dB), (\dB,\dB), (\dC,\dB), (\dD,\dB), (\dE,\dB), (\dF,\dB) \} \\
+3 &\text{, if } s \in \{ (\dA,\dC), (\dB,\dC), (\dC,\dC), (\dD,\dC), (\dE,\dC), (\dF,\dC) \} \\
+4 &\text{, if } s \in \{ (\dA,\dD), (\dB,\dD), (\dC,\dD), (\dD,\dD), (\dE,\dD), (\dF,\dD) \} \\
+5 &\text{, if } s \in \{ (\dA,\dE), (\dB,\dE), (\dC,\dE), (\dD,\dE), (\dE,\dE), (\dF,\dE) \} \\
+5 &\text{, if } s \in \{ (\dA,\dF), (\dB,\dF), (\dC,\dF), (\dD,\dF), (\dE,\dF), (\dF,\dF) \}
+\end{cases}
+\end{align*}
+We can find the PMFs by counting the number of occurrences in $\Omega$. For instance:
+\begin{align*}
+p_A(3) = \frac{|\{ (\dC, \dA), (\dC,\dB), (\dC,\dC), (\dC,\dD), (\dC,\dE), (\dC,\dF) \}|}{|\Omega|} = \frac{6}{36} = \frac{1}{6}
+\end{align*}
+Repeating this for all outcomes gives us the full PDFs:
+\begin{align*}
+\begin{split}
+p_A(x) = \begin{cases}
+\frac{1}{6} &\text{, if } x = 1\\
+\frac{1}{6} &\text{, if } x = 2\\
+\frac{1}{6} &\text{, if } x = 3\\
+\frac{1}{6} &\text{, if } x = 4\\
+\frac{1}{6} &\text{, if } x = 5\\
+\frac{1}{6} &\text{, if } x = 6\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{split}\text{, }
+\begin{split}
+p_B(x) = \begin{cases}
+\frac{1}{6} &\text{, if } x = 1\\
+\frac{1}{6} &\text{, if } x = 2\\
+\frac{1}{6} &\text{, if } x = 3\\
+\frac{1}{6} &\text{, if } x = 4\\
+\frac{1}{6} &\text{, if } x = 5\\
+\frac{1}{6} &\text{, if } x = 6\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{split}
+\end{align*}
+\item
+To show independence of $A$ and $B$ we must show that $p(A \cap B) = p(A)p(B)$.
+We have that all outcomes have equal probability $\frac{1}{|\Omega|} = \frac{1}{36}$ and therefore:
+\begin{align*}
+p(A \cap B) = \frac{1}{36} = \frac{1}{6} \cdot \frac{1}{6} = p(A) p(B)
+\end{align*}
+\item
+We can define a random variable $C = A + B$
+\begin{align*}
+C(s) =
+\begin{cases}
+2 &\text{, if } s \in \{ (\dA, \dA) \} \\
+3 &\text{, if } s \in \{ (\dA, \dB), (\dB,\dA) \} \\
+4 &\text{, if } s \in \{ (\dA, \dC), (\dB,\dB), (\dC,\dA) \} \\
+5 &\text{, if } s \in \{ (\dA, \dD), (\dB,\dC), (\dC,\dB), (\dD,\dA) \} \\
+6 &\text{, if } s \in \{ (\dA, \dE), (\dB,\dD), (\dC,\dC), (\dD,\dB), (\dE,\dA) \} \\
+7 &\text{, if } s \in \{ (\dA, \dF), (\dB,\dE), (\dC,\dD), (\dD,\dC), (\dE,\dB), (\dF,\dA) \} \\
+8 &\text{, if } s \in \{ (\dB, \dF), (\dC,\dE), (\dD,\dD), (\dE,\dC), (\dF,\dB) \} \\
+9 &\text{, if } s \in \{ (\dC, \dF), (\dD,\dE), (\dE,\dD), (\dF,\dC) \} \\
+10 &\text{, if } s \in \{ (\dD, \dF), (\dE,\dE), (\dF,\dD) \} \\
+11 &\text{, if } s \in \{ (\dE, \dF), (\dF,\dE) \} \\
+12 &\text{, if } s \in \{ (\dF, \dF) \} \\
+\end{cases}
+\end{align*}
+Then the PDF $p_C$ becomes:
+\begin{align*}
+p_C(x) = \begin{cases}
+\frac{1}{36} = \frac{1}{36} &\text{, if } x = 2\\
+\frac{2}{36} = \frac{1}{18} &\text{, if } x = 3\\
+\frac{3}{36} = \frac{1}{12} &\text{, if } x = 4\\
+\frac{4}{36} = \frac{1}{9}  &\text{, if } x = 5\\
+\frac{5}{36} = \frac{5}{36} &\text{, if } x = 6\\
+\frac{6}{36} = \frac{1}{6}  &\text{, if } x = 7\\
+\frac{5}{36} = \frac{5}{36} &\text{, if } x = 8\\
+\frac{3}{36} = \frac{1}{9}  &\text{, if } x = 9\\
+\frac{3}{36} = \frac{1}{12} &\text{, if } x = 10\\
+\frac{2}{36} = \frac{1}{18} &\text{, if } x = 11\\
+\frac{1}{36} = \frac{1}{36} &\text{, if } x = 12\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{align*}
+which can be rewritten in more compact form:
+\begin{align*}
+p_A(x) = p_B(x) = \begin{cases}
+\frac{6 - |x-6|}{36} &\text{, if } x = \{ 2, 3, \ldots, 12\}\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{align*}
+\end{enumerate}
+
+
 \paragraph{\questionref{q:stats-term}}
 \begin{enumerate}[label=\alph*.]
 \item A statistic is a function that is computed from data. For example, take a data set $X = \{x_1, x_2, x_3, \dots\}$ where we compute the empirical mean $\bar X = \frac{1}{|X|}\sum_n x_n$.
@@ -105,9 +220,9 @@ $\y = (24, -14, -12)^\top$, $|| \x ||_2 = \sqrt{23}$, $|| \y ||_2 = \sqrt{916}$.
 
 Note that by definition the $\ell_2$ norm of a vector is $|| \x ||_2 = \sqrt{\x^\top \x}$.
 
-\paragraph{Question \ref{q:basis}} 1, 2, 3. 
+\paragraph{Question \ref{q:basis}} 1, 2. 
 
-A set of vectors $\{\mathbf{b}_1, ..., \mathbf{b}_K \}$ with $\mathbf{b}_k \in \mathbb{R}^d$ can form a basis of $\mathbb{R}^d$ iff $K \geq d$ and there exists a subset of $d$ vectors within the set, such that they are orthogonal to each other.
+A set of vectors $\{\mathbf{b}_1, ..., \mathbf{b}_K \}$ with $\mathbf{b}_k \in \mathbb{R}^d$ can form a basis of $\mathbb{R}^d$ iff $K = d$ the vectors are linearly independent to each other.
 
 \paragraph{Question \ref{q:span}} 2, 5. 
 
@@ -160,3 +275,4 @@ d) Let us assume the statement is false, i.e., there exists a solution $\lambda^
 $$A \bm{q} = \lambda^* \bm{q} \quad \Rightarrow \quad (A - \lambda^* I) \bm{q} = \bm{0} \quad \Rightarrow \quad Q (\Lambda - \lambda^* I) Q^{-1} \bm{q} = 0.$$
 By definition, the column vectors of $Q$ forms a basis of $\mathbb{R}^d$. Notice that the diagonal entries of $\Lambda - \lambda^* I$ are non-zero as we assume $\lambda^* \neq \lambda_i$. This indicates a contradiction to the assumption of $\bm{q} \neq 0$:
 $$Q (\Lambda - \lambda^* I) Q^{-1} \bm{q} = 0 \quad \Rightarrow \quad Q^{-1}\bm{q} = \bm{0} \quad \Rightarrow \quad \bm{q} = \bm{0}.$$
+
