@@ -222,17 +222,20 @@ p_C(x) = \begin{cases}
 \item
 \begin{align*}
 \mathbb{E}_X[X] &= \int x p(x) \mathrm d x = \int_0^1 2 x^2 \mathrm d x = \frac{2}{3} x^3 \Big|_0^1 = \frac{2}{3} \\
-\mathbb{E}_X[X^2] &= \int x^2 p(x) \mathrm d x = \int_0^1 2 x^3 \mathrm d x = \frac{2}{4} x^4 \Big|_0^1 = \frac{1}{2} \\
-To calculate the variance, we can use the fact that:
+\mathbb{E}_X[X^2] &= \int x^2 p(x) \mathrm d x = \int_0^1 2 x^3 \mathrm d x = \frac{2}{4} x^4 \Big|_0^1 = \frac{1}{2}
+\end{align*}
+We can derive the following useful identity that generally holds:
 \begin{align*}
 \mathbb{V}_X[X] &= \mathbb{E}_X[(X - E_X[X])^2] \\
-&= \mathbb{E}_X[X^2 - 2X \mathbb{E}_X[X]
+&= \mathbb{E}_X[X^2 - 2X \mathbb{E}_X[X] + \mathbb{E}_X[X]^2 \\
+&= \mathbb{E}_X[X^2] - 2 \mathbb{E}_X \mathbb{E}_X[X] + \mathbb{E}_X[X]^2 \\
+&= \mathbb{E}[X^2] - \mathbb{E}[X]^2
 \end{align*}
-
-
- identity $\mathbb{V}_X[X] = \mathbb{E}[X^2} - (\mathbb{E}[X])^2$ (you should be able to prove this identity!).
+Using this fact $\mathbb{V}_X[X] = \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2$ we can calculate the variance:
+\begin{align*}
 \mathbb{V}_X[X] &= \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2 = \frac{1}{2} - (\frac{2}{3})^2 = \frac{1}{18} \\
 \end{align*}
+
 \end{enumerate}
 
 \paragraph{\questionref{q:jdrv}}
@@ -272,8 +275,11 @@ $c = 12$ & $0$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ \\
 \end{tabular}
 \item
 \begin{align*}
-\mathbb{P}(2 \leq C \leq 4) &= 6 \cdot \frac{1}{36} = \frac{1}{6} \\
-\mathbb{P}(2 \leq C \leq 4, 2 \leq A \leq 4) &= 3 \cdot \frac{1}{36} = \frac{1}{12} \\
+\mathbb{P}(2 \leq C \leq 4) &=
+\sum_{c\in\{2, 3, 4\}} \sum_{a} \mathbb{P}(C=c, A=a) \\
+&= 6 \cdot \frac{1}{36} + 12 \cdot 0 = \frac{1}{6} \\
+\mathbb{P}(2 \leq C \leq 4, 2 \leq A \leq 4) &= \sum_{c\in\{2, 3, 4\}} \sum_{a \in \{ 2, 3, 4\}} \mathbb{P}(C=c, A=a) \\
+&= 3 \cdot \frac{1}{36} + 6 \cdot 0 = \frac{1}{12} \\
 \end{align*}
 \end{enumerate}
 
