@@ -1,8 +1,5 @@
 \documentclass[a4paper]{article}
 
-
-
-
 %% Language and font encodings
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -209,6 +206,7 @@ See \S6 of \courseprobstats{}.
 
 
 \begin{question}[Continuous Random Variables]
+\label{q:crv}
 Consider the random variable $X$ with a probability density $p(x) = C\cdot x$ when $x \in [0, 1]$ and $0$ elsewhere.
 \begin{enumerate}[label=\alph*.]
     \item Calculate $C$.
@@ -223,6 +221,7 @@ See \S6.3, \S7 of \courseprobstats{} or \citet[\S 6.2.2]{mml}.
 
 
 \begin{question}[Joint Discrete Random Variables]
+\label{q:jdrv}
 Consider two random variables $A,C$, where $A$ is the outcome of one die, and $C$ gives the sum of $A$ and the sum of another die $B$.
 \begin{enumerate}[label=\alph*.]
     \item From intuition, write a table of $\prob{C=c|A=a}$, which we use to denote the probability of $C$ taking the value $c$, if we know that $A$ has taken the value $a$.
@@ -233,6 +232,7 @@ We will cover conditional probability more later, but for now just think it thro
 \end{question}
 
 \begin{question}[Multivariate Integration]
+\label{q:mi}
 Consider two continuous random variables $X,Y$ with joint density $p(x, y) = C\cdot (x^2 + xy)$ when $x \in [0, 1]$ and $y \in [0, 1]$, and $0$ elsewhere.
 \begin{enumerate}[label=\alph*.]
     \item Find $C$.
@@ -275,18 +275,22 @@ p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose\vx, \sigma^2 \eye}
 Show that all $y_n$s are independent, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X$.
 \end{question}
 
-\begin{question}[Maximum likelihood revision] For a Gaussian distribution with mean $\mu$ and variance $\sigma^2$.
+\begin{question}[Maximum likelihood revision]
+\label{q:MLE-Niid}
+For a Gaussian distribution with mean $\mu$ and variance $\sigma^2$.
 \begin{enumerate}[label=\alph*.]
 \item Derive the probability distribution for $N$ iid draws.
-\item Derive the maximum likelihood estimator for the mean $\mu$.
+\item Derive the maximum likelihood estimator for the mean $\mu$ and variance $\sigma^2$.
 \end{enumerate}
 \end{question}
 
 \begin{question}[Maximum likelihood and minimum loss]
+\label{q:MLEReg}
 Show that the solution to the Maximum Likelihood estimator for linear regression is the same as the minimum squared loss estimator.
 \end{question}
 
 \begin{question}[MML 5.1-5.3]
+\label{q:chainrule}
 This is revision. Compute the derivatives for w.r.t.~$x$ for
 \begin{enumerate}[label=\alph*.]
 \item $f(x) = \log (x^4) \sin (x^3)$
@@ -440,6 +444,7 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 
 
 \input{warm-up-answers}
+\input{question-16-17-18}
 \input{answers-lecture2-diff}
 
 \input{prob_modelling_answers}

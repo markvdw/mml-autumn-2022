@@ -194,10 +194,151 @@ p_C(x) = \begin{cases}
 \end{align*}
 which can be rewritten in more compact form:
 \begin{align*}
-p_A(x) = p_B(x) = \begin{cases}
+p_C(x) = \begin{cases}
 \frac{6 - |x-6|}{36} &\text{, if } x = \{ 2, 3, \ldots, 12\}\\
 0 &\text{, otherwise } \\
 \end{cases}
+\end{align*}
+\end{enumerate}
+
+\paragraph{\questionref{q:crv}}
+
+\begin{enumerate}[label=\alph*.]
+\item
+\begin{align*}
+1 = \int_{-\infty}^{\infty} p(x) \mathrm d x = \int_0^1 Cx \mathrm d x = \frac{1}{2} C x^2 \Big|_{0}^1 = \frac{1}{2}C = 1 \\
+\implies C = 2
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(0.3 \leq X \leq 0.75) = \int_{0.3}^{0.75} 2x \mathrm d x = x^2 \Big|_{0.3}^{0.75} = 0.75^2 - 0.3^2 = 0.4725
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(X \in [0.3, 0.75] \cup [0.8, 0.9])
+&= \int_{0.3}^{0.75} 2x \mathrm d x + \int_{0.8}^{0.9} 2x \mathrm d x \\
+&= x^2 \Big|_{0.3}^{0.75} + x^2 \Big|_{0.8}^{0.9} = 0.75^2 - 0.3^2 + 0.9^2 - 0.8^2 = 0.6425
+\end{align*}
+\item
+\begin{align*}
+\mathbb{E}_X[X] &= \int x p(x) \mathrm d x = \int_0^1 2 x^2 \mathrm d x = \frac{2}{3} x^3 \Big|_0^1 = \frac{2}{3} \\
+\mathbb{E}_X[X^2] &= \int x^2 p(x) \mathrm d x = \int_0^1 2 x^3 \mathrm d x = \frac{2}{4} x^4 \Big|_0^1 = \frac{1}{2}
+\end{align*}
+We can derive the following useful identity that generally holds:
+\begin{align*}
+\mathbb{V}_X[X] &= \mathbb{E}_X[(X - E_X[X])^2] \\
+&= \mathbb{E}_X[X^2 - 2X \mathbb{E}_X[X] + \mathbb{E}_X[X]^2 \\
+&= \mathbb{E}_X[X^2] - 2 \mathbb{E}_X \mathbb{E}_X[X] + \mathbb{E}_X[X]^2 \\
+&= \mathbb{E}[X^2] - \mathbb{E}[X]^2
+\end{align*}
+Using this fact $\mathbb{V}_X[X] = \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2$ we can calculate the variance:
+\begin{align*}
+\mathbb{V}_X[X] &= \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2 = \frac{1}{2} - (\frac{2}{3})^2 = \frac{1}{18} \\
+\end{align*}
+
+\end{enumerate}
+
+\paragraph{\questionref{q:jdrv}}
+
+\begin{enumerate}[label=\alph*.]
+\item
+\begin{tabular}{c|cccccc}
+$P(C=c \mid A=a)$ & $a=1$ & $a=2$ & $a=3$ & $a=4$ & $a=5$ & $a=6$ \\
+\hline
+$c = 2$ & $\frac{1}{6}$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 3$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 4$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ & $0$ & $0$ \\
+$c = 5$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ & $0$ \\
+$c = 6$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ \\
+$c = 7$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{6}$ \\
+\end{tabular}
+\item
+\begin{tabular}{c|cccccc}
+$P(C=c, A=a)$ & $a=1$ & $a=2$ & $a=3$ & $a=4$ & $a=5$ & $a=6$ \\
+\hline
+$c = 2$  & $\frac{1}{36}$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 3$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 4$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ & $0$ & $0$ \\
+$c = 5$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ & $0$ \\
+$c = 6$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ \\
+$c = 7$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 8$  & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 9$  & $0$ & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 10$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 11$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 12$ & $0$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ \\
+\end{tabular}
+\item
+\begin{align*}
+\mathbb{P}(2 \leq C \leq 4) &=
+\sum_{c\in\{2, 3, 4\}} \sum_{a} \mathbb{P}(C=c, A=a) \\
+&= 6 \cdot \frac{1}{36} + 12 \cdot 0 = \frac{1}{6} \\
+\mathbb{P}(2 \leq C \leq 4, 2 \leq A \leq 4) &= \sum_{c\in\{2, 3, 4\}} \sum_{a \in \{ 2, 3, 4\}} \mathbb{P}(C=c, A=a) \\
+&= 3 \cdot \frac{1}{36} + 6 \cdot 0 = \frac{1}{12} \\
+\end{align*}
+\end{enumerate}
+
+\paragraph{\questionref{q:mi}}
+
+\begin{enumerate}[label=\alph*.]
+    \item
+The probability of the sample space should equal to 1, by the axioms of probability theory. Therefore, if we integrate over all possible outcomes of random variable $X$, from $-\infty$ to $+\infty$, we should obtain 1. We have that $p(x, y)$ is only defined on a small region, namely when $x \in [0, 1]$ and $y \in [0, 1]$. Outside this region the integral evaluates to zero. By the sum rule of integration, this means we can evaluate the integral by only integrating over the region where $p(x, y)$ is non-zero:
+\begin{align*}
+1 &= \int_{-\infty}^{\infty} p(x, y) \mathrm d x \mathrm d y =  \int_0^1 \int_0^1 C (x^2 + xy) \mathrm d x \mathrm d y \\
+&= C \int_0^1 \left( \left( \frac{1}{3} x^3\Big|_{x=0}^1 \right) + \left( \frac{1}{2} y x^2 \Big|_{x=0}^1 \right) \right) \mathrm d y \\
+&= C \int_0^1 \left(\frac{1}{3} +\frac{1}{2} y \right) \mathrm d y \\
+&= C \left(\frac{1}{3}y \Big|_0^1\right) + C \left(\frac{1}{4} y^2 \Big|_0^1 \right) \\
+&= C \left( \frac{1}{3} + \frac{1}{4} \right) = C \frac{7}{12} = 1\\
+&\implies C = \frac{12}{7}
+\end{align*}
+\item
+To find $\mathbb{P}(0.3 \leq X \leq 0.5)$, we again integrate over all possible outcomes of random variable $Y$, that is from $-\infty$ to $+\infty$ and only consider outcomes of $X$ by considering range $x \in [0.3, 0.5]$:
+\begin{align*}
+\mathbb{P}(0.3 \leq X \leq 0.5)
+&= \int_{-\infty}^{\infty} \int_{0.3}^{0.5} p(x, y) \mathrm d x \mathrm d y
+\end{align*}
+Since $p(x, y)$ is only defined on a small region, namely when $x \in [0, 1]$ and $y \in [0, 1]$. Outside this region, we have that $p(x, y){=}0$ evaluates to zero. So, by the sum rule of integration, what remains is the integrate over the region where $p(x, y)$ takes the non-zero value $(Cx^2 + Cxy)$:
+\begin{align*}
+\mathbb{P}(0.3 \leq X \leq 0.5)
+&= \int_{-\infty}^{\infty} \int_{0.3}^{0.5} p(x, y) \mathrm d x \mathrm d y \\
+&= \int_{0}^{1} \int_{0.3}^{0.5} p(x, y) \mathrm d x \mathrm d y \\
+&= \int_0^1 \int_{0.3}^{0.5} \left(Cx^2 + Cxy\right) \mathrm d x \mathrm d y \\
+&= C \int_0^1 \left(\left(\frac{1}{3}x^3 \Big|_{0.3}^{0.5} \right) + \left( \frac{1}{2}x^2 y \Big|_{x=0.3}^{0.5} \right) \right) \mathrm d y \\
+&= C \int_0^1 \left(\frac{1}{3}(0.5)^3 + \frac{1}{2}(0.5)^2 y - \frac{1}{3}(0.3)^3 - \frac{1}{2}(0.3)^2 y \right) \mathrm d y \\
+&= C \int_0^1 \left(\frac{49}{1500} + \frac{2}{25} y \right) \mathrm d y \\
+&= C \left( \frac{49}{1500}y \Big|_0^1 \right) + C \left( \frac{2}{50} y^2 \Big|_0^1 \right) \\
+&= \frac{12}{27}\left(\frac{49}{1500} + \frac{2}{50} \right) = \frac{109}{875}
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(X < Y) &= \int_0^1 \int_0^y (Cx^2 + Cxy) \mathrm d x \mathrm d y \\
+&= C \int_0^1 \left( \left( \frac{1}{3}x^3 \Big|_0^y \right) + \left( \frac{1}{2} y x^2 \Big|_{x=0}^y \right) \right) \mathrm d y \\
+&= C \int_0^1 \left( \frac{1}{3} (y)^3 + \frac{1}{2} y^3 \right) \mathrm d y \\
+&= C \left(\frac{1}{3}\cdot\frac{1}{4} y^4 \Big|_0^1 \right) + C \left(\frac{1}{2}\cdot\frac{1}{4} y^4 \Big|_0^1 \right) \\
+&= \frac{12}{7} \frac{1}{12} + \frac{12}{7} \frac{1}{8} = \frac{5}{14}
+\end{align*}
+\begin{align*}
+\mathbb{P}(X < Y) &= \int_0^1 \int_x^1 \left( C x^2 + C xy \right) \mathrm dy \mathrm dx \\
+&= C \int_0^1 \left( \left( yx^2 \Big|_{y=x}^1 \right) + \left(\frac{1}{2} xy^2 \Big|_{y=x}^1 \right) \right) \mathrm d y \\
+&= C \int_0^1 \left( x^2 + \frac{1}{2} x - x^3 - \frac{1}{2} x^3 \right) \mathrm d x \\
+&= C \left( ( \frac{1}{3}x^3 + \frac{1}{4}x^2 - \frac{1}{4}x^4 - \frac{1}{8}x^4) \Big|_0^1 \right) \\
+&= C \left( \frac{1}{3} + \frac{1}{4} - \frac{1}{4} - \frac{1}{8} \right) = \frac{12}{7} \cdot \frac{5}{24} = \frac{5}{14} 
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(X < Y) &= \int_0^1 \int_0^1 \int_0^1 C \left(x^2 + xyz \right) \mathrm d x \mathrm d y \mathrm d z \\
+&= C \int_0^1 \int_0^1 \left( (\frac{1}{3}x^3 + \frac{1}{2}x^2 yz) \Big|_0^1 \right) \mathrm d y \mathrm d z 
+= C \int_0^1 \int_0^1 \left( \frac{1}{3} + \frac{1}{2} yz \right) \mathrm d y \mathrm d z \\
+&= C \int_0^1 \left( (\frac{1}{3}y + \frac{1}{4} y^2 z \Big|_0^1 \right) \mathrm d z
+= C \int_0^1 \left( \frac{1}{3} + \frac{1}{4} z \right) \mathrm d z \\
+&= C \left( (\frac{1}{3} z + \frac{1}{8} z^2 ) \Big|_0^1 \right)
+= C \left( \frac{1}{3} + \frac{1}{8} \right) = \frac{11}{24} C = 1 \\
+&\implies C = \frac{24}{11}
 \end{align*}
 \end{enumerate}
 
@@ -275,4 +416,3 @@ d) Let us assume the statement is false, i.e., there exists a solution $\lambda^
 $$A \bm{q} = \lambda^* \bm{q} \quad \Rightarrow \quad (A - \lambda^* I) \bm{q} = \bm{0} \quad \Rightarrow \quad Q (\Lambda - \lambda^* I) Q^{-1} \bm{q} = 0.$$
 By definition, the column vectors of $Q$ forms a basis of $\mathbb{R}^d$. Notice that the diagonal entries of $\Lambda - \lambda^* I$ are non-zero as we assume $\lambda^* \neq \lambda_i$. This indicates a contradiction to the assumption of $\bm{q} \neq 0$:
 $$Q (\Lambda - \lambda^* I) Q^{-1} \bm{q} = 0 \quad \Rightarrow \quad Q^{-1}\bm{q} = \bm{0} \quad \Rightarrow \quad \bm{q} = \bm{0}.$$
-
