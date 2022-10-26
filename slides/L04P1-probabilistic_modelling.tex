@@ -89,8 +89,8 @@ Imagine you'd like to predict the next coin flip result:
 
 \begin{itemize}
 	\item Assume $x_1, x_2, ..., x_N$ are observed \emph{independent} coin flip results using the \emph{same} coin,
-	\item I.e., $x_1, ..., x_N$ are sampled i.i.d. from the same \emph{data distribution} $p_{data}(x)$
-	\item However, we don't know $p_{data}(x)$
+	\item I.e., $x_1, ..., x_N$ are sampled i.i.d. from the same \emph{data distribution} $\pi(x)$
+	\item However, we don't know $\pi(x)$
 \end{itemize}
 \end{frame}
 
@@ -106,7 +106,7 @@ Probabilistic modelling is about:
 \begin{itemize}
 	\item[1.] Assume $x$ is sampled from $p(x | \mparam)$ \alert{$\Leftarrow$ our probabilistic model}
 	\item[2.] estimating $\bm{\theta}$ under probabilistic principles \\ such as MLE, MAP, posterior inference \alert{$\Leftarrow$ learning the model}
-	\item[3.] check if $p(x | \bm{\theta}^*)$ fits $p_{data}(x)$ well, and repeat 1 - 3 \alert{$\Leftarrow$ model checking}
+	\item[3.] check if $p(x | \bm{\theta}^*)$ fits $\pi(x)$ well, and repeat 1 - 3 \alert{$\Leftarrow$ model checking}
 	\item[4.] making prediction for next coin flip result using $p(x | \mparam^*)$
 \end{itemize}
 \end{frame}
@@ -146,22 +146,22 @@ Step 2: estimating $\mparam$ using probabilistic principles
 
 Here we consider \emph{maximum likelihood estimation (MLE)}
 
-Idea of MLE: for datapoints $x$ sampled from $p_{data}(x)$
+Idea of MLE: for datapoints $x$ sampled from $\pi(x)$
 \begin{itemize}
-	\item We want to find $\bm{\theta}^*$ such that $p(x | \bm{\theta}^*) \approx p_{data}(x)$ \pause
+	\item We want to find $\bm{\theta}^*$ such that $p(x | \bm{\theta}^*) \approx \pi(x)$ \pause
 	\only<2>{
 	\item We need to measure the ``closeness'' of the two distributions $\Rightarrow$ use the KL divergence
-	$$\mathrm{KL}[p_{data}(x) || p(x | \bm{\theta})] = \mathbb{E}_{p_{data}(x)} \left[ \log \frac{p_{data}(x)}{p(x | \bm{\theta})} \right]$$
+	$$\mathrm{KL}[\pi(x) || p(x | \bm{\theta})] = \mathbb{E}_{\pi(x)} \left[ \log \frac{\pi(x)}{p(x | \bm{\theta})} \right]$$
 	}
 	\only<3>{
 	\item We want this KL to be small:
-	$$ \bm{\theta}^* = \arg\min_{\bm{\theta}} \mathrm{KL}[p_{data}(x) || p(x | \bm{\theta})] $$
+	$$ \bm{\theta}^* = \arg\min_{\bm{\theta}} \mathrm{KL}[\pi(x) || p(x | \bm{\theta})] $$
 	}
 	\only<4>{
-	$$ \Leftrightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \mathbb{E}_{p_{data}(x)}[\log p(x | \bm{\theta})] $$
+	$$ \Leftrightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \mathbb{E}_{\pi(x)}[\log p(x | \bm{\theta})] $$
 	}
 	\only<5>{
-	\item Estimate using dataset $\mathcal{D} = \{x_1, ..., x_N \}$ sampled from $p_{data}(x)$: 
+	\item Estimate using dataset $\mathcal{D} = \{x_1, ..., x_N \}$ sampled from $\pi(x)$: 
 	$$ \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{n=1}^N \log p(x_n | \bm{\theta}) $$
 	}
 \end{itemize}
@@ -181,7 +181,7 @@ Step 2: estimating $\mparam$ using probabilistic principles
 Here we consider \emph{maximum likelihood estimation (MLE)}
 
 \begin{itemize}
-	\item Estimate using dataset $\mathcal{D} = \{x_1, ..., x_N \}$ sampled from $p_{data}(x)$: 
+	\item Estimate using dataset $\mathcal{D} = \{x_1, ..., x_N \}$ sampled from $\pi(x)$: 
 	$$ \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{n=1}^N \log p(x_n | \bm{\theta}) $$
 	\only<1>{
 	\item model assumption: $p(x | \mparam) = \text{Bern}(\mparam)$
@@ -203,7 +203,7 @@ Imagine you'd like to predict the next coin flip result:
 \includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
 \end{figure}
 
-Step 3: check if $p(x | \mparam^*)$ fits $p_{data}(x)$ well
+Step 3: check if $p(x | \mparam^*)$ fits $\pi(x)$ well
 
 (We assume the model has passed here)
 \end{frame}
@@ -234,14 +234,14 @@ $$\mparam^* = \frac{1}{N} \sum_{x \in \mathcal{D}} x$$
 
 \begin{frame}{Principles of probabilistic modelling}
 
-Datapoints $(\x, y)$ are sampled from an \emph{unknown ground truth distribution} $p_{data}(\x, y)$
+Datapoints $(\x, y)$ are sampled from an \emph{unknown ground truth distribution} $\pi(\x, y)$
 
 Probabilistic modelling is about (in supervised learning case):
 \begin{itemize}
 	\item[1.] Assuming the output $y$ given $\x$ is sampled from 
 	$$p(y | \x, \bm{\theta})$$
 	\item[2.] estimating $\bm{\theta}$ under probabilistic principles \\ such as MLE, MAP, posterior inference
-	\item[3.] check if $p(y | \x, \bm{\theta}^*)$ fits $p_{data}(\x, y)$ well, and repeat 1 - 3
+	\item[3.] check if $p(y | \x, \bm{\theta}^*)$ fits $\pi(y | \x)$ well, and repeat 1 - 3
 	\item[4.] using $p(y | \x, \bm{\theta}^*)$ for predictions
 \end{itemize}
 
@@ -300,20 +300,20 @@ Probabilistic formulation:
 
 Step 2: estimating $\bm{\theta}$ using \emph{maximum likelihood estimation (MLE)}
 
-Idea of MLE: for datapoints $(\x, y)$ sampled from $p_{data}(\x, y)$
+Idea of MLE: for datapoints $(\x, y)$ sampled from $\pi(\x, y)$
 \begin{itemize}
-	\item We want to find $\bm{\theta}^*$ such that $p(y | \x, \bm{\theta}^*) \approx p_{data}(y | \x)$ \pause
+	\item We want to find $\bm{\theta}^*$ such that $p(y | \x, \bm{\theta}^*) \approx \pi(y | \x)$ \pause
 	\item We need to measure the ``closeness'' of the two distributions $\Rightarrow$ use the KL divergence
-	$$\mathrm{KL}[p_{data}(y | \x) || p(y | \x, \bm{\theta})] = \mathbb{E}_{p_{data}(y | \x)} \left[ \log \frac{p_{data}(y | \x)}{p(y | \x, \bm{\theta})} \right]$$ \pause
-	\item We want this KL to be small for all $\x$ sampled from $p_{data}(\x)$
+	$$\mathrm{KL}[\pi(y | \x) || p(y | \x, \bm{\theta})] = \mathbb{E}_{\pi(y | \x)} \left[ \log \frac{\pi(y | \x)}{p(y | \x, \bm{\theta})} \right]$$ \pause
+	\item We want this KL to be small for all $\x$ sampled from $\pi(\x)$
 	\only<3>{
-	$$ \bm{\theta}^* = \arg\min_{\bm{\theta}} \mathbb{E}_{p_{data}(\x)}[\mathrm{KL}[p_{data}(y | \x) || p(y | \x, \bm{\theta})]] $$
+	$$ \bm{\theta}^* = \arg\min_{\bm{\theta}} \mathbb{E}_{\pi(\x)}[\mathrm{KL}[\pi(y | \x) || p(y | \x, \bm{\theta})]] $$
 	}
 	\only<4>{
-	$$ \Leftrightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \mathbb{E}_{p_{data}(\x, \y)}[\log p(y | \x, \bm{\theta})] $$
+	$$ \Leftrightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \mathbb{E}_{\pi(\x, \y)}[\log p(y | \x, \bm{\theta})] $$
 	}
 	\only<5>{
-	Estimate using dataset $\mathcal{D} = \{ (\x_n, y_n) \}_{n=1}^N$ from $p_{data}(\x, y)$: 
+	Estimate using dataset $\mathcal{D} = \{ (\x_n, y_n) \}_{n=1}^N$ from $\pi(\x, y)$: 
 	$$ \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} \log p(y_n | \x_n, \bm{\theta}) $$
 	}
 \end{itemize}
@@ -360,7 +360,7 @@ $$\mparam^* = \argmin_{\mparam} L(\mparam), \quad L(\mparam) = \frac{1}{2 \sigma
 \end{frame}
 
 \begin{frame}{Probabilistic modelling: linear regression}
-Step 3: check if $p(y | \x, \bm{\theta}^*)$ fits $p_{data}(y | \x)$ well
+Step 3: check if $p(y | \x, \bm{\theta}^*)$ fits $\pi(y | \x)$ well
 
 Typical approaches:
 \begin{itemize}
@@ -442,10 +442,10 @@ No analytic solutions!
 \end{frame}
 
 \begin{frame}{Gradient descent based optimisation}
-Algorithm: Gradient Descent (gradient ascent in MLE case) \\
+Algorithm: Gradient Descent (gradient \emph{ascent} in MLE case) \\
 Define \emph{starting point} $\mparam_0$, sequence of \emph{step sizes} $\gamma_t$, set $t\gets 0$.
 \begin{enumerate}
-\item Set $\mparam_{t+1} = \mparam_t - \gamma_t \nabla_{\mparam} L(\mparam_t)$, $t \leftarrow t+1$
+\item Set $\mparam_{t+1} = \mparam_t + \gamma_t \nabla_{\mparam} L(\mparam_t)$, $t \leftarrow t+1$
 \item Repeat 1 until stopping criterion.
 \end{enumerate}
   \begin{figure}
@@ -455,7 +455,7 @@ Define \emph{starting point} $\mparam_0$, sequence of \emph{step sizes} $\gamma_
 \end{frame}
 
 \begin{frame}{Probabilistic modelling: logistic regression}
-Step 3: check if $p(y | \x, \bm{\theta}^*)$ fits $p_{data}(y | \x)$ well
+Step 3: check if $p(y | \x, \bm{\theta}^*)$ fits $\pi(y | \x)$ well
 
 Typical approaches:
 \begin{itemize}
@@ -499,12 +499,17 @@ Have you ever wondered about the following questions:
 \begin{frame}{Exercises}
 
 Finish relevant exercises in the exercise sheet
+\begin{itemize}
+	\item You should be able to derive MLE objectives from probabilistic model assumptions, and vice versa
+\end{itemize}
+
+\vspace{1em}
 
 Next lecture: convergence of gradient descent
 
 Pre-requisite knowledge: Eigen-decomposition
 
-(See e.g., \url{https://youtu.be/xgZ8oK9Wxzg} or search relevant videos from 3Blue1Brown)
+(See e.g., \url{https://youtu.be/xgZ8oK9Wxzg} or search relevant videos from e.g., 3Blue1Brown)
 
 \end{frame}
 

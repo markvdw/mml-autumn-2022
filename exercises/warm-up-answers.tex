@@ -1,5 +1,5 @@
 \section{Warm-up Exercises Answers}
-\subsection{Warm-up Exercises}
+\subsection{Probability Theory}
 \paragraph{\questionref{q:setsprob}}
 \begin{enumerate}[label=\alph*.]
     \item We can choose any representation denoting the events, e.g. using abstract symbols $\Omega=\{ \epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4}, \epsdice{5}, \epsdice{6} \}$. Alternatively, we can represent each of the outcomes as a number $\Omega = \{1, 2, 3, 4, 5, 6\}$.
@@ -87,6 +87,262 @@ P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = P(A) = \lim_{i\xrightarrow{}\infty}
 
 \end{enumerate}
 
+\paragraph{\questionref{q:rv}}
+\begin{enumerate}[label=\alph*.]
+\item
+We choose to represent the outcomes of two dice as integer tuples:
+\begin{align*}
+\Omega = \{
+&(\dA,\dA), (\dA,\dB), (\dA,\dC), (\dA,\dD), (\dA,\dE), (\dA,\dF),  \\
+&(\dB,\dA), (\dB,\dB), (\dB,\dC), (\dB,\dD), (\dB,\dE), (\dB,\dF),  \\
+&(\dC,\dA), (\dC,\dB), (\dC,\dC), (\dC,\dD), (\dC,\dE), (\dC,\dF),  \\
+&(\dD,\dA), (\dD,\dB), (\dD,\dC), (\dD,\dD), (\dD,\dE), (\dD,\dF),  \\
+&(\dE,\dA), (\dE,\dB), (\dE,\dC), (\dE,\dD), (\dE,\dE), (\dE,\dF),  \\
+&(\dF,\dA), (\dF,\dB), (\dF,\dC), (\dF,\dD), (\dF,\dE), (\dF,\dF) \}
+\end{align*}
+\item
+We define random variables A and B to be:
+\begin{align*}
+A(s) =
+\begin{cases}
+1 &\text{, if } s \in \{ (\dA, \dA), (\dA,\dB), (\dA,\dC), (\dA,\dD), (\dA,\dE), (\dA,\dF) \} \\
+2 &\text{, if } s \in \{ (\dB, \dA), (\dB,\dB), (\dB,\dC), (\dB,\dD), (\dB,\dE), (\dB,\dF) \} \\
+3 &\text{, if } s \in \{ (\dC, \dA), (\dC,\dB), (\dC,\dC), (\dC,\dD), (\dC,\dE), (\dC,\dF) \} \\
+4 &\text{, if } s \in \{ (\dD, \dA), (\dD,\dB), (\dD,\dC), (\dD,\dD), (\dD,\dE), (\dD,\dF) \} \\
+5 &\text{, if } s \in \{ (\dE, \dA), (\dE,\dB), (\dE,\dC), (\dE,\dD), (\dE,\dE), (\dE,\dF) \} \\
+5 &\text{, if } s \in \{ (\dF, \dA), (\dF,\dB), (\dF,\dC), (\dF,\dD), (\dF,\dE), (\dF,\dF) \}
+\end{cases} \\
+B(s) =
+\begin{cases}
+1 &\text{, if } s \in \{ (\dA,\dA), (\dB,\dA), (\dC,\dA), (\dD,\dA), (\dE,\dA), (\dF,\dA) \} \\
+2 &\text{, if } s \in \{ (\dA,\dB), (\dB,\dB), (\dC,\dB), (\dD,\dB), (\dE,\dB), (\dF,\dB) \} \\
+3 &\text{, if } s \in \{ (\dA,\dC), (\dB,\dC), (\dC,\dC), (\dD,\dC), (\dE,\dC), (\dF,\dC) \} \\
+4 &\text{, if } s \in \{ (\dA,\dD), (\dB,\dD), (\dC,\dD), (\dD,\dD), (\dE,\dD), (\dF,\dD) \} \\
+5 &\text{, if } s \in \{ (\dA,\dE), (\dB,\dE), (\dC,\dE), (\dD,\dE), (\dE,\dE), (\dF,\dE) \} \\
+5 &\text{, if } s \in \{ (\dA,\dF), (\dB,\dF), (\dC,\dF), (\dD,\dF), (\dE,\dF), (\dF,\dF) \}
+\end{cases}
+\end{align*}
+We can find the PMFs by counting the number of occurrences in $\Omega$. For instance:
+\begin{align*}
+p_A(3) = \frac{|\{ (\dC, \dA), (\dC,\dB), (\dC,\dC), (\dC,\dD), (\dC,\dE), (\dC,\dF) \}|}{|\Omega|} = \frac{6}{36} = \frac{1}{6}
+\end{align*}
+Repeating this for all outcomes gives us the full PDFs:
+\begin{align*}
+\begin{split}
+p_A(x) = \begin{cases}
+\frac{1}{6} &\text{, if } x = 1\\
+\frac{1}{6} &\text{, if } x = 2\\
+\frac{1}{6} &\text{, if } x = 3\\
+\frac{1}{6} &\text{, if } x = 4\\
+\frac{1}{6} &\text{, if } x = 5\\
+\frac{1}{6} &\text{, if } x = 6\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{split}\text{, }
+\begin{split}
+p_B(x) = \begin{cases}
+\frac{1}{6} &\text{, if } x = 1\\
+\frac{1}{6} &\text{, if } x = 2\\
+\frac{1}{6} &\text{, if } x = 3\\
+\frac{1}{6} &\text{, if } x = 4\\
+\frac{1}{6} &\text{, if } x = 5\\
+\frac{1}{6} &\text{, if } x = 6\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{split}
+\end{align*}
+\item
+To show independence of $A$ and $B$ we must show that $p(A \cap B) = p(A)p(B)$.
+We have that all outcomes have equal probability $\frac{1}{|\Omega|} = \frac{1}{36}$ and therefore:
+\begin{align*}
+p(A \cap B) = \frac{1}{36} = \frac{1}{6} \cdot \frac{1}{6} = p(A) p(B)
+\end{align*}
+\item
+We can define a random variable $C = A + B$
+\begin{align*}
+C(s) =
+\begin{cases}
+2 &\text{, if } s \in \{ (\dA, \dA) \} \\
+3 &\text{, if } s \in \{ (\dA, \dB), (\dB,\dA) \} \\
+4 &\text{, if } s \in \{ (\dA, \dC), (\dB,\dB), (\dC,\dA) \} \\
+5 &\text{, if } s \in \{ (\dA, \dD), (\dB,\dC), (\dC,\dB), (\dD,\dA) \} \\
+6 &\text{, if } s \in \{ (\dA, \dE), (\dB,\dD), (\dC,\dC), (\dD,\dB), (\dE,\dA) \} \\
+7 &\text{, if } s \in \{ (\dA, \dF), (\dB,\dE), (\dC,\dD), (\dD,\dC), (\dE,\dB), (\dF,\dA) \} \\
+8 &\text{, if } s \in \{ (\dB, \dF), (\dC,\dE), (\dD,\dD), (\dE,\dC), (\dF,\dB) \} \\
+9 &\text{, if } s \in \{ (\dC, \dF), (\dD,\dE), (\dE,\dD), (\dF,\dC) \} \\
+10 &\text{, if } s \in \{ (\dD, \dF), (\dE,\dE), (\dF,\dD) \} \\
+11 &\text{, if } s \in \{ (\dE, \dF), (\dF,\dE) \} \\
+12 &\text{, if } s \in \{ (\dF, \dF) \} \\
+\end{cases}
+\end{align*}
+Then the PDF $p_C$ becomes:
+\begin{align*}
+p_C(x) = \begin{cases}
+\frac{1}{36} = \frac{1}{36} &\text{, if } x = 2\\
+\frac{2}{36} = \frac{1}{18} &\text{, if } x = 3\\
+\frac{3}{36} = \frac{1}{12} &\text{, if } x = 4\\
+\frac{4}{36} = \frac{1}{9}  &\text{, if } x = 5\\
+\frac{5}{36} = \frac{5}{36} &\text{, if } x = 6\\
+\frac{6}{36} = \frac{1}{6}  &\text{, if } x = 7\\
+\frac{5}{36} = \frac{5}{36} &\text{, if } x = 8\\
+\frac{3}{36} = \frac{1}{9}  &\text{, if } x = 9\\
+\frac{3}{36} = \frac{1}{12} &\text{, if } x = 10\\
+\frac{2}{36} = \frac{1}{18} &\text{, if } x = 11\\
+\frac{1}{36} = \frac{1}{36} &\text{, if } x = 12\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{align*}
+which can be rewritten in more compact form:
+\begin{align*}
+p_C(x) = \begin{cases}
+\frac{6 - |x-6|}{36} &\text{, if } x = \{ 2, 3, \ldots, 12\}\\
+0 &\text{, otherwise } \\
+\end{cases}
+\end{align*}
+\end{enumerate}
+
+\paragraph{\questionref{q:crv}}
+
+\begin{enumerate}[label=\alph*.]
+\item
+\begin{align*}
+1 = \int_{-\infty}^{\infty} p(x) \mathrm d x = \int_0^1 Cx \mathrm d x = \frac{1}{2} C x^2 \Big|_{0}^1 = \frac{1}{2}C = 1 \\
+\implies C = 2
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(0.3 \leq X \leq 0.75) = \int_{0.3}^{0.75} 2x \mathrm d x = x^2 \Big|_{0.3}^{0.75} = 0.75^2 - 0.3^2 = 0.4725
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(X \in [0.3, 0.75] \cup [0.8, 0.9])
+&= \int_{0.3}^{0.75} 2x \mathrm d x + \int_{0.8}^{0.9} 2x \mathrm d x \\
+&= x^2 \Big|_{0.3}^{0.75} + x^2 \Big|_{0.8}^{0.9} = 0.75^2 - 0.3^2 + 0.9^2 - 0.8^2 = 0.6425
+\end{align*}
+\item
+\begin{align*}
+\mathbb{E}_X[X] &= \int x p(x) \mathrm d x = \int_0^1 2 x^2 \mathrm d x = \frac{2}{3} x^3 \Big|_0^1 = \frac{2}{3} \\
+\mathbb{E}_X[X^2] &= \int x^2 p(x) \mathrm d x = \int_0^1 2 x^3 \mathrm d x = \frac{2}{4} x^4 \Big|_0^1 = \frac{1}{2}
+\end{align*}
+We can derive the following useful identity that generally holds:
+\begin{align*}
+\mathbb{V}_X[X] &= \mathbb{E}_X[(X - E_X[X])^2] \\
+&= \mathbb{E}_X[X^2 - 2X \mathbb{E}_X[X] + \mathbb{E}_X[X]^2 \\
+&= \mathbb{E}_X[X^2] - 2 \mathbb{E}_X \mathbb{E}_X[X] + \mathbb{E}_X[X]^2 \\
+&= \mathbb{E}[X^2] - \mathbb{E}[X]^2
+\end{align*}
+Using this fact $\mathbb{V}_X[X] = \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2$ we can calculate the variance:
+\begin{align*}
+\mathbb{V}_X[X] &= \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2 = \frac{1}{2} - (\frac{2}{3})^2 = \frac{1}{18} \\
+\end{align*}
+
+\end{enumerate}
+
+\paragraph{\questionref{q:jdrv}}
+
+\begin{enumerate}[label=\alph*.]
+\item
+\begin{tabular}{c|cccccc}
+$P(C=c \mid A=a)$ & $a=1$ & $a=2$ & $a=3$ & $a=4$ & $a=5$ & $a=6$ \\
+\hline
+$c = 2$ & $\frac{1}{6}$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 3$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 4$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ & $0$ & $0$ \\
+$c = 5$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ & $0$ \\
+$c = 6$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $0$ \\
+$c = 7$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{6}$ & $\frac{1}{6}$ \\
+$c = 8$ & $0$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{6}$ \\
+\end{tabular}
+\item
+\begin{tabular}{c|cccccc}
+$P(C=c, A=a)$ & $a=1$ & $a=2$ & $a=3$ & $a=4$ & $a=5$ & $a=6$ \\
+\hline
+$c = 2$  & $\frac{1}{36}$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 3$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ & $0$ & $0$ & $0$ \\
+$c = 4$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ & $0$ & $0$ \\
+$c = 5$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ & $0$ \\
+$c = 6$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $0$ \\
+$c = 7$  & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 8$  & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 9$  & $0$ & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 10$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 11$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ & $\frac{1}{36}$ \\
+$c = 12$ & $0$ & $0$ & $0$ & $0$ & $0$ & $\frac{1}{36}$ \\
+\end{tabular}
+\item
+\begin{align*}
+\mathbb{P}(2 \leq C \leq 4) &=
+\sum_{c\in\{2, 3, 4\}} \sum_{a} \mathbb{P}(C=c, A=a) \\
+&= 6 \cdot \frac{1}{36} + 12 \cdot 0 = \frac{1}{6} \\
+\mathbb{P}(2 \leq C \leq 4, 2 \leq A \leq 4) &= \sum_{c\in\{2, 3, 4\}} \sum_{a \in \{ 2, 3, 4\}} \mathbb{P}(C=c, A=a) \\
+&= 3 \cdot \frac{1}{36} + 6 \cdot 0 = \frac{1}{12} \\
+\end{align*}
+\end{enumerate}
+
+\paragraph{\questionref{q:mi}}
+
+\begin{enumerate}[label=\alph*.]
+    \item
+The probability of the sample space should equal to 1, by the axioms of probability theory. Therefore, if we integrate over all possible outcomes of random variable $X$, from $-\infty$ to $+\infty$, we should obtain 1. We have that $p(x, y)$ is only defined on a small region, namely when $x \in [0, 1]$ and $y \in [0, 1]$. Outside this region the integral evaluates to zero. By the sum rule of integration, this means we can evaluate the integral by only integrating over the region where $p(x, y)$ is non-zero:
+\begin{align*}
+1 &= \int_{-\infty}^{\infty} p(x, y) \mathrm d x \mathrm d y =  \int_0^1 \int_0^1 C (x^2 + xy) \mathrm d x \mathrm d y \\
+&= C \int_0^1 \left( \left( \frac{1}{3} x^3\Big|_{x=0}^1 \right) + \left( \frac{1}{2} y x^2 \Big|_{x=0}^1 \right) \right) \mathrm d y \\
+&= C \int_0^1 \left(\frac{1}{3} +\frac{1}{2} y \right) \mathrm d y \\
+&= C \left(\frac{1}{3}y \Big|_0^1\right) + C \left(\frac{1}{4} y^2 \Big|_0^1 \right) \\
+&= C \left( \frac{1}{3} + \frac{1}{4} \right) = C \frac{7}{12} = 1\\
+&\implies C = \frac{12}{7}
+\end{align*}
+\item
+To find $\mathbb{P}(0.3 \leq X \leq 0.5)$, we again integrate over all possible outcomes of random variable $Y$, that is from $-\infty$ to $+\infty$ and only consider outcomes of $X$ by considering range $x \in [0.3, 0.5]$:
+\begin{align*}
+\mathbb{P}(0.3 \leq X \leq 0.5)
+&= \int_{-\infty}^{\infty} \int_{0.3}^{0.5} p(x, y) \mathrm d x \mathrm d y
+\end{align*}
+Since $p(x, y)$ is only defined on a small region, namely when $x \in [0, 1]$ and $y \in [0, 1]$. Outside this region, we have that $p(x, y){=}0$ evaluates to zero. So, by the sum rule of integration, what remains is the integrate over the region where $p(x, y)$ takes the non-zero value $(Cx^2 + Cxy)$:
+\begin{align*}
+\mathbb{P}(0.3 \leq X \leq 0.5)
+&= \int_{-\infty}^{\infty} \int_{0.3}^{0.5} p(x, y) \mathrm d x \mathrm d y \\
+&= \int_{0}^{1} \int_{0.3}^{0.5} p(x, y) \mathrm d x \mathrm d y \\
+&= \int_0^1 \int_{0.3}^{0.5} \left(Cx^2 + Cxy\right) \mathrm d x \mathrm d y \\
+&= C \int_0^1 \left(\left(\frac{1}{3}x^3 \Big|_{0.3}^{0.5} \right) + \left( \frac{1}{2}x^2 y \Big|_{x=0.3}^{0.5} \right) \right) \mathrm d y \\
+&= C \int_0^1 \left(\frac{1}{3}(0.5)^3 + \frac{1}{2}(0.5)^2 y - \frac{1}{3}(0.3)^3 - \frac{1}{2}(0.3)^2 y \right) \mathrm d y \\
+&= C \int_0^1 \left(\frac{49}{1500} + \frac{2}{25} y \right) \mathrm d y \\
+&= C \left( \frac{49}{1500}y \Big|_0^1 \right) + C \left( \frac{2}{50} y^2 \Big|_0^1 \right) \\
+&= \frac{12}{27}\left(\frac{49}{1500} + \frac{2}{50} \right) = \frac{109}{875}
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(X < Y) &= \int_0^1 \int_0^y (Cx^2 + Cxy) \mathrm d x \mathrm d y \\
+&= C \int_0^1 \left( \left( \frac{1}{3}x^3 \Big|_0^y \right) + \left( \frac{1}{2} y x^2 \Big|_{x=0}^y \right) \right) \mathrm d y \\
+&= C \int_0^1 \left( \frac{1}{3} (y)^3 + \frac{1}{2} y^3 \right) \mathrm d y \\
+&= C \left(\frac{1}{3}\cdot\frac{1}{4} y^4 \Big|_0^1 \right) + C \left(\frac{1}{2}\cdot\frac{1}{4} y^4 \Big|_0^1 \right) \\
+&= \frac{12}{7} \frac{1}{12} + \frac{12}{7} \frac{1}{8} = \frac{5}{14}
+\end{align*}
+\begin{align*}
+\mathbb{P}(X < Y) &= \int_0^1 \int_x^1 \left( C x^2 + C xy \right) \mathrm dy \mathrm dx \\
+&= C \int_0^1 \left( \left( yx^2 \Big|_{y=x}^1 \right) + \left(\frac{1}{2} xy^2 \Big|_{y=x}^1 \right) \right) \mathrm d y \\
+&= C \int_0^1 \left( x^2 + \frac{1}{2} x - x^3 - \frac{1}{2} x^3 \right) \mathrm d x \\
+&= C \left( ( \frac{1}{3}x^3 + \frac{1}{4}x^2 - \frac{1}{4}x^4 - \frac{1}{8}x^4) \Big|_0^1 \right) \\
+&= C \left( \frac{1}{3} + \frac{1}{4} - \frac{1}{4} - \frac{1}{8} \right) = \frac{12}{7} \cdot \frac{5}{24} = \frac{5}{14} 
+\end{align*}
+\item
+\begin{align*}
+\mathbb{P}(X < Y) &= \int_0^1 \int_0^1 \int_0^1 C \left(x^2 + xyz \right) \mathrm d x \mathrm d y \mathrm d z \\
+&= C \int_0^1 \int_0^1 \left( (\frac{1}{3}x^3 + \frac{1}{2}x^2 yz) \Big|_0^1 \right) \mathrm d y \mathrm d z 
+= C \int_0^1 \int_0^1 \left( \frac{1}{3} + \frac{1}{2} yz \right) \mathrm d y \mathrm d z \\
+&= C \int_0^1 \left( (\frac{1}{3}y + \frac{1}{4} y^2 z \Big|_0^1 \right) \mathrm d z
+= C \int_0^1 \left( \frac{1}{3} + \frac{1}{4} z \right) \mathrm d z \\
+&= C \left( (\frac{1}{3} z + \frac{1}{8} z^2 ) \Big|_0^1 \right)
+= C \left( \frac{1}{3} + \frac{1}{8} \right) = \frac{11}{24} C = 1 \\
+&\implies C = \frac{24}{11}
+\end{align*}
+\end{enumerate}
+
+
 \paragraph{\questionref{q:stats-term}}
 \begin{enumerate}[label=\alph*.]
 \item A statistic is a function that is computed from data. For example, take a data set $X = \{x_1, x_2, x_3, \dots\}$ where we compute the empirical mean $\bar X = \frac{1}{|X|}\sum_n x_n$.
@@ -105,9 +361,9 @@ $\y = (24, -14, -12)^\top$, $|| \x ||_2 = \sqrt{23}$, $|| \y ||_2 = \sqrt{916}$.
 
 Note that by definition the $\ell_2$ norm of a vector is $|| \x ||_2 = \sqrt{\x^\top \x}$.
 
-\paragraph{Question \ref{q:basis}} 1, 2, 3. 
+\paragraph{Question \ref{q:basis}} 1, 2. 
 
-A set of vectors $\{\mathbf{b}_1, ..., \mathbf{b}_K \}$ with $\mathbf{b}_k \in \mathbb{R}^d$ can form a basis of $\mathbb{R}^d$ iff $K \geq d$ and there exists a subset of $d$ vectors within the set, such that they are orthogonal to each other.
+A set of vectors $\{\mathbf{b}_1, ..., \mathbf{b}_K \}$ with $\mathbf{b}_k \in \mathbb{R}^d$ can form a basis of $\mathbb{R}^d$ iff $K = d$ the vectors are linearly independent to each other.
 
 \paragraph{Question \ref{q:span}} 2, 5. 
 
