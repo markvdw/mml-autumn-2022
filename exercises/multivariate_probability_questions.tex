@@ -1,0 +1,30 @@
+\begin{question}[Linear transform of a Gaussian random variable] 
+\label{q:linear_transform_gaussian}
+
+If $X$ is a $d$-dimensional multivariate Gaussian random variable with mean $\bm{\mu}$ and covariance matrix $\Sigma$, then what is the distribution of the random variable $Y = \BA X$ with an invertible matrix $\BA \in \mathbb{R}^{d \times d}$? 
+\end{question}
+
+\begin{question}[Sum of independent Gaussian random variables]
+\label{q:sum_of_gaussians}
+
+If $X, Y$ are two independent univariate Gaussian random variables (i.e., $X \ci Y$), show that $Z = X+Y$ is also a univariate Gaussian random variable.
+\end{question}
+
+\begin{question}[KL divergence and change-of-variables rule]
+\label{q:kl_change_of_variable}
+
+Show that KL divergence is invariant to change-of-variables, i.e., $\mathrm{KL}[p_X(x) || q_X(x)] = \mathrm{KL}[p_Y(y) || q_Y(y)]$ for $Y = T(X)$ with an invertible transformation $T$.
+\end{question}
+
+\begin{question}[Independence of Gaussian variables]
+\label{q:independence_of_gaussians}
+
+Consider $X = (X_1, ..., X_N)$ as a multivariate random variable, which is distributed as a multivariate Gaussian with covariance matrix $\Sigma$. Show that $X_i \ci X_j | X_{-ij}$ where $X_{-ij}$ collect all the other $X_n$ variables, if for the precision matrix $\Lambda := \Sigma^{-1}$ we have $\Lambda_{ij} = \Lambda_{ji} = 0$.
+\end{question}
+
+\begin{question}[Independent vs uncorrelated variables]
+\label{q:uncorrelated}
+
+Show that for the following definitions of $X, Y$, these two variables are uncorrelated (i.e., $\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y]$), but not independent to each other: $X$ is a univariate Gaussian variable with mean 0, and $Y = X^2$. 
+
+\end{question}
