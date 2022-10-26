@@ -1,6 +1,36 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
+\paragraph{\questionref{q:ind-not-proof}}
+
+\begin{enumerate}
+\item $\textbf{x}^TA\textbf{y} = \textbf{y}^TA\textbf{x}$ if $A=A^T$.
+
+Note that $A=A^T \implies a_{ij}=a_{ij}$. We first write the product in terms of two vectors, $\textbf{x}$ and $A\textbf{y}$, then rearrange the terms considering $A\textbf{y}$ as a vector with components $(A\textbf{y})_i = \sum_{j=1}^N a_{ij}y_j$, and use $a_{ij} = a_{ji}$:
+\begin{align*}
+\textbf{x}^TA\textbf{y} = \sum_{i=1}^N x_i(A\textbf{y})_i = \sum_{i=1}^N x_i \sum_{j=1}^N a_{ij}y_j = \sum_{j=1}^N \sum_{i=1}^Ny_j a_{ji} x_i = \sum_{j=1}^N y_j (A\textbf{x})_j = \textbf{y}^TA\textbf{x}.
+\end{align*}
+
+\item $\textbf{x}^T\textbf{y} = Tr(\textbf{x}^T\textbf{y}) = Tr(\textbf{y}^T\textbf{x}), \textbf{x},\textbf{y}\in\mathbb{R}^D$.
+
+Considering $\textbf{x}^T\textbf{y}\in\mathbb{R}$, we have $\textbf{x}^T\textbf{y}=Tr(\textbf{x}^T\textbf{y})$. Then, we need to check whether $\textbf{x}^T\textbf{y} = \textbf{y}^T\textbf{x}$, which we can show by rearranging the terms of the vector product
+\begin{align*}
+\textbf{x}^T\textbf{y} = \sum_{i=1}^N x_i y_i = \sum_{i=1}^N y_i x_i = \textbf{y}^T\textbf{x}.
+\end{align*}
+
+\item $Tr(ABC) = Tr(CAB)$. We assume $A\in\mathbb{R}^{D\times E}, B\in\mathbb{R}^{E\times F}$, and $C\in\mathbb{R}^{F\times D}.$
+
+We start by inspecting the terms involving $Tr(ABC)$,
+\begin{align*}
+Tr(ABC) = \sum_{i=1}^D \big( (AB) C\big)_{ii} = \sum_{i=1}^D \sum_{j=1}^F (AB)_{ij} c_{ji} = \sum_{i=1}^D \sum_{j=1}^F \sum_{k=1}^E a_{ik} b_{kj} c_{ji}.
+\end{align*}
+Just by swapping the summations we can get the following identity: $Tr(ABC) = Tr(CAB) = Tr(BCA)$. We show $Tr(ABC) = Tr(CAB)$ as an example:
+\begin{align*}
+Tr(ABC) = \sum_{i=1}^D \sum_{j=1}^F \sum_{k=1}^E a_{ik} b_{kj} c_{ji} = \sum_{j=1}^F \sum_{k=1}^E \sum_{i=1}^D c_{ji}a_{ik}b_{kj} = \sum_{j=1}^F \sum_{k=1}^E (CA)_{jk}b_{kj} = \sum_{j=1}^F (CAB)_{jj} = Tr(CAB).
+\end{align*}
+
+\end{enumerate}
+
 \paragraph{\questionref{q:hessian}}
 The objective function and gradient w.r.t.~$\vtheta$ (see lectures) for Linear Regression is
 \begin{align}
