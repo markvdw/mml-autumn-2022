@@ -1,0 +1,412 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+% talk/author information
+\newcommand{\authorname}{Yingzhen Li}
+\newcommand{\authoremail}{yingzhen.li@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{liyzhen2}
+\newcommand{\slidesettitle}{\imperialBlue{Multivariate Probability}}
+\newcommand{\footertitle}{Multivariate Probability}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 28, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+% load defaults
+%\usepackage{../MarkMathCmds}
+\input{../includes/header.tex}
+\input{../includes/YingzhenNotations.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+%%%%% recap %%%%%%
+\begin{frame}{Recap: univariate probability}
+Univariate probability examples:
+
+Bernoulli:
+\begin{itemize}
+	\item $X$ takes binary values $\{ 0, 1 \}$
+	\item PMF: $p(X = 1) = \rho, \quad \rho \in [0, 1]$
+\end{itemize}
+
+Categorical:
+\begin{itemize}
+	\item $X$ takes values in $\{1, ..., C \}$
+	\item PMF satisfies $\sum_{c=1}^C p(X = c) = 1, \quad p(X = c) \geq 0$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Recap: univariate probability}
+Univariate probability examples:
+
+Gaussian:
+\begin{itemize}
+	\item $X$ takes continuous real number values in $\mathbb{R}$
+	\item PDF: $p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{1}{2 \sigma^2} (x - \mu)^2]$
+	\item CDF: $F(x) = P(X \leq x) = \int_{-\infty}^{x} p(X = \alpha) d\alpha$
+	\item Notice that $p(x) = \frac{dF(x)}{dx}$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Lectures on multivariate probability}
+
+Topic of today and next Monday: multivariate probability
+
+\begin{itemize}
+	\item Definitions and some examples
+	\item Joint, marginal, and conditional distributions
+	\item Sum rule and product rule
+\end{itemize}
+
+Lots of techniques to learn and master!
+\begin{itemize}
+	\item Change-of-variables rule
+	\item Computing mean/variance/expectations
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%% definition %%%%%%%
+
+\begin{frame}{Multivariate probability}
+
+We want to work with multiple random variables $X_1, ..., X_k$
+\begin{itemize}
+	\item Reuse the concepts introduced in univariate probability:
+	\begin{itemize}
+		\item Sample space $\Omega$, Event space $\mathcal{E}=2^{\Omega}$, Probability: $\mathbb{P}: \mathcal{E} \rightarrow [0, 1]$
+	\end{itemize}
+
+	\item $X_n: \Omega \rightarrow V_{X_n}$ maps $\omega \in \Omega$ to some integer/real value \pause
+
+	\item We can define the support $\mathcal{A}$ in the value space of $X_1, ..., X_n$: \\
+	$\mathcal{A} = \{ (x_1, x_2, ..., x_N) : X_n(\omega) = x_n, \omega \in \Omega \}$
+	\begin{itemize}
+		\item This means event $E \subset \Omega$ can be mapped to a measureable set $A \subset \mathcal{A}$, 
+		so $P(A) := \mathbb{P}(E) \in [0, 1]$
+	\end{itemize} \pause
+	
+	\item Multivariate PMF/PDF satisfies $p(x_1, x_2, ..., x_N) \geq 0$ and:
+	$$\text{PMF: } \quad \sum_{(x_1, x_2, ..., x_N) \in A} p(x_1, x_2, ..., x_N) = P(A), \quad \forall A \subset \mathcal{A}.$$
+	$$\text{PDF: } \quad \int_{A} p(x_1, x_2, ..., x_N) d x_1 d x_2 ... d x_N = P(A), \quad \forall A \subset \mathcal{A}.$$
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Multivariate probability}
+Let's say you are in a zoo that has infinite number of animals:
+\begin{figure}
+\vspace{-0.7em}
+\centering
+\includegraphics[width=0.75\linewidth]{figures-multivariate-prob/sample_space_multivariate_vis.pdf}
+\vspace{-1.3em}
+\end{figure}
+%
+\only<1>{
+\begin{itemize}
+	\item Support: $\mathcal{A} \subset \mathbb{R} \times \mathbb{R} \times \mathbb{N}^{+}$
+	\item A measurable subset in $\mathcal{A}$ can be $A = \{ 10.0 \leq x_1 \leq 50.0, 1 \leq x_2 \leq 10.0, x_3 \in \{2, 3, 4 \} \}$ \\ (``The animal's height, weight and fur colour are within some values/regimes'')
+\end{itemize}
+}
+\only<2>{
+\begin{itemize}
+	\item Let's assume the event space $\mathcal{E} = 2^{\Omega}$
+	\item Figuring out $P(A)$: find the biggest set $E \subset \Omega$ such that \\
+	$(X_1, ..., X_N)(E) := \{ (X_1(\omega), ..., X_N(\omega)): \omega \in E \} \subset A$, \\
+	then set $P(A) := \mathbb{P}(E)$
+\end{itemize}
+}
+\only<3>{
+\begin{itemize}
+	\item $p(x_1, x_2, x_3)$ satisfies:
+	$$\int \sum_{(x_1, x_2, x_3) \in A} p(x_1, x_2, x_3) d x_1 d x_2 = P(A), \quad \forall A \subset \mathcal{A}.$$
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}{Example: multinomial distribution}
+Rolling a $k$-sided dice independently for $n$ times, define $X_i = \#$ side $i$
+\begin{figure}
+\vspace{-1em}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-multivariate-prob/multinomial_dice_vis.pdf}
+\vspace{-1em}
+\end{figure}
+
+\begin{itemize}
+	\item Support: $\mathcal{A} = \{ x_1, ..., x_n \in \mathbb{N}: \sum_{i=1}^k x_i = n \} \subset \mathbb{N}^k$
+	\item PMF: note that permuting elements in $\omega$ does not change $X_i$
+	$$p(X_1 = x_1, ..., X_k = x_k) = \frac{n!}{x_1! \cdots x_k!} p_1^{x_1} \cdots p_k^{x_k}$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example: multivariate Gaussian distribution}
+
+Univariate Gaussian: $p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{1}{2 \sigma^2} (x - \mu)^2]$
+
+Multivariate Gaussian: $\x = (x_1, ..., x_d)^\top$
+$$p(\x) =  \frac{1}{\sqrt{(2 \pi)^d |\Sigma|}} \exp[- \frac{1}{2} (\x - \bm{\mu})^{\top} \Sigma^{-1} (\x - \bm{\mu})]$$
+
+\begin{itemize}
+	\item Independent Gaussians: $\Sigma = diag(\sigma_1^2, ..., \sigma_d^2)$
+\end{itemize}
+\begin{figure}
+\vspace{-1em}
+\centering
+\includegraphics[width=0.9\linewidth]{figures-multivariate-prob/gaussian_contours.pdf}
+\vspace{-1em}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Example: multivariate Gaussian distribution}
+
+Multivariate Gaussian: $\x = (x_1, ..., x_d)^\top$
+$$p(\x) =  \frac{1}{\sqrt{(2 \pi)^d |\Sigma|}} \exp[- \frac{1}{2} \underbrace{(\x - \bm{\mu})^{\top} \Sigma^{-1} (\x - \bm{\mu})}_{:= \Delta^2} ]$$
+
+\begin{itemize}
+	\item Eigen decomposition of $\Sigma$:
+	$$\Sigma = U \Lambda U^{\top} \quad \Rightarrow \quad \Sigma^{-1} = U \Lambda^{-1} U^{\top}, \quad \Lambda = diag(\lambda_1, ..., \lambda_d)$$
+\end{itemize}
+
+\begin{minipage}{0.58\linewidth}
+\begin{itemize}
+	\item Define $\y = U^\top (\x - \bm{\mu})$
+	$$\Delta^2 = \y^\top \Lambda^{-1} \y = \sum_{i=1}^d \frac{y_i^2}{\lambda_i}$$
+	\item Contour $\Delta^2 = C$ has an ``ellipse'' shape
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.95\linewidth]{figures-multivariate-prob/gaussian_contour_bishop_book.png}
+\vspace{-1em}
+\end{figure}
+\tiny{\hfill Fig from Bishop's PRML book}
+\end{minipage}
+
+\end{frame}
+
+
+
+%%%%%%%% change of variable rule %%%%%%%%
+
+\begin{frame}{Going beyond Gaussian: change-of-variables rule}
+A common way to construct multivariate distribution beyond e.g., multinomial and Gaussian:
+\begin{itemize}
+	\item start from random variable $Z = (Z_1, ..., Z_K)$ with distribution $p_Z$
+	\item use a transformation to get $X = T(Z)$
+	\item this induces a distribution $p_X$ depending on $T$ and $p_Z$
+\end{itemize}
+\alert{Q:} What is the PMF/PDF of $X$ given $T$ and PMF/PDF of $Z$?
+\end{frame}
+
+
+
+\begin{frame}{Going beyond Gaussian: change-of-variables rule}
+
+\emph{Key idea:} $p_X$ preserves the \emph{event probability} given by $\mathbb{P}$
+
+\begin{figure}
+\vspace{-0.5em}
+\centering
+\includegraphics[width=0.8\linewidth]{figures-multivariate-prob/change_of_variable_sample_space_vis.pdf}
+\vspace{-1em}
+\end{figure}\pause
+
+Discrete case: if $T$ is invertible, then the PMF is
+$$p_X(X = x) = p_Z(Z = T^{-1}(x)).$$
+
+\end{frame}
+
+\begin{frame}{Going beyond Gaussian: change-of-variables rule}
+\emph{Key idea:} $p_X$ preserves the \emph{event probability} given by $\mathbb{P}$
+
+Continuous case:
+\begin{itemize}
+	\item for any $x \in V_X = \mathbb{R}^{dim(X)}$, can work out $E_x = \{ \omega \in \Omega: T(Z(\omega)) = x \}$
+	\item this means for any $S \subset V_X$, can work out $E_S = \cup_{x \in S} E_x$
+	\item note that $\mathbb{P}$ does not change!
+\end{itemize}
+Assume $Z: \Omega \rightarrow V_Z = \mathbb{R}^{dim(Z)}$ maps $E_S$ to $U \subset V_Z$, then:
+$$ U = \{z \in V_z: T(z) \in S \} := T^{-1}(S)$$
+$$\Rightarrow \quad P_X(X \in S) = P_Z(Z \in T^{-1}(S)) = \mathbb{P}(E_S)$$
+$$\Rightarrow \quad \int_{\alpha \in S} p_X(X = \alpha) d\alpha = \int_{\beta \in T^{-1}(S)} p_Z(Z = \beta) d\beta$$
+\end{frame}
+
+\begin{frame}{Going beyond Gaussian: change-of-variables rule}
+\emph{Key idea:} $p_X$ preserves the \emph{event probability} given by $\mathbb{P}$
+
+Continuous case: PDFs satisfy
+$$\int_{\alpha \in S} p_X(X = \alpha) d\alpha = \int_{\beta \in T^{-1}(S)} p_Z(Z = \beta) d\beta, \ T^{-1}(S) = \{z \in V_z: T(z) \in S \}$$
+
+For invertible and continuous $T$, to compute PDF $p_X$:
+\only<1>{
+\begin{itemize}
+	\item let $dz$ be a very small neighbourhood around $z$, such that $p_Z(Z = z') \approx p_Z(Z = z), \forall z' \in dz$
+	$$\Rightarrow \quad \int_{\beta \in dz} p_Z(Z = \beta) d\beta \approx p_Z(Z = z) dz$$
+	\item $T(z) = x$, $\Rightarrow dx = T(dz)$ is also a very small neighbourhood around $x$, such that $p_X(X = x') \approx p_X(X = x), \forall x' \in dx$ 
+	$$\Rightarrow \quad \int_{\alpha \in dx} p_X(X = \alpha) d\alpha \approx p_X(X = x) dx$$
+\end{itemize}
+}
+%
+\only<2>{
+\begin{minipage}{0.5\linewidth}
+\begin{itemize}
+	\item Matching probability mass for the same event: \\
+	$ p_X(X = x) dx = p_Z(Z = z) dz $
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{figures-multivariate-prob/change_of_variable_volume_vis.pdf}
+\end{figure}
+\end{minipage}
+\vspace{0.5em}
+
+$$\Rightarrow \quad p_X(X = x) = p_Z(Z = z) |\frac{dz}{dx}| = p_{Z}(Z = T^{-1}(x)) |\frac{dT^{-1}(x)}{dx}|$$
+}
+\end{frame}
+
+\begin{frame}{Going beyond Gaussian: change-of-variables rule}
+
+\emph{Summary} of computing PMF/PDF of $X$ for invertible $T$:
+\begin{itemize}
+	\item Discrete case: $p_X(X = x) = p_Z(Z = T^{-1}(x)) $
+	\item Continuous case: $p_X(X = x) = p_{Z}(Z = T^{-1}(x)) |\frac{dT^{-1}(x)}{dx}|$
+\end{itemize}
+
+\emph{Key idea:} $p_X$ preserves the \emph{event probability} given by $\mathbb{P}$
+\begin{itemize}
+	\item Probability $\mathbb{P}$ is defined on subsets of $\Omega$ 
+	\item For $E \subset \Omega$, $U = Z(E)$ $S = T(U) = T \circ Z(E)$ are two different sets of ``quantitative descriptions'' of the elements in $E$
+	\item So the underlying probability shouldn't change, i.e.,
+	$$P_X(X \in S) = P_Z(Z \in U) = \mathbb{P}(E) $$
+	\item PMF/PDF can be work out by ensuring this match for any $E \subset \Omega$
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%% LOTUS %%%%%%%%
+
+\begin{frame}{Law of the unconscious statistician (LOTUS)}
+
+Computing expectation of $X$ given that $X = T(Z)$:
+
+LOTUS rule:
+$$\mathbb{E}_{X}[f(X)] = \mathbb{E}_{Z}[f(T(Z))]$$
+
+\emph{Proof} for discrete case:
+
+$$\mathbb{E}_{X}[f(X)] = \sum_{x} p_X(X = x) f(x)$$
+
+\only<1>{
+Recall from change-of-variables rule for discrete distribution:
+\begin{equation*}
+\begin{aligned}
+	p_X(X = x) &= P_X(X \in \{x \}) = P_Z(Z \in T^{-1}(x)) \\
+	&= \sum_{z \in T^{-1}(x)} P_Z(Z \in {z}) = \sum_{z: T(z) = x} p_Z(Z = z)
+\end{aligned}
+\end{equation*}
+}
+%
+\only<2>{
+\begin{equation*}
+\begin{aligned}
+	\Rightarrow \quad \mathbb{E}_{X}[f(X)] &= \sum_{x} \left( \sum_{z: T(z) = x} p_Z(Z = z) \right) f(x) \\
+	&= \sum_{z} p_Z(Z = z) f(T(z)) = \mathbb{E}_{Z}[f(T(Z))]
+\end{aligned}
+\end{equation*}
+}
+
+\end{frame}
+
+\begin{frame}{Law of the unconscious statistician (LOTUS)}
+
+Computing expectation of $X$ given that $X = T(Z)$:
+
+LOTUS rule:
+$$\mathbb{E}_{X}[f(X)] = \mathbb{E}_{Z}[f(T(Z))]$$
+
+\emph{Proof} for continuous case, assuming $T$ is invertible and continuous:
+
+$$\mathbb{E}_{X}[f(X)] = \int p_X(x) f(x) dx$$
+
+\only<1>{
+Recall from change-of-variables rule for continuous distribution:
+$$p_X(X = x) = p_{Z}(Z = T^{-1}(x)) |\frac{dT^{-1}(x)}{dx}|$$
+Also note that $|\frac{dT^{-1}(x)}{dx}| = |\frac{dz}{dx}|$ for $z = T^{-1}(x)$
+}
+%
+\only<2>{
+\begin{equation*}
+\begin{aligned}
+	\Rightarrow \quad \mathbb{E}_{X}[f(X)] &= \int \left( p_{Z}(Z = z) |\frac{dz}{dx}| f(T(z)) \right)_{z = T^{-1}(x)} dx \\
+	&= \int p_{Z}(Z = z) f(T(z)) dz= \mathbb{E}_{Z}[f(T(Z))]
+\end{aligned}
+\end{equation*}
+}
+
+\end{frame}
+
+\begin{frame}{Law of the unconscious statistician (LOTUS)}
+
+Computing expectation of $X$ given that $X = T(Z)$:
+
+LOTUS rule:
+$$\mathbb{E}_{X}[f(X)] = \mathbb{E}_{Z}[f(T(Z))]$$
+
+LOTUS is true even when $T$ is not an invertible mapping
+
+(The proof uses measure theory, not discussed in this course)
+
+\end{frame}
+
+%%%
+\begin{frame}{Summary}
+
+Today we covered:
+\begin{itemize}
+	\item Multivariate probability: definition and common examples
+	\item Change-of-variables rule
+	\item LOTUS
+\end{itemize}
+
+Next lecture: more on multivariate probability
+\begin{itemize}
+	\item vector mean and variance
+	\item conditional distribution
+	\item sum rule and product rule
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

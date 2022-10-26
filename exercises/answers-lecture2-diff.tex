@@ -1,6 +1,7 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
+<<<<<<< HEAD
 \paragraph{\questionref{q:ind-not-proof}}
 
 \begin{enumerate}
@@ -27,10 +28,288 @@ Tr(ABC) = \sum_{i=1}^D \big( (AB) C\big)_{ii} = \sum_{i=1}^D \sum_{j=1}^F (AB)_{
 Just by swapping the summations we can get the following identity: $Tr(ABC) = Tr(CAB) = Tr(BCA)$. We show $Tr(ABC) = Tr(CAB)$ as an example:
 \begin{align*}
 Tr(ABC) = \sum_{i=1}^D \sum_{j=1}^F \sum_{k=1}^E a_{ik} b_{kj} c_{ji} = \sum_{j=1}^F \sum_{k=1}^E \sum_{i=1}^D c_{ji}a_{ik}b_{kj} = \sum_{j=1}^F \sum_{k=1}^E (CA)_{jk}b_{kj} = \sum_{j=1}^F (CAB)_{jj} = Tr(CAB).
+=======
+\paragraph{\questionref{q:mml55-56}}
+
+\begin{enumerate}[label=\alph*]
+    \item $f(\textbf{x}) = \sin(x_1)\cos(x_2), \quad \textbf{x}\in \mathbb{R}^2$
+\[
+\frac{\partial f}{\partial\textbf{x}} \in \mathbb{R}^{1\times 2}
+\]
+\begin{align*}
+\frac{\partial f}{\partial\textbf{x}} &= \bigg[\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2} \bigg]\\
+&=\bigg[\cos(x_1)\cos(x_2), -\sin(x_1)\sin(x_2) \bigg]
+\end{align*}
+\item $f(\textbf{x}) = \textbf{x}^T\textbf{y}, \quad \textbf{x},\textbf{y}\in \mathbb{R}^n$
+\[
+\frac{\partial f}{\partial\textbf{x}} \in \mathbb{R}^{1\times n}
+\]
+We can solve this directly using basic rules of vector calculus
+\[
+\frac{\partial f}{\partial\textbf{x}} = \frac{\partial (\textbf{x}^T\textbf{y})}{\partial \textbf{x}} = \textbf{y}^T
+\]
+We can confirm this result holds with index notation. First, let us calculate the value $f(\textbf{x})$
+\[
+f(\textbf{x}) = \textbf{x}^T\textbf{y} = \sum_{i=1}^n x_iy_i
+\]
+\[
+\frac{\partial f}{\partial x_j} = \frac{\partial}{\partial x_j}\sum_{i=1}^n x_iy_i =  \sum_{i=1}^n \frac{\partial x_j}{\partial x_i}y_i = \sum_{i=1}^n \delta_{ij}y_i = y_j
+\]
+\[
+\frac{\partial f}{\partial\textbf{x}} = \left[\frac{\partial f}{\partial x_1}, \dots, \frac{\partial f}{\partial x_n}\right] = \left[y_1, \dots, y_n\right] = \textbf{y}^T
+\]
+\item $\textbf{f}(x) = \textbf{x}\textbf{x}^T, \quad \textbf{x}\in \mathbb{R}^n$
+\[
+\frac{\partial \textbf{f}}{\partial\textbf{x}} \in \mathbb{R}^{(n\times n)\times n}
+\]
+\[
+\frac{\partial \textbf{f}}{\partial\textbf{x}}= C\quad \text{where $C$ is a 3D tensor.}
+\]
+\[
+c_{ijk} = \frac{\partial f(\textbf{x})_{ij}}{\partial x_k}
+\]
+\[
+\textbf{x}\textbf{x}^T = \begin{pmatrix}
+    x_1   \\
+    \vdots \\
+    x_n \\
+\end{pmatrix}
+\begin{pmatrix}
+    x_1 & \dots & x_n \\
+\end{pmatrix} = \begin{pmatrix}
+    x^2_1 & x_1 x_2 & \dots & x_1 x_n \\
+    x_2 x_1 & x^2_2 &    & \vdots \\
+    \vdots & & \ddots &  \vdots \\
+    x_n x_1 & \dots & \dots & x^2_n \\
+\end{pmatrix}
+\]
+\[
+c_{ijk} = \frac{\partial (x_i x_j)}{\partial x_k} = \frac{\partial x_i}{\partial x_k} x_j + \frac{\partial x_j}{\partial x_k} x_i = \delta_{ik}x_j + \delta_{jk}x_i=  \begin{cases}
+0 \quad &\text{if }k\neq i \text{ and } k\neq j\\
+x_i \quad &\text{if }k=j \text{ and } i\neq j\\
+x_j \quad &\text{if }k=i \text{ and } i\neq j\\
+2x_i \quad &\text{if }k=i=j\\
+\end{cases}
+\]
+
+    \item  $f(\textbf{t}) = \sin\big(\log(\textbf{t}^T\textbf{t})\big) \quad \textbf{t} \in \mathbb{R}^D$
+    
+We directly apply the chain rule
+\[
+\frac{\partial f}{\partial \textbf{t}} = \frac{\partial \sin\big(\log(\textbf{t}^T\textbf{t})\big)}{\partial \log(\textbf{t}^T\textbf{t})} \cdot \frac{\partial \log(\textbf{t}^T\textbf{t})}{\partial (\textbf{t}^T\textbf{t})} \cdot \frac{\partial (\textbf{t}^T\textbf{t})}{\partial \textbf{t}} 
+\]
+All of the terms are one dimensional except for $\frac{\partial (\textbf{t}^T\textbf{t})}{\partial \textbf{t}} \in\mathbb{R}^{1\times D}$. Let us calculate the value using the notation for vector calculus in the lectures. As in 5.5, we first calculate the value of $\textbf{t}^T\textbf{t}$ and its derivative w.r.t. $t_i$.
+\[
+\textbf{t}^T\textbf{t} = \sum_{i=1}^D t_i^2, \quad \frac{\partial (\textbf{t}^T\textbf{t})}{\partial t_i} = 2t_i
+\]
+\[
+\frac{\partial (\textbf{t}^T\textbf{t})}{\partial \textbf{t}} = \left[\frac{\partial (\textbf{t}^T\textbf{t})}{\partial t_1}, \dots, \frac{\partial (\textbf{t}^T\textbf{t})}{\partial t_D}\right] = \left[2t_1 \dots, 2t_D\right] = 2\textbf{t}^T
+\]
+
+We can now use this result to proceed with the derivative of $f(\textbf{t})$.
+\[
+\frac{\partial f}{\partial \textbf{t}} = \cos \big(\log(\textbf{t}^T\textbf{t})\big) \cdot \frac{1}{\textbf{t}^T\textbf{t}} \cdot 2\textbf{t}^T
+\]
+\[
+\frac{\partial f}{\partial \textbf{t}} = 2\textbf{t}^T \frac{\cos\big(\log(\textbf{t}^T\textbf{t})\big)}{\textbf{t}^T\textbf{t}}
+\]
+
+\item $f(X) = tr(AXB), \quad A\in \mathbb{R}^{D\times E},
+X\in \mathbb{R}^{E\times F},
+B\in \mathbb{R}^{F\times D}$
+
+Use index notation:
+\[
+f(X) = tr(AXB) = \sum_{i=1}^D (AXB)_{ii}
+\]
+In order to fully compute $f(X)$, we need to calculate $(AXB)_{ii}$
+\[
+(AXB)_{ii} = \sum_{k=1}^F (AX)_{ik}b_{ki} = \sum_{k=1}^F \left(\sum_{l=1}^E a_{il}x_{lk}\right)b_{ki}
+\]
+Thus
+\[
+f(X) = \sum_{i=1}^D\sum_{k=1}^F \sum_{l=1}^E a_{il}x_{lk}b_{ki}
+\]
+Now we can just calculate the derivative using index notation
+\[
+\frac{\partial f}{\partial x_{nm}} = \frac{\partial}{\partial x_{nm}} \sum_{i=1}^D\sum_{k=1}^F \sum_{l=1}^E a_{il}x_{lk}b_{ki} = \sum_{i=1}^D\sum_{k=1}^F \sum_{l=1}^E a_{il}\frac{\partial x_{lk}}{\partial x_{nm}}b_{ki} = \sum_{i=1}^D\sum_{k=1}^F \sum_{l=1}^E a_{il}\delta_{ln}\delta_{km}b_{ki}
+\]
+Notice that in the last expression, all the terms in the summation cancel except when $k=m$ and $l=n$. Therefore
+\[
+\frac{\partial f}{\partial x_{nm}} = \sum_{i=1}^D a_{in}b_{mi} = \sum_{i=1}^D b_{mi}a_{in} = (BA)_{mn}
+\]
+Using this last result, we can calculate the derivative w.r.t. X.
+\[
+\frac{\partial f}{\partial X} = (BA)^T = A^TB^T
+\]
+
+Alternative proof: Use properties 4.19 and 5.100 from the MML book.
+From 4.19
+\[
+f(X) = tr(AXB) = tr(XBA) = tr(XC), \quad C = BA
+\]
+and from 5.100
+\[
+\frac{\partial f}{\partial X} = \frac{\partial tr(XC)}{\partial X} = tr\left(\frac{\partial (XC)}{\partial X}\right), \quad \text{where } \frac{\partial (XC)}{\partial X}\in \mathbb{R}^{(E \times E) \times (E \times F)}
+\]
+
+We need to calculate $\frac{\partial (XC)_{ij}}{\partial x_{kl}}$, and we find convenient to write the pairs $i,j$ of the product $IXC$, where $I \in \mathbb{R}^{E\times E}$ is the identity matrix.
+\[
+(IXC)_{ij} = \sum_{e=1}^E \sum_{f=1}^F \delta_{ie}x_{ef}c_{fj}
+\]
+\[
+\frac{\partial (XC)_{ij}}{\partial x_{kl}} = \frac{\partial (IXC)_{ij}}{\partial x_{kl}} = \delta_{ik}c_{lj}
+\]
+in the prevous expression, all the terms in the sum vanish except the ones that contain $x_{kl}$ in it.
+
+Now, we take into account the definition of the trace for any 4D tensor $T\in\mathbb{R}^{(N\times N)\times (P \times Q)}$ given in the MML book:
+\[
+tr(T)_{ij} = \sum_{k=1}^N a_{kkij}, \quad \text{where } tr(T) \in \mathbb{R}^{P\times Q}
+\]
+
+We use this definition to calculate our result.
+\[
+tr\left(\frac{\partial (XC)}{\partial X}\right)_{ij} = \sum_{k=1}^{E} \frac{\partial (XC)_{kk}}{\partial x_{ij}} = \sum_{k=1}^{E} \delta_{ki} c_{jk} = c_{ji}
+\]
+all the terms will be 0 except when $k=i$.
+\[
+tr\left(\frac{\partial (XC)}{\partial X}\right) = C^T = (BA)^T = A^TB^T
+\]
+\end{enumerate}
+
+
+\paragraph{\questionref{q:chain-rule}}
+
+\begin{enumerate}[label=\alph*.]
+    \item $f(z) = \log(1 + z), \quad z = \textbf{x}^T\textbf{x}, \quad \textbf{x}\in\mathbb{R}^D$
+    
+\[
+\frac{\partial f}{\partial \textbf{x}} = \frac{\partial f}{\partial z} \frac{\partial z}{\partial \textbf{x}} = \frac{\partial \log(1 + z)}{\partial z} \frac{\partial (\textbf{x}^T\textbf{x})}{\partial \textbf{x}} = \frac{2\textbf{x}^T}{1 + z} = \frac{2\textbf{x}^T}{1 + \textbf{x}^T\textbf{x}} 
+\]
+Dimensions are 
+\[
+\frac{\partial f}{\partial \textbf{x}} \in \mathbb{R}^D, \quad \frac{\partial f}{\partial z} \in \mathbb{R}, \quad \frac{\partial z}{\partial \textbf{x}} \in \mathbb{R}^D
+\]
+    
+    \item $f(\textbf{z}) = \sin(\textbf{z}), \quad \textbf{z} = A\textbf{x} + \textbf{b}, \quad A\in\mathbb{R}^{E\times D}, \textbf{x}\in\mathbb{R}^D, \textbf{b}\in\mathbb{R}^E$
+
+\[
+\frac{\partial f}{\partial \textbf{x}} = \frac{\partial f}{\partial \textbf{z}} \frac{\partial \textbf{z}}{\partial \textbf{x}} = \frac{\partial \sin(\textbf{z})}{\partial \textbf{z}} \frac{\partial (A\textbf{x} + \textbf{b})}{\partial \textbf{x}}
+\]
+Notice that $\frac{\partial f}{\partial \textbf{z}} \in \mathbb{R}^{E\times E}$. We already know that $\sin(\cdot)$ is applied to each element independently, thus
+\[
+\frac{\partial f_i}{\partial z_j}=\begin{cases}
+0 \quad &\text{if }i\neq j\\
+\cos(z_i) \quad &\text{if }i=j\\
+\end{cases}
+\]
+We also have $\frac{\partial \textbf{z}}{\partial \textbf{x}} \in \mathbb{R}^{E\times D}$. Although this has already shown in the lectures, let us review the result $\frac{\partial \textbf{z}}{\partial \textbf{x}}$ using the notation of the course.
+\[
+z_i = \sum_{j=1}a_{ij}x_j + b_i
+\]
+We can now easily compute $\frac{\partial z_i}{\partial x_j}$
+\[
+\frac{\partial z_i}{\partial x_j} = a_{ij}, \quad \frac{\partial \textbf{z}}{\partial \textbf{x}} = A
+\]
+Let us use all the previous results to compute the derivative of $f(\textbf{z})$ w.r.t. $\textbf{x}$.
+\[
+\frac{\partial f}{\partial \textbf{x}}= diag(\cos(\textbf{z})) A, \quad \text{where e.g. } diag(\textbf{v}) = \begin{pmatrix}
+    v_1 & 0 & \dots & 0 \\
+    0 & v_2 & \dots & 0 \\
+    \vdots & & \ddots & \vdots \\
+    0 & \dots & \dots & v_N \\
+\end{pmatrix},\quad \textbf{v}\in\mathbb{R}^N
+\]
+\[
+\frac{\partial f}{\partial \textbf{x}}= diag(\cos(A\textbf{x} + \textbf{b}))A
+\]
+Dimensions are 
+\[
+\frac{\partial f}{\partial \textbf{x}} \in \mathbb{R}^{E\times D}, \quad \frac{\partial f}{\partial \textbf{z}} \in \mathbb{R}^{E\times E}, \quad \frac{\partial \textbf{z}}{\partial \textbf{x}} \in \mathbb{R}^{E\times D}
+\]
+
+    \item $f(z) = \exp(-\frac{1}{2}z), \quad z = g(\textbf{y}) =  \textbf{y}^TS^{-1}\textbf{y}, \quad \textbf{y} = h(\textbf{x}) = \textbf{x} - \bm{\mu}, \quad \textbf{x},\bm{\mu}\in\mathbb{R}^D, S\in\mathbb{R}^{D\times D}$
+    
+\begin{align*}
+\frac{\partial f}{\partial \textbf{x}} &= \frac{\partial f}{\partial z} \frac{\partial z}{\partial \textbf{y}}\frac{\partial \textbf{y}}{\partial \textbf{x}} = \frac{\partial \exp(-\frac{1}{2}z)}{\partial z} \frac{\partial (\textbf{y}^TS^{-1}\textbf{y})}{\partial \textbf{y}}\frac{\partial (\textbf{x} - \bm{\mu})}{\partial \textbf{x}} = \exp\left(-\frac{1}{2}z\right)\left(-\frac{1}{2}\right)\textbf{y}^T(S^T + S^{-T})I \\
+&=-\frac{1}{2}\exp\left(-\frac{1}{2}\Big((\textbf{x} - \bm{\mu})^TS^{-1}(\textbf{x} - \bm{\mu})\Big)\right)(\textbf{x} - \bm{\mu})^T(S^T + S^{-T})
+\end{align*}
+where $S^{-T} = \left(S^{-1}\right)^T$, and we use (5.107) to calculate $\frac{\partial (\textbf{y}^TS^{-1}\textbf{y})}{\partial \textbf{y}}$.
+
+Dimensions are 
+\[
+\frac{\partial f}{\partial \textbf{x}} \in \mathbb{R}^D, \quad \frac{\partial f}{\partial z}\in\mathbb{R}, \quad \frac{\partial z}{\partial \textbf{y}}\in\mathbb{R}^{D}, \quad \frac{\partial \textbf{y}}{\partial \textbf{x}}\in\mathbb{R}^{D\times D}
+\]
+    
+    \item $f(\textbf{x}) = tr(\textbf{x}\textbf{x}^T + \sigma^2I),\quad\textbf{x}\in\mathbb{R}^D$
+    
+Let us expand $f(x)$.
+\begin{align*}
+f(x)&= \sum_{i=1}^D \Big( (\textbf{x}\textbf{x}^T)_{ii} + \sigma^2 \Big)\\
+    &= \sum_{i=1}^D (\textbf{x}\textbf{x}^T)_{ii} + D\sigma^2 = \sum_{i=1}^D x_i^2 + D\sigma^2
+\end{align*} 
+We already know that $(\textbf{x}\textbf{x}^T)_{ij} = x_ix_j$. Therefore
+\[
+\frac{\partial f}{\partial \textbf{x}} = \frac{\partial \left( \sum_{i=1}^D x_i^2 + D\sigma^2 \right)}{\partial \textbf{x}} = 2\textbf{x}^T
+\]
+
+    \item $f(\textbf{z}) = \tanh(\textbf{z})\in\mathbb{R}^M,\quad \textbf{z}= A\textbf{x} + \textbf{b}, \quad \textbf{x}\in\mathbb{R}^N, A\in\mathbb{R}^{M\times N}, \textbf{b}\in\mathbb{R}^M$
+\begin{align*}
+\frac{\partial f}{\partial \textbf{x}} &= \frac{\partial f}{\partial \textbf{z}} \frac{\partial \textbf{z}}{\partial \textbf{x}}= \frac{\partial \tanh(\textbf{z})}{\partial \textbf{z}} \frac{\partial (A\textbf{x} + \textbf{b})}{\partial \textbf{x}} = diag\left(1 - \tanh^2(\textbf{z})\right) \textbf{A}\\
+&= diag\left(1 - \tanh^2(A\textbf{x} + \textbf{b})\right) A 
+\end{align*}
+where we used $\frac{d \tanh(v)}{dv} = 1 - \tanh^2(v)$.
+
+Dimensions are 
+\[
+\frac{\partial f}{\partial \textbf{x}} \in \mathbb{R}^{M\times N}, \quad \frac{\partial f}{\partial \textbf{z}}\in\mathbb{R}^{M\times M}, \quad \frac{\partial z}{\partial \textbf{x}}\in\mathbb{R}^{M\times N}
+\]
+
+\item $f(A) = \textbf{x}\transpose A \textbf{x}, \quad A=\textbf{x}\textbf{x}\transpose, \quad A\in\mathbb{R}^{N\times N}$
+
+Note that $A$ is symmetric. We apply the chain rule straightforwardly.
+\begin{align*}
+\frac{d f}{d \textbf{x}} &= \frac{\partial f}{\partial \textbf{x}} + \frac{\partial f}{\partial A} \frac{\partial A}{\partial \textbf{x}} = \frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}} + \sum_{i,j}\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}} \frac{\partial a_{ij}}{\partial\textbf{x}}
+\end{align*}
+
+The first term can be computed using vector calculus rules
+\begin{align*}
+\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}}  = 2A\textbf{x} = 2\textbf{x}\textbf{x}^T\textbf{x} = 2 ||\textbf{x}||^2\textbf{x}.
+\end{align*}
+We can compute the second term using index notation, i.e. the derivative with respect to $x_k$.
+\begin{align*}
+\sum_{i,j}\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}} \frac{\partial a_{ij}}{\partial x_k} &= \sum_{i,j} a_{ij}\left(\delta_{ik}x_j + \delta_{jk}x_i\right) = \sum_{i,j} a_{ij}\delta_{ik}x_j + \sum_{i,j} a_{ij}\delta_{jk}x_i\\
+&= \sum_{j} a_{kj}x_j + \sum_{i} a_{ik}x_i = 2 \sum_{i} x_k x_i^2 = 2 ||\textbf{x}||^2x_k.
+\end{align*}
+Where we used vector calculus rules and \questionref{q:mml55-56} c) to derive the following
+\begin{align*}
+\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial A}  = \textbf{x}\textbf{x}^T = A, \quad \frac{\partial a_{ij}}{\partial x_k} = \delta_{ik}x_j + \delta_{jk}x_i, \quad a_{ij} = x_ix_j.
+\end{align*}
+In conclusion, we have
+\begin{align*}
+\frac{d f}{d \textbf{x}} &= \frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial \textbf{x}} + \sum_{i,j}\left(\frac{\partial (\textbf{x}^T A \textbf{x}) }{\partial a_{ij}}\right) \frac{\partial a_{ij}}{\partial\textbf{x}} = 2 ||\textbf{x}||^2\textbf{x}+ 2 ||\textbf{x}||^2\textbf{x} = 4 ||\textbf{x}||^2\textbf{x}.
+\end{align*}
+
+Extra: one can check the previous result is true by simplifying the initial form of $f$, which we maintained for illustrative purposes, i.e. $f(\textbf{x}) = ||\textbf{x}||^4$. We can compute the derivative using index notation
+\begin{align*}
+\frac{df}{d x_i} = \frac{d}{d x_i}\left(\sum_{i=1}^N x_i^2 \right)^2 = 2||\textbf{x}||^2 2x_i = 4||\textbf{x}||^2 x_i,
+\end{align*}
+which in vector form is expressed as follows
+\begin{align*}
+\frac{df}{d x} = 4||\textbf{x}||^2 \textbf{x}.
+>>>>>>> dev
 \end{align*}
 
 \end{enumerate}
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> dev
 \paragraph{\questionref{q:hessian}}
 The objective function and gradient w.r.t.~$\vtheta$ (see lectures) for Linear Regression is
 \begin{align}

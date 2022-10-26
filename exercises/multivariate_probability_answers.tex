@@ -1,0 +1,89 @@
+\section{Answers Lectures 6 \& 7: Multivariate Probability}
+
+\paragraph{Question \ref{q:linear_transform_gaussian}}
+$Y$ is distributed as a multivariate Gaussian with mean $\BA \bm{\mu}$ and covariance matrix $\BA \Sigma \BA^\top$.
+
+To see this, we first define $T(X) = \BA X$, so that we have $Y = T(X)$. Using change of variables rule, the PDF of $Y$ needs to satisfy the following:
+$$p_Y(\y) = p_X(T^{-1}(\y)) | \frac{dT^{-1}(\y)}{dy} | .$$
+As $T^{-1}(\y) = \BA^{-1} \y$, we have $| \frac{dT^{-1}(y)}{dy} | = | \BA^{-1} | = | \BA |^{-1}$. Plugging in these results:
+\begin{equation*}
+\begin{aligned}
+p_Y(\y) &=  |\BA |^{-1} \frac{1}{\sqrt{(2 \pi)^d |\Sigma|}} \exp[-\frac{1}{2} (\BA^{-1} \x - \bm{\mu})^\top \Sigma^{-1} (\BA^{-1} \x - \bm{\mu})] \\
+& = \frac{1}{\sqrt{(2 \pi)^d |\BA \Sigma \BA^\top|}} \exp[-\frac{1}{2} (\x - \BA \bm{\mu})^\top (\BA \Sigma \BA^{\top})^{-1} ( \x - \BA \bm{\mu})].
+\end{aligned}
+\end{equation*}
+
+\paragraph{Question \ref{q:sum_of_gaussians}}
+
+The PDF of $Z = X + Y$ needs to satisfy the following:
+$$p_Z(z) = \int_{x+y = z} p_X(x)p_Y(y) dx dy.$$
+Expanding the right hand side expression, we have (assuming the mean and variance of $X, Y$ are $\mu_X, \sigma^2_X, \mu_Y, \sigma^2_Y$):
+\begin{equation*}
+\begin{aligned}
+p_Z(z) &= \int_{x+y = z} p_X(x)p_Y(y) dx dy \\
+&= \int_{x \in \mathbb{R}} p_X(x)p_Y(z - x) dx \\
+&= \int \frac{1}{\sqrt{2\pi \sigma^2_X}} \exp[-\frac{1}{2\sigma^2_Y}(x - \mu_X)^2]  \frac{1}{\sqrt{2\pi \sigma^2_Y}} \exp[-\frac{1}{2\sigma^2_Y}(z - x - \mu_Y)^2] dx \\
+&= \int \frac{1}{2 \pi \sqrt{\sigma^2_X \sigma^2_Y}} \exp[-\frac{1}{2}[ (\sigma_X^{-2} + \sigma_Y^{-2}) x^2 - 2 x (\sigma_X^{-2} \mu_X + \sigma_Y^{-2}(z - \mu_Y)) + \sigma_X^{-2} \mu_X^2 + \sigma_Y^{-2} (z - \mu_Y)^2 ]] dx.
+\end{aligned}
+\end{equation*}
+Define two new parameters $\mu, \sigma$ satisfying $\sigma^{-2} = \sigma_X^{-2} + \sigma_Y^{-2}$ and $\sigma^{-2} \mu = \sigma_X^{-2} \mu_X + \sigma_Y^{-2}(z - \mu_Y)$, we have
+\begin{equation*}
+\begin{aligned}
+p_Z(z) &= \int \frac{1}{2 \pi \sqrt{\sigma^2_X \sigma^2_Y}} \exp[-\frac{1}{2}[ \sigma^{-2} (x - \mu)^2 + \sigma_X^{-2} \mu_X^2 + \sigma_Y^{-2} (z - \mu_Y)^2 - \sigma^{-2} \mu^2 ]] dx \\
+&= \int \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[-\frac{1}{2 \sigma^2} (x - \mu)^2] dx \frac{\sqrt{2 \pi \sigma^2}}{2 \pi \sqrt{\sigma^2_X \sigma^2_Y}} \exp[-\frac{1}{2}[ \sigma_X^{-2} \mu_X^2 + \sigma_Y^{-2} (z - \mu_Y)^2 - \sigma^{-2} \mu^2 ]] \\
+&= \frac{1}{\sqrt{2 \pi \sigma^2_X \sigma^2_Y \sigma^{-2}}} \exp[-\frac{1}{2}[ \sigma_X^{-2} \mu_X^2 + \sigma_Y^{-2} (z - \mu_Y)^2 - \sigma^2 [\sigma_X^{-2} \mu_X + \sigma_Y^{-2}(z - \mu_Y)]^2 ]]. 
+\end{aligned}
+\end{equation*}
+Up to this point, we see that the PDF of $Z$ has a Gaussian form (as the terms inside the exponent is a quadratic function of $z$), so this confirms that $Z$ is distributed as a univariate Gaussian. Continuing the derivation by completing the squares, we can work out the corresponding mean and variance of $Z$:
+$$\sigma_Z^2 = \sigma_X^2 + \sigma_Y^2, \quad \mu_Z = \mu_X + \mu_Y.$$
+
+
+\paragraph{Question \ref{q:kl_change_of_variable}}
+Discrete case: by using $x = T^{-1}(y)$,
+\begin{equation*}
+\begin{aligned}
+\mathrm{KL}[p_Y(y) || q_Y(y)] &= \sum_{y} p_Y(y) \log \frac{p_Y(y)}{q_Y(y)} = \sum_{y} p_X(T^{-1}(y)) \log \frac{p_X(T^{-1}(y))}{q_X(T^{-1}(y))} \\
+&=  \sum_{x} p_X(x) \log \frac{p_X(x)}{q_X(x)} = \mathrm{KL}[p_X(x) || q_X(x)].
+\end{aligned}
+\end{equation*}
+
+Continuous case: again by using $x = T^{-1}(y)$,
+\begin{equation*}
+\begin{aligned}
+\mathrm{KL}[p_Y(y) || q_Y(y)] &= \int p_Y(y) \log \frac{p_Y(y)}{q_Y(y)} dy = \int p_X(T^{-1}(y)) | \frac{d T^{-1}(y)}{dy} | \log \frac{p_X(T^{-1}(y)) | \frac{d T^{-1}(y)}{dy} |}{q_X(T^{-1}(y)) | \frac{d T^{-1}(y)}{dy} |} dy \\
+&=  \int p_X(T^{-1}(y)) | \frac{dx}{dy} | \log \frac{p_X(T^{-1}(y)) }{q_X(T^{-1}(y)) } dy = \int p_X(x) \log \frac{p_X(x)}{q_X(x)} dx = \mathrm{KL}[p_X(x) || q_X(x)].
+\end{aligned}
+\end{equation*}
+
+\paragraph{Question \ref{q:independence_of_gaussians}}
+As we define $\Lambda = \Sigma^{-1}$, the PDF of the multivariate Gaussian is (with mean $\bm{\mu}$):
+\begin{equation*}
+\begin{aligned}
+p(X = \x) &= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} (\x - \bm{\mu})^\top \Lambda (\x - \bm{\mu})^\top ] \\
+&= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} \sum_k \sum_l (x_k - \mu_k) \Lambda_{kl} (x_l - \mu_l) ] \\
+&= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} [ f(x_i) + g(x_j) + \sum_{k \neq i, j} \sum_l (x_k - \mu_k) \Lambda_{kl} (x_l - \mu_l) ] ], \\
+\text{where} \quad f(x_i) &= \Lambda_{ii} (x_i - \mu_i)^2 + (x_i - \mu_i) \sum_{l \neq i. j} \Lambda_{il} (x_l - \mu_l), \\
+g(x_j) &= \Lambda_{jj} (x_j - \mu_j)^2 + (x_j - \mu_j) \sum_{l \neq i, j} \Lambda_{jl} (x_l - \mu_l).
+\end{aligned}
+\end{equation*}
+%
+Now to show $X_i \ci X_j | X_{-ij}$, we need to compute the marginal distribution $p(X_{-ij})$. This can be done using the sum rule:
+\begin{equation}
+\begin{aligned}
+p(X_{-ij}) &= \int p(X_{-ij}, X_i = x_i, X_j = x_j) d x_i d x_j \\
+&= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} [ \sum_{k \neq i, j} \sum_l (X_k - \mu_k) \Lambda_{kl} (X_l - \mu_l) ] ] \int \exp [ -\frac{1}{2} [ f(x_i) + g(x_j) ] ] d x_i d x_j.
+\end{aligned}
+\end{equation}
+Without explicitly computing the integral and instead denoting it as $\int \exp [ -\frac{1}{2} [ f(x_i) + g(x_j) ] ] d x_i d x_j = F(X_{-ij})$, we have
+$$p(X_i, X_j | X_{-ij}) = \frac{P(X)}{P(X_{-ij})} = \frac{ \exp [ -\frac{1}{2} [ f(X_i) + g(X_j) ] ] }{F(X_{-ij})}.$$
+Using the sum rule again, we can show that:
+$$p(X_i | X_{-ij}) = \int p(X_i, X_j = x_j | X_{-ij}) d x_j = \frac{ \exp [ -\frac{1}{2} f(X_i) ] }{F(X_{-ij})} \int \exp[-\frac{1}{2} g(x_j)] d x_j.$$
+$$p(X_j | X_{-ij}) = \int p(X_i = x_i, X_j | X_{-ij}) d x_j = \frac{ \exp [ -\frac{1}{2} g(X_j) ] }{F(X_{-ij})} \int \exp[-\frac{1}{2} f(x_i)] d x_i.$$
+Lastly, notice that:
+$$F(X_{-ij}) = \int \exp [ -\frac{1}{2} [ f(x_i) + g(x_j) ] ] d x_i d x_j = \int \exp[-\frac{1}{2} f(x_i)] d x_i \int \exp[-\frac{1}{2} g(x_j)] d x_j.$$
+Combining all the above equations proves that
+$$p(X_i, X_j | X_{-ij}) = p(X_i | X_{-ij}) p(X_j | X_{-ij}) \quad \Rightarrow \quad X_i \ci X_j | X_{-ij}.$$
+
+\paragraph{Question \ref{q:uncorrelated}}
+As $Y = X^2$ this means $Y$ is completely determined by $X$ hence $X$ and $Y$ are dependent. However, $\mathbb{E}[XY] = \mathbb{E}[X^3] = 0$ as the PDF of a univariate Gaussian is symmetric around the mean (which is 0 in this case). Notice that $\mathbb{E}[X] = 0$, therefore $\mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[Y]$, meaning that $X$ and $Y$ are uncorrelated.
+
