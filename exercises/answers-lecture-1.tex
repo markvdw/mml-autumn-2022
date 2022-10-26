@@ -4,7 +4,7 @@
 
 Given $p(\textbf{x}) = \frac{1}{C}(x_1^2 + x_1x_2 x_2^2 + 2x_2x_3)$, we need to rearrange the terms to find an expression as follows:
 \begin{equation}
-p(\textbf{x}) = \frac{1}{C}(\textbf{x}^T A \textbf{x}), \quad A\in \mathbb{R}^{3\times 3}
+p(\textbf{x}) = \frac{1}{C}(\textbf{x}^T A \textbf{x}), \quad A\in \mathbb{R}^{3\times 3}.
 \end{equation}
 Inspection of the terms in $p(\textbf{x})$ gives the following solution
 \begin{align*}
@@ -27,27 +27,27 @@ x_2
 \begin{pmatrix}
 x_1 & x_2 & x_3
 \end{pmatrix} = x_1^2 + x_1x_2 x_2^2 + 2x_2x_3
-\end{align*}.
+.\end{align*}
 Thus,
 \begin{equation}
 p(\textbf{x}) = \frac{1}{C}(\textbf{x}^T A \textbf{x}), \quad A = \begin{pmatrix}
 1 & \frac{1}{2} & 0\\
 \frac{1}{2} & 1 & 1\\
 0 & 1 & 0
-\end{pmatrix}
+\end{pmatrix}.
 \end{equation}
 
 
 \paragraph{\questionref{q:noisecondind}}
 
-Given inputs $X\in\mathbb{R}^{N\times D}$, where $X=\{\textbf{x}_1, \dots, \textbf{x}_N\}$, we want to show that all $y_n$s are independent, i.e.
+Given inputs $X\in\mathbb{R}^{D\times N}$, where $X=\{\textbf{x}_1, \dots, \textbf{x}_N\}$, we want to show that all $y_n$s are independent, i.e,
 \begin{align}
-p(\vy|\vtheta,\mat X) = \prod_{n=1}^N p(y_n|\vtheta,\textbf{x}_n)
-\end{align}.
+p(\vy|\vtheta,\mat X) = \prod_{n=1}^N p(y_n|\vtheta,\textbf{x}_n).
+\end{align}
 
-We can show this by rearranging terms of the Gaussian distribution.
+We can show this by rearranging terms of the Gaussian distribution:
 \begin{align}
 p(\vy|\vtheta,\mat X) &= \NormDist{\vy; \vtheta\transpose X, \sigma^2 \eye} = \frac{1}{\sqrt{(2\pi)^N|\sigma^2 I|}}\exp\big(-\frac{1}{2}(\textbf{y} - \vtheta\transpose X)\transpose\sigma^{-2}I (\textbf{y} - \vtheta\transpose X)\big) \\
 &= \frac{1}{\sqrt{(2\pi\sigma^2)^N}}\exp\big(-\frac{1}{2\sigma^2}||\textbf{y} - \vtheta\transpose X||^2\big) = \frac{1}{\sqrt{(2\pi\sigma^2)^N}}\exp\big(-\frac{1}{2\sigma^2}\sum_{n=1}^N(y_n - \vtheta\transpose \textbf{x}_n)^2\big) \\
 &= \prod_{n=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\big(-\frac{1}{2\sigma^2}(y_n - \vtheta\transpose \textbf{x}_n)^2\big) = \prod_{n=1}^N p(y_n|\vtheta,\textbf{x}_n)
-\end{align}
+.\end{align}

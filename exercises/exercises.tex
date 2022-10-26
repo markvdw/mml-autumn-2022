@@ -270,9 +270,9 @@ Put this into notation that only uses $\vx$ as a single whole vector.
 
 \begin{question}[Noise conditional independence]
 \label{q:noisecondind}
-Consider the probability of the data in linear regression, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X \in \Reals^{N\times D}$ where $\mat X = \{\vx_1, \dots, \vx_N\}$:
+Consider the probability of the data in linear regression, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X \in \Reals^{D\times N}$ where $\mat X = \{\vx_1, \dots, \vx_N\}$:
 \begin{align}
-p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose\vx, \sigma^2 \eye}
+p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose X, \sigma^2 \eye}
 \end{align}
 Show that all $y_n$s are independent, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X$.
 \end{question}
