@@ -1,0 +1,27 @@
+\section{Answers Lecture 4: Probabilistic Modelling Principles}
+
+\paragraph{Question \ref{q:translation}}
+\begin{itemize}
+    \item[a.] Choose a categorical distribution. Let $T_{\mparam}(\cdot): \mathcal{F} \rightarrow \mathbb{R}^{|\mathcal{E}|}$ maps a French word $f$ to a real-value vector of length $|\mathcal{E}|$. Then define
+    $$p(e | T_{\mparam}(f)) = \text{Categorical}(softmax(T_{\mparam}(f))).$$
+    \item[b.] The MLE objective is (if we write $e_n$ using one-hot encoding: $e_n = (0, ..., 0, 1, 0, ..., 0)$)
+    $$\mparam^* = \arg\max_{\mparam} \frac{1}{N} \sum_{n=1}^N \log p(e_n | T_{\mparam}(f_n)) = \arg\max_{\mparam} \frac{1}{N} \sum_{n=1}^N \log \frac{\exp[T_{\mparam}(f_n)]^\top e_n}{\sum_{i=1}^{|\mathcal{E}|} \exp[T_{\mparam}(f_n)_i] }$$
+\end{itemize}
+
+\paragraph{Question \ref{q:clustering_gmm}}
+\begin{itemize}
+    \item[a.] With i.i.d.~assumption, the MLE objective is:
+    $$L(\mparam) = \frac{1}{N} \sum_{n=1}^N \log \sum_{k=1}^K \pi_k \mathcal{N}(x_n; \mu_k, \sigma^2).$$
+    \item[b.] The gradient of the MLE objective w.r.t.~$\mu_k$ is
+    $$\nabla_{\mu_k} L(\mparam) = \frac{1}{N} \sum_{n=1}^N \frac{\pi_k \mathcal{N}(x_n; \mu_k, \sigma^2)}{\sum_{j=1}^K \pi_j \mathcal{N}(x_n; \mu_j, \sigma^2) } \frac{x_n - \mu_k}{\sigma^2}.$$
+    Notice that by Bayes' rule, we have the posterior probability of cluster assignment as
+    $$p(k| x_n) = \frac{\pi_k \mathcal{N}(x_n; \mu_k, \sigma^2)}{\sum_{j=1}^K \pi_j \mathcal{N}(x_n; \mu_j, \sigma^2) }.$$
+    This means
+    $$\nabla_{\mu_k} L(\mparam) = \frac{1}{N} \sum_{n=1}^N p(k | x_n) \frac{x_n - \mu_k}{\sigma^2}.$$
+    Setting $\nabla_{k} L(\mparam) = 0$ for all $k$, we have the fixed-point equation as
+    $$\mu_k =  \frac{ \sum_{n=1}^N p(k | x_n) x_n}{\sum_{n=1}^N p(k | x_n) }.$$
+\end{itemize}
+
+
+\paragraph{Question \ref{q:linear_regression_projection}}
+Using matrix-vector notations we have $\hat{\y} = \bm{\Phi} \mparam^* = \bm{\Phi} (\bm{\Phi}^\top \bm{\Phi})^{-1} \bm{\Phi}^\top \y$. Writing the SVD of $\bm{\Phi} = \bU \Sigma \bV^\top$, it is easy to show that $\bm{\Phi} (\bm{\Phi}^\top \bm{\Phi})^{-1} \bm{\Phi}^\top = \bU \bU^\top$. Notice that $\bU$ contains basis vectors which span to the same subspace spanned by the column vectors of $\bm{\Phi}$.

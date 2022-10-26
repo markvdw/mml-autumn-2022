@@ -1,8 +1,5 @@
 \documentclass[a4paper]{article}
 
-
-
-
 %% Language and font encodings
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -32,6 +29,9 @@
 \usepackage{enumitem}
 \usepackage{epsdice}
 
+\input{../includes/tikzlibrarybayesnet.code.tex}
+\input{../includes/tikzlibraryipe.code.tex}
+
 
 \input{YingzhenMathNotations}
 
@@ -49,6 +49,13 @@
 
 \newcommand{\lb}{\mathcal{L}}
 \newcommand{\sumn}{\sum_{n=1}^N}
+
+\newcommand{\dA}{\epsdice{1}}
+\newcommand{\dB}{\epsdice{2}}
+\newcommand{\dC}{\epsdice{3}}
+\newcommand{\dD}{\epsdice{4}}
+\newcommand{\dE}{\epsdice{5}}
+\newcommand{\dF}{\epsdice{6}}
 
 \theoremstyle{definition}
 \newtheorem{question}{Question}
@@ -199,6 +206,7 @@ See \S6 of \courseprobstats{}.
 
 
 \begin{question}[Continuous Random Variables]
+\label{q:crv}
 Consider the random variable $X$ with a probability density $p(x) = C\cdot x$ when $x \in [0, 1]$ and $0$ elsewhere.
 \begin{enumerate}[label=\alph*.]
     \item Calculate $C$.
@@ -213,6 +221,7 @@ See \S6.3, \S7 of \courseprobstats{} or \citet[\S 6.2.2]{mml}.
 
 
 \begin{question}[Joint Discrete Random Variables]
+\label{q:jdrv}
 Consider two random variables $A,C$, where $A$ is the outcome of one die, and $C$ gives the sum of $A$ and the sum of another die $B$.
 \begin{enumerate}[label=\alph*.]
     \item From intuition, write a table of $\prob{C=c|A=a}$, which we use to denote the probability of $C$ taking the value $c$, if we know that $A$ has taken the value $a$.
@@ -223,6 +232,7 @@ We will cover conditional probability more later, but for now just think it thro
 \end{question}
 
 \begin{question}[Multivariate Integration]
+\label{q:mi}
 Consider two continuous random variables $X,Y$ with joint density $p(x, y) = C\cdot (x^2 + xy)$ when $x \in [0, 1]$ and $y \in [0, 1]$, and $0$ elsewhere.
 \begin{enumerate}[label=\alph*.]
     \item Find $C$.
@@ -267,18 +277,22 @@ p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose\vx, \sigma^2 \eye}
 Show that all $y_n$s are independent, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X$.
 \end{question}
 
-\begin{question}[Maximum likelihood revision] For a Gaussian distribution with mean $\mu$ and variance $\sigma^2$.
+\begin{question}[Maximum likelihood revision]
+\label{q:MLE-Niid}
+For a Gaussian distribution with mean $\mu$ and variance $\sigma^2$.
 \begin{enumerate}[label=\alph*.]
 \item Derive the probability distribution for $N$ iid draws.
-\item Derive the maximum likelihood estimator for the mean $\mu$.
+\item Derive the maximum likelihood estimator for the mean $\mu$ and variance $\sigma^2$.
 \end{enumerate}
 \end{question}
 
 \begin{question}[Maximum likelihood and minimum loss]
+\label{q:MLEReg}
 Show that the solution to the Maximum Likelihood estimator for linear regression is the same as the minimum squared loss estimator.
 \end{question}
 
 \begin{question}[MML 5.1-5.3]
+\label{q:chainrule}
 This is revision. Compute the derivatives for w.r.t.~$x$ for
 \begin{enumerate}[label=\alph*.]
 \item $f(x) = \log (x^4) \sin (x^3)$
@@ -366,15 +380,27 @@ For the stationary point of linear regression, find the Hessian, and prove that 
 \end{question}
 
 
-\begin{question}[Autodiff]
-\label{q:autodiff}
-Consider the function:
+\section{Lecture 3: Automatic Differentiation}
+\begin{question}[Product rule]
+\label{q:autodiff-productrule} Consider the function $f(a, b) = a\cdot b$, where $a = a(x), b = b(x)$, i.e.~unspecified functions of $x$.
+\begin{itemize}
+\item Show that by following forward mode autodiff, you effectively calculate the product rule.
+\item Show that if $a(x) = x, b(x) = x$, which means that the overall function $f(x) = x^2$, the gradient that is computed will be $2x$.
+\end{itemize}
+(Note from MvdW (autumn 2022): I somewhat messily described this on the board. The question is included here to provide a clearer explanation.)
+\end{question}
+
+
+\begin{question}[Multivariate Autodiff]
+\label{q:autodiff} This is a rather big question that should test your understanding of all material in the first three lectures.
+Consider the overall function $f(\boldsymbol \ell, \mat X)$ consisting of the parts:
 \begin{align}
-f(\boldsymbol \ell, \mat X) &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\inv \vy\,, \\
+f &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\inv \vy\,, \\
 \mat K_a &= \exp\left(\mat \Lambda_a\right) \,, \\
 \mat \Lambda_a &= -\frac{\mat D_a}{2\ell_a^2} \,, \\
-\mat D_a &= (\mat X[:, a, \text{\texttt{None}}] - \mat X[:, \text{\texttt{None}}, b])^2 \,.
+\mat D_a &= (\mat X[:, \text{\texttt{None}}, a] - \mat X[\text{\texttt{None}}, :, a])^2 \,,
 \end{align}
+where we use \texttt{numpy} broadcasting notation in the final equation.
 \begin{enumerate}[label=\alph*.]
 \item Given $\boldsymbol \ell \in \Reals^2$ and $\mat X \in \Reals^{N\times 2}$, find the shape of all intermediate computations.
 \item Draw the computational graph for $f(\boldsymbol\ell, \mat X)$.
@@ -382,6 +408,11 @@ f(\boldsymbol \ell, \mat X) &= \vy\transpose \left(\mat K_1 + \mat K_2\right)\in
 \end{enumerate}
 \end{question}
 
+% Lecture 4: Probabilistic Modelling Principles 
+\input{prob_modelling_questions}
+
+% Lecture 5: Gradient Descent Convergence
+\input{gradient_descent_questions}
 
 
 \section{Lecture $N$: Multivariate Probability}
@@ -403,7 +434,6 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -417,9 +447,11 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 
 \input{warm-up-answers}
 \input{answers-lecture-1}
+\input{question-16-17-18}
 \input{answers-lecture2-diff}
 
-
+\input{prob_modelling_answers}
+\input{gradient_descent_answers}
 
 
 

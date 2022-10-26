@@ -1,8 +1,148 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
-\paragraph{\questionref{q:hessian}} TODO
-The matrix $\Phi(X)\transpose\Phi(X)$ needs to be invertible. It certainly won't be if $M > N$, since $\rank \Phi(X)\transpose\Phi(X) < M$. However, even if $N>M$, the rank may be deficient if there are linearly dependent rows in $\Phi(X)$. This can happen if you observe repeated input points. A case that is harder to predict and observe is if you observe points that make the feature vectors $\vphi(\vx_n)$ linearly dependent. It would be good to find a good reference in a textbook for when this happens, and what this looks like. However, this final case doesn't happen very often, and usually the inversion is possible if $N \geq M$. And if the inversion is possible, that means that there is no zero eigenvalue in the matrix, and so the matrix is positive definite, and the optimum is proven to be a minimum.
+\paragraph{\questionref{q:hessian}}
+The objective function and gradient w.r.t.~$\vtheta$ (see lectures) for Linear Regression is
+\begin{align}
+L(\vtheta) = \norm{\vy - \Phi(X)\vtheta}^2 \,, &&
+\deriv[L]{\vtheta} = 2(\Phi(X)\vtheta - \vy)\transpose\Phi(X) \,.
+\end{align}
+We begin by finding the Hessian, i.e.~the matrix containing all second partial derivatives. We need to do this in index notation, as the vector conventions of our vector chain rule break down. So we first write the derivative in index notation, and then we take the derivative again, after which we return to vector notation:
+\begin{align}
+\pderiv[]{\theta_j} \left(\pderiv[L]{\theta_i}\right) &=
+\pderiv[]{\theta_j} \left(2\sum_k\left(\sum_m\Phi_{km}\theta_m - y_k\right)\Phi_{ki}\right) =
+\pderiv[]{\theta_j} \left(2\sum_k\left(\sum_m\Phi_{km}\theta_m - y_k\right)\Phi_{ki}\right) \\
+&= 2\sum_{km}\Phi_{km}\delta_{mj}\Phi_{ki} = 2\sum_{k}\Phi_{kj}\Phi_{ki} \,, \\
+\implies \mat H_{\vtheta}(L) &= 2 \Phi(X)\transpose\Phi(X) \,.
+\end{align}
+The Hessian doesn't depend on the parameter $\vtheta$, so if we prove that the matrix is positive definite, then the local where $\deriv[L]{\theta} = 0$ (see lecture slides) will be a minimum. For a matrix to be PD, we need $\vv\transpose\mat H\vv > 0$ for all $\vv$. We substitute our Hessian into $\mat H$ to prove this
+\begin{align}
+\vv\transpose \mat H \vv &= 2\vv\transpose \Phi(X)\transpose\Phi(X) \vv \\
+&= \vw\transpose\vw = \sum_i w_i^2\,, && \text{with } \vv = \Phi(X)\vv\,.
+\end{align}
+This already shows that $\vv\transpose \mat H \vv \geq 0$, with equality if there exists a $\vv$ such that $\Phi(X)\vv = 0$. So now we need to prove that \emph{there cannot be} a $\vv$ for which $\Phi(X)\vv = 0$. If $\mathrm{rank}\,\Phi(X) \geq M$, then this will not happen, by the rank-nullity theorem \citep[\S 2.7.3]{mml}.
 
-\paragraph{\questionref{q:autodiff}} TODO
+At this point, we need to assume this is the case. For full marks though, you should state the implications on the problem at hand, rather than in abstract maths. One \emph{necessary} implication of this is that $N\geq M$. This is only a necessary condition, rather than a sufficient one, since even of $N \geq M$, $\Phi(X)$ can still have many linearly dependent rows. This will at least happen if you observe repeated input points. However, to prove more than this, you need more information about $\Phi(X)$.\footnote{A case that is harder think about is if you observe points that make the feature vectors $\vphi(\vx_n)$ linearly dependent. One example is if you have a 2D input with $\vphi(\vx) = \vx\transpose$, and all your input points lie on a line.}
 
+So to summarise, we could prove that \textbf{if $\mathrm{rank}\,, \Phi(X) \geq M$, which at least needs $N\geq M$, then Linear Regression has a single minimum solution}.
+
+If we are coding up a linear regression problem, and we want to check numerically for a \emph{specific} regression problem whether there is a unique solution, we can compute the eigenvalues of $\Phi(X)\transpose\Phi(X)$, and see if they are all positive. This implies a PD Hessian because
+\begin{align}
+\vv\transpose \mat H \vv &= \vv\transpose \mat Q \mat \Lambda \mat Q\inv \vv && \text{(eigenvalue decomposition)} \\
+&= \vv\transpose \mat Q \mat \Lambda \mat Q\transpose\vv && \text{($\mat H = \mat H\transpose$, so $\mat Q\mat \Lambda \mat Q\inv = (\mat Q\mat \Lambda \mat Q\inv)\transpose$, so $\mat Q\inv = Q\transpose$)}\\
+&= \vz\transpose \Lambda \vz \,,
+\end{align}
+which is only $> 0$ if all the elements in the diagonal matrix $\Lambda$ are positive.
+
+If any of the linear algebra was unfamiliar, I recommend looking at chapter 2 in \citet{mml}, particularly \S2.3, \S2.6, and \S2.7, or the 1st year linear algebra course.
+
+
+\section{Answers Lecture 3: Automatic Differentiation}
+
+
+
+\paragraph{\questionref{q:autodiff-productrule}}
+We begin by drawing the computational graph (\cref{fig:qproductrule-compgraph}). % We make the distinction between $v_i$ and the functions to highlight the difference between an \emph{evaluation} of a function, and the function itself. All the $v_i$s refer to specific evaluations, and are therefore numbers.
+We now find the primal trace and the forward tangent trace:
+\begin{align}
+v_0 &= x && \pderiv[v_0]{x} = 1 \\
+v_1 &= a(x) && \pderiv[v_1]{x} = \pderiv[v_1]{v_0}\pderiv[v_0]{x} = \pderiv[a(x)]{x} \\
+v_2 &= b(x) && \pderiv[v_2]{x} = \pderiv[v_2]{v_0}\pderiv[v_0]{x} = \pderiv[b(x)]{x} \\
+v_3 &= v_1 \cdot v_2 && \pderiv[v_3]{x} = \sum_{j \in \mathrm{inputs}(3)}\pderiv[v_3]{v_j}\pderiv[v_j]{x} = v_2\pderiv[a(x)]{x} + v_1\pderiv[b(x)]{x} \,.
+\end{align}
+This means that for any x, forward mode autodiff calculates the derivative to be:
+\begin{align}
+\deriv[f]{x} = b(x)\deriv[a(x)]{x} + a(x)\deriv[b(x)]{x} \,.
+\end{align}
+Which is the product rule.
+
+If we substitute $a(x) = x, b(x) = x$, then we obtain $\calcd f / \calcd x = 2x$, as expected.
+
+
+\begin{figure}[t]
+\centering
+  \tikz{
+ \node[const] (x) {$x$};%
+ \node[latent, right=of x] (v0) {$v_0$};%
+ \node[latent, right=of v0, yshift=0.6125cm] (v1) {$v_1$};
+ \node[latent, right=of v0, yshift=-0.6125cm] (v2) {$v_2$};
+ \node[latent, right=of v1, yshift=-0.6125cm] (v3) {$v_3$};
+ \node[const, right=of v3] (out) {out};
+ \edge {x}  {v0};
+ \edge {v0} {v1,v2};
+ \edge {v1,v2}  {v3};
+ \edge {v3}     {out};
+}
+\caption{Computational graph for \questionref{q:autodiff-productrule}.}
+\label{fig:qproductrule-compgraph}
+\end{figure}
+
+
+
+\paragraph{\questionref{q:autodiff}}
+\begin{figure}[h]
+\centering
+  \tikz{
+ \node[const] (l) {$\boldsymbol\ell$};%
+ \node[const,  below=of l] (X) {$\mat X$};%
+ \node[latent, right=of X] (v0) {$v_0$};%
+ \node[latent, right=of v0] (D1) {$D_1$};
+ \node[latent, right=of v0, yshift=-1.25cm] (D2) {$D_2$};
+ \node[latent, right=of D1, yshift=0.6125cm] (L1) {$\Lambda_1$};
+ \node[latent, right=of D2, yshift=0.6125cm] (L2) {$\Lambda_2$};
+ \node[latent, above=of D1,yshift=-0.4333cm] (vn1) {$v_{-1}$};%
+ \node[latent, right=of L1] (K1) {$K_1$};
+ \node[latent, right=of L2] (K2) {$K_2$};
+ \node[latent, right=of K2, yshift=0.6125cm] (K)  {$v_1$};
+ \node[latent, right=of K] (Kinv)  {$v_2$};
+ \node[latent, right=of Kinv] (v3)  {$v_3$};
+ \node[const, right=of v3] (out)  {out};
+ % \node[latent, right=of v0, yshift=0.6125cm] (v1) {$v_1$};
+ % \node[latent, right=of v0, yshift=-0.6125cm] (v2) {$v_2$};
+ % \node[latent, right=of v1, yshift=-0.6125cm] (v3) {$v_3$};
+ % \node[const, right=of v3] (out) {out};
+ \edge {l}  {vn1};
+ \edge {X}  {v0};
+ \edge {v0} {D1};
+ \edge {v0}  {D2};
+ \edge {D1} {L1};
+ \edge {D2} {L2}; 
+ \edge {vn1} {L1,L2};
+ \edge {L1} {K1};
+ \edge {L2} {K2}; 
+ \edge {K1, K2} {K};
+ \edge {K} {Kinv};
+ \edge {Kinv} {v3};
+ \edge {v3} {out};
+}
+\caption{Computational graph for \questionref{q:autodiff}, where we define $v_1 = \mat K_1 + \mat K_2$, $v_2 = v_1\inv$, and $v_3 = \vy\transpose v_1 \vy$.}
+\label{fig:qautodiff}
+\end{figure}
+\begin{enumerate}[label=\alph*.]
+\item
+\begin{align}
+D_a &: \Reals^{N\times 2} &&\to \Reals^{N\times N} \\
+\Lambda_a &: \Reals^{N\times N}\times \Reals^{2} &&\to \Reals^{N\times N} \\
+K_a &: \Reals^{N\times N} &&\to \Reals^{N\times N} \\
+f &: \Reals^{N\times N}\times\Reals^{N\times N} &&\to \Reals
+\end{align}
+\item See \cref{fig:qautodiff}. We use names evident from the question for some nodes, but give new names to some additional intermediate notes.
+\item Let's first consider \textbf{forward mode} for the derivatives w.r.t.~$\mat X$.
+\begin{align}
+v_{-1} &= \boldsymbol \ell && \dot v_{-1,iab} = \pderiv[{[v_{-1}]}_{i}]{X_{ab}} = 0 && v_{-1} \in \Reals^{2 \times (N\times 2)}\,, O(N) \\ % \pderiv[v_{-1}]{\boldsymbol\ell} = \mat I_2
+v_0 &= X && \dot v_0 = \pderiv[{[v_0]}_{ij}]{X_{ab}} = \delta_{ia}\delta_{jb}  &&  \dot v_0 \in \Reals^{(N\times 2)\times (N\times 2)}\,, O(N^2) \\
+D_z &= \dots && \pderiv[{[D_z]}_{nm}]{v_{0ij}} = \pderiv{v_{0ij}} (v_{0nz} - v_{0mz})^2 &&  \dot D_z \in \Reals^{(N\times N) \times (N\times 2)}  \nonumber \\
+& && \qquad = 2(v_{0nz} - v_{0mz})(\delta_{ni}\delta_{zj} - \delta_{mi}\delta_{zj}) &&\\
+& && \dot D_{znmab} = \left[\pderiv[D_z]{v_0} \dot v_0\right]_{nmab} && O(N) \text{ for sum, so total } O(N^4). \\
+& && \quad = 2 (v_{0nz} - v_{0mz}) (\dot v_{0nzab} - \dot v_{0mzab})&& \text{Structure allows } O(N^3). \\
+\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \pderiv[\Lambda_{zij}]{D_{znm}} = - \frac{D_z}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \dot \Lambda_z \in \Reals^{(N\times N) \times (N\times 2)} \\
+& && \pderiv[\Lambda_{zij}]{v_{-1,k}} = \frac{D_{zij}}{v_{-1z}^3} \delta_{zk} && \\
+& && \dot \Lambda_{zijab} = \left[\pderiv[\Lambda_{z}]{D_{z}} \dot D_{z} + \pderiv[\Lambda_{z}]{v_{-1}} \dot v_{-1}\right]_{ijab} && O(N^2)\text{ for sum, so total }O(N^5)\,.
+\end{align}
+\item {\color{red} To be continued...}
+\end{enumerate}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercises"
+%%% End: 

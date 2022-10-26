@@ -75,7 +75,7 @@ How to find $\pderiv[L]{\vtheta} = [\pderiv[L]{\theta_i}]_i$? \pause
 \vx\transpose\vy &= \sum_i x_i y_i \\ \Pause
 \vy = f(\vx) \vx &\implies y_i = f(\vx) x_i \\ \Pause
 \mat A \vx &=\, ? \\ \Pause
-{[\mat{A} \vx]_j} &= \sum_{j} A_{ij} x_j \\ \Pause
+{[\mat{A} \vx]_i} &= \sum_{j} A_{ij} x_j \\ \Pause
 \mat A\vx &= \left[\sum_j A_{ij} x_j\right]_i
 \end{align}
 \end{frame}
@@ -103,8 +103,8 @@ We want to find $\pderiv[L]{\vtheta}$, i.e.~$[\pderiv[L]{\theta_i}]_i$ for all $
 \item Think about $\pderiv[\theta_k]{\theta_i}$. What value does it take?\pause
 \item If $i\neq k$, then $0$; if $i = k$, then $1$. \pause
 \item Denoted as \emph{kronecker delta} $\delta_{ik}$. \pause
-\item Think about what happens to $\sum_k \delta_{ik}$. \pause
-\item Think about what happens to $\sum_a v_a \delta_{ai}$. \pause
+\item Think about what happens to $w_i = \sum_k \delta_{ik}$. \pause
+\item Think about what happens to $x_k = \sum_a v_a \delta_{ak}$. \pause Is $\delta_{ak}$ a matrix? \pause
 \end{itemize}
 \begin{align}
 \pderiv[L]{\theta_i}  &= -2\sum_{n} \left(y_n - \sum_{m=1}^M\phi_m(x_n)\theta_m\right) \sum_k \phi_k(x_n) \delta_{ki} \\ \Pause
@@ -210,7 +210,7 @@ It turns out, there is a multivariate chain rule:
 \begin{align*}
 \deriv[f(\vec g(t))]{t} = \sum_{i=1}^D\pderiv[f]{g_i}\deriv[g_i]{t} && \vec g(t) \in \Reals^D
 \end{align*}} \pause \pause
-This is an inner product. Can write in vector form:
+Inner product!  \pause \emph{Given our convention}, we can write in vector form:
 \begin{align*}
 \deriv[f(\vec g(t))]{t} = \underbrace{\deriv[f]{\vec g}}_{\text{row}}\cdot\underbrace{\deriv[\vec g]{t}}_{\text{column}}
 \end{align*} \pause
@@ -269,7 +269,7 @@ This is an inner product. Can write in vector form:
 
 
 
-\begin{frame}[t]{Multivariate Chain Rule}
+\begin{frame}[t]{Derivative of vector w.r.t.~vector}
 We saw the chain rule if we were differentiating w.r.t.~a scalar:
 \only<1>{
 \begin{align*}
@@ -370,12 +370,12 @@ This is a matrix multiplication! Can write in vector form:
     \end{center}
 
 \pause
-A function composition $\vf(\vx) = (\vg \circ \mathbf h)(\vx)$ has the constraint that the \emph{output dimension} of $\mathbf h(\cdot)$ has to equal the \emph{input dimension} of $\vg(\cdot)$, so that we can compute $\vg(\mathbf h(\vx))$. \pause
+A function composition $\vf(\vx) = \vf_{\vg}(\vg(\vx))$ {\tiny(subscript to distinguish from overall function)} has the constraint that the \emph{output dimension} of $\mathbf g(\cdot)$ has to equal the \emph{input dimension} of $\vf_{\vg}(\cdot)$, so that we can compute $\vf(\mathbf g(\vx))$. \pause
 
 This ensures that the shapes of the chain rule work out:
 \begin{gather}
-\vf : \Reals^\text{\colchar{\scriptsize{$N$}}{blue}} \to \Reals^\text{\colchar{\scriptsize{$M$}}{orange}} \qquad \qquad \vg : \Reals^\text{\colchar{\scriptsize{$L$}}{green}} \to \Reals^\text{\colchar{\scriptsize{$M$}}{orange}} \qquad \qquad \mathbf h : \Reals^\text{\colchar{\scriptsize{$N$}}{blue}} \to \Reals^\text{\colchar{\scriptsize{$L$}}{green}} \\
-\underbrace{\diffF{\vf}{\vx}}_{\text{\colchar{\scriptsize{$M$}}{orange}}\times\text{\colchar{\scriptsize{$N$}}{blue}}} = \underbrace{\diffF{\vg}{\mathbf h}}_{\text{\colchar{\scriptsize{$M$}}{orange}}\times\text{\colchar{\scriptsize{$L$}}{green}}} \underbrace{\diffF{\mathbf h}{\vx}}_{\text{\colchar{\scriptsize{$L$}}{green}}\times\text{\colchar{\scriptsize{$N$}}{blue}}}
+\vf : \Reals^\text{\colchar{\scriptsize{$N$}}{blue}} \to \Reals^\text{\colchar{\scriptsize{$M$}}{orange}} \qquad \qquad \vf_{\vg} : \Reals^\text{\colchar{\scriptsize{$L$}}{green}} \to \Reals^\text{\colchar{\scriptsize{$M$}}{orange}} \qquad \qquad \mathbf g : \Reals^\text{\colchar{\scriptsize{$N$}}{blue}} \to \Reals^\text{\colchar{\scriptsize{$L$}}{green}} \\
+\underbrace{\diffF{\vf}{\vx}}_{\text{\colchar{\scriptsize{$M$}}{orange}}\times\text{\colchar{\scriptsize{$N$}}{blue}}} = \underbrace{\diffF{\vf_{\vg}}{\mathbf g}}_{\text{\colchar{\scriptsize{$M$}}{orange}}\times\text{\colchar{\scriptsize{$L$}}{green}}} \underbrace{\diffF{\mathbf g}{\vx}}_{\text{\colchar{\scriptsize{$L$}}{green}}\times\text{\colchar{\scriptsize{$N$}}{blue}}}
 \end{gather}
 
     

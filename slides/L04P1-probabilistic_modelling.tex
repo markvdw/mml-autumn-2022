@@ -1,0 +1,522 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+% talk/author information
+\newcommand{\authorname}{Yingzhen Li}
+\newcommand{\authoremail}{yingzhen.li@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{liyzhen2}
+\newcommand{\slidesettitle}{\imperialBlue{Probabilistic Modelling Principles}}
+\newcommand{\footertitle}{Probabilistic Modelling Principles}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 21, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+% load defaults
+%\usepackage{../MarkMathCmds}
+\input{../includes/header.tex}
+\input{../includes/YingzhenNotations.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+%\begin{frame}{Reading for this week}
+%
+%\begin{center}
+%Read MML book: Sections 4.1 - 4.4, 7.1, Chapter 9 up to 9.2.3 \\
+%Do MML book exercises: Exercises 4.1 - 4.7 \\
+%An extra exercise will be uploaded to course materials.
+%\end{center}
+%
+%\end{frame}
+
+
+%%%% linear regression example %%%%%%%
+
+
+%%%%%%%%%%%%%%%% probabilistic models %%%%%%%%%%%%%%%
+
+\begin{frame}{Principles of probabilistic modelling}
+
+Have you ever wondered about the following questions:
+\begin{itemize}
+	\item Why using $\ell_2$ loss in many regression problems?
+	\item Where does the cross-entropy loss come from?
+	\item What is a good principle for choosing a good loss function?
+\end{itemize} \pause
+
+\begin{center}
+\emph{Probabilistic modelling} gives you good answers for all of them!
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Principles of probabilistic modelling}
+
+Probabilistic modelling is about:
+\begin{itemize}
+	\item[1.] making model assumptions on \alert{how the data is generated}
+	\item[2.] estimating model parameters under probabilistic principles
+	\item[3.] model checking using data, and repeat 1 - 3
+	\item[4.] using the fitted model for downstream tasks
+\end{itemize}
+
+\end{frame}
+
+%%% adding coin flip example %%%%%%
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+\begin{itemize}
+	\item Assume $x_1, x_2, ..., x_N$ are observed \emph{independent} coin flip results using the \emph{same} coin,
+	\item I.e., $x_1, ..., x_N$ are sampled i.i.d. from the same \emph{data distribution} $\pi(x)$
+	\item However, we don't know $\pi(x)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+Probabilistic modelling is about:
+\begin{itemize}
+	\item[1.] Assume $x$ is sampled from $p(x | \mparam)$ \alert{$\Leftarrow$ our probabilistic model}
+	\item[2.] estimating $\bm{\theta}$ under probabilistic principles \\ such as MLE, MAP, posterior inference \alert{$\Leftarrow$ learning the model}
+	\item[3.] check if $p(x | \bm{\theta}^*)$ fits $\pi(x)$ well, and repeat 1 - 3 \alert{$\Leftarrow$ model checking}
+	\item[4.] making prediction for next coin flip result using $p(x | \mparam^*)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+Step 1: Assume $x$ is sampled from $p(x | \mparam)$
+\begin{equation*}
+x = \begin{cases}
+1, \quad \text{with probability } \mparam \\
+0, \quad \text{with probability } 1 - \mparam
+\end{cases}, \quad \mparam \in [0, 1].
+\end{equation*}
+$$\Leftrightarrow \quad p(x | \mparam) = \text{Bern}(\mparam).$$
+
+\begin{itemize}
+	\item Likelihood of $\mparam$ given observed $x$: $\ell(\mparam) = p(x | \mparam)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+Step 2: estimating $\mparam$ using probabilistic principles
+
+Here we consider \emph{maximum likelihood estimation (MLE)}
+
+Idea of MLE: for datapoints $x$ sampled from $\pi(x)$
+\begin{itemize}
+	\item We want to find $\bm{\theta}^*$ such that $p(x | \bm{\theta}^*) \approx \pi(x)$ \pause
+	\only<2>{
+	\item We need to measure the ``closeness'' of the two distributions $\Rightarrow$ use the KL divergence
+	$$\mathrm{KL}[\pi(x) || p(x | \bm{\theta})] = \mathbb{E}_{\pi(x)} \left[ \log \frac{\pi(x)}{p(x | \bm{\theta})} \right]$$
+	}
+	\only<3>{
+	\item We want this KL to be small:
+	$$ \bm{\theta}^* = \arg\min_{\bm{\theta}} \mathrm{KL}[\pi(x) || p(x | \bm{\theta})] $$
+	}
+	\only<4>{
+	$$ \Leftrightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \mathbb{E}_{\pi(x)}[\log p(x | \bm{\theta})] $$
+	}
+	\only<5>{
+	\item Estimate using dataset $\mathcal{D} = \{x_1, ..., x_N \}$ sampled from $\pi(x)$: 
+	$$ \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{n=1}^N \log p(x_n | \bm{\theta}) $$
+	}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+Step 2: estimating $\mparam$ using probabilistic principles
+
+Here we consider \emph{maximum likelihood estimation (MLE)}
+
+\begin{itemize}
+	\item Estimate using dataset $\mathcal{D} = \{x_1, ..., x_N \}$ sampled from $\pi(x)$: 
+	$$ \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{n=1}^N \log p(x_n | \bm{\theta}) $$
+	\only<1>{
+	\item model assumption: $p(x | \mparam) = \text{Bern}(\mparam)$
+	$$ \Rightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{n=1}^N x_n \log \mparam + (1 - x_n) \log (1 - \mparam)$$
+	}
+	\only<2>{
+	\item solution by zeroing the gradient:
+	$$ \frac{1}{N} \sum_{n=1}^N x_n \mparam^{-1} - (1 - x_n) (1 - \mparam)^{-1} = 0 \quad \Rightarrow \quad \mparam^* =  \frac{1}{N} \sum_{n=1}^N x_n$$
+	}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+Step 3: check if $p(x | \mparam^*)$ fits $\pi(x)$ well
+
+(We assume the model has passed here)
+\end{frame}
+
+\begin{frame}{Example: coin flipping}
+
+Imagine you'd like to predict the next coin flip result:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{figures-probmodel/coin_flips.png}
+\end{figure}
+
+Step 4: making prediction for next coin flip result using $p(x | \mparam^*)$
+
+$$\mparam^* = \frac{1}{N} \sum_{x \in \mathcal{D}} x$$
+
+\begin{equation*}
+\Rightarrow \quad x_{N+1} = \begin{cases}
+1, \quad \text{with probability } \frac{1}{N} \sum_{n=1}^N x_n \\
+0, \quad \text{with probability } 1 - \frac{1}{N} \sum_{n=1}^N x_n
+\end{cases}.
+\end{equation*}
+
+\end{frame}
+
+
+%%%%%%%%%%
+
+\begin{frame}{Principles of probabilistic modelling}
+
+Datapoints $(\x, y)$ are sampled from an \emph{unknown ground truth distribution} $\pi(\x, y)$
+
+Probabilistic modelling is about (in supervised learning case):
+\begin{itemize}
+	\item[1.] Assuming the output $y$ given $\x$ is sampled from 
+	$$p(y | \x, \bm{\theta})$$
+	\item[2.] estimating $\bm{\theta}$ under probabilistic principles \\ such as MLE, MAP, posterior inference
+	\item[3.] check if $p(y | \x, \bm{\theta}^*)$ fits $\pi(y | \x)$ well, and repeat 1 - 3
+	\item[4.] using $p(y | \x, \bm{\theta}^*)$ for predictions
+\end{itemize}
+
+\end{frame}
+
+%%%% linear regression
+
+\begin{frame}
+\frametitle{Probabilistic modelling: linear regression}
+\begin{minipage}{0.45\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{figures-probmodel/linear_regression.png}
+\end{figure}
+$$\text{Linear regression}$$
+$$f(\x, \mparam) = \mparam^\top \x ,$$
+$$y = f(\x, \mparam) + \epsilon, \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+\end{minipage}
+\only<2->{
+\hfill $\Rightarrow$ \hfill
+\begin{minipage}{0.45\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{figures-probmodel/non_linear_regression.png}
+\end{figure}
+$$\text{Non-linear regression}$$
+$$f(\x, \mparam) =  \mparam^\top \textcolor{red}{\phi(\x)}$$
+$$y = f(\x, \mparam) + \epsilon, \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+\end{minipage}
+}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+
+Step 1: making assumptions about the output generation process
+$$y = \bm{\theta}^\top \phi(\x) + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+\vspace{-2em}
+\begin{itemize}
+	\item $\bm{\theta}$ is the model parameter
+	\item $\phi(\x)$ is a pre-defined feature mapping (e.g., polynomial features)
+\end{itemize} \pause
+\vspace{1em}
+
+Probabilistic formulation:
+\begin{itemize}
+	\item The distribution of $y$ given $\x$ under model assumption:
+	$$p(y | \x, \bm{\theta}) = \mathcal{N}(\bm{\theta}^\top \phi(\x), \sigma^2)$$
+
+	\item Likelihood of $\bm{\theta}$ given observed data $(\x, y)$:
+	$$\ell(\bm{\theta}) = p(y | \x, \bm{\theta})$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+
+Step 2: estimating $\bm{\theta}$ using \emph{maximum likelihood estimation (MLE)}
+
+Idea of MLE: for datapoints $(\x, y)$ sampled from $\pi(\x, y)$
+\begin{itemize}
+	\item We want to find $\bm{\theta}^*$ such that $p(y | \x, \bm{\theta}^*) \approx \pi(y | \x)$ \pause
+	\item We need to measure the ``closeness'' of the two distributions $\Rightarrow$ use the KL divergence
+	$$\mathrm{KL}[\pi(y | \x) || p(y | \x, \bm{\theta})] = \mathbb{E}_{\pi(y | \x)} \left[ \log \frac{\pi(y | \x)}{p(y | \x, \bm{\theta})} \right]$$ \pause
+	\item We want this KL to be small for all $\x$ sampled from $\pi(\x)$
+	\only<3>{
+	$$ \bm{\theta}^* = \arg\min_{\bm{\theta}} \mathbb{E}_{\pi(\x)}[\mathrm{KL}[\pi(y | \x) || p(y | \x, \bm{\theta})]] $$
+	}
+	\only<4>{
+	$$ \Leftrightarrow \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \mathbb{E}_{\pi(\x, \y)}[\log p(y | \x, \bm{\theta})] $$
+	}
+	\only<5>{
+	Estimate using dataset $\mathcal{D} = \{ (\x_n, y_n) \}_{n=1}^N$ from $\pi(\x, y)$: 
+	$$ \quad \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} \log p(y_n | \x_n, \bm{\theta}) $$
+	}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+
+Step 2: estimating $\bm{\theta}$ using \emph{maximum likelihood estimation (MLE)}
+
+MLE: find $\bm{\theta}^*$ by 
+$$ \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} \log p(y_n | \x_n, \bm{\theta}) $$
+
+\begin{itemize}
+	\item We assumed the probabilistic model to be
+	$$p(y | \x, \bm{\theta}) = \mathcal{N}(\bm{\theta}^\top \phi(\x), \sigma^2)$$ \pause
+\end{itemize}
+\vspace{-2.5em}
+
+\begin{equation*}
+\begin{aligned}
+\Rightarrow \bm{\theta}^* &= \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} \log \mathcal{N}(\bm{\theta}^\top \phi(\x), \sigma^2) \pause \\ 
+&= \arg\max_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} - \frac{1}{2\sigma^2} || y_n - \bm{\theta}^\top \phi(\x_n) ||_2^2 + \text{const} \pause \\
+&= \arg\min_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} \frac{1}{2\sigma^2} || y_n - \bm{\theta}^\top \phi(\x_n) ||_2^2
+\end{aligned}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+Step 2: estimating $\bm{\theta}$ using \emph{maximum likelihood estimation (MLE)}
+
+$$\arg\min_{\bm{\theta}} \frac{1}{N} \sum_{ (\x_n, y_n) \in \mathcal{D}} \frac{1}{2\sigma^2} || y_n - \bm{\theta}^\top \phi(\x_n) ||_2^2
+$$
+
+Writing the objective in matrix form: $\bm{\Phi} = (\phi(x_1), ..., \phi(x_N))^\top, \y = (y_1, ..., y_N)^\top$
+$$\mparam^* = \argmin_{\mparam} L(\mparam), \quad L(\mparam) = \frac{1}{2 \sigma^2} || \y - \bm{\Phi} \mparam ||_2^2 $$
+
+\begin{itemize}
+	\item Gradient of the loss $\nabla_{\mparam} L(\mparam)$: \pause
+	$$\nabla_{\mparam} L(\mparam) = \frac{1}{\sigma^2}\bm{\Phi}^\top(\bm{\Phi} \mparam - \y)$$
+	\item Setting $\nabla_{\mparam} L(\mparam) = 0$: \pause
+	$$\Rightarrow \frac{1}{\sigma^2} \bm{\Phi}^\top \bm{\Phi} \mparam^* = \frac{1}{\sigma^2} \bm{\Phi}^\top \y \quad \textcolor{red}{\Rightarrow \mparam^* = (\bm{\Phi}^\top \bm{\Phi})^{-1} \bm{\Phi}^\top \y}$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+Step 3: check if $p(y | \x, \bm{\theta}^*)$ fits $\pi(y | \x)$ well
+
+Typical approaches:
+\begin{itemize}
+	\item Cross validation
+	\item Model selection with marginal likelihood
+\end{itemize} \pause
+
+If model fit is bad:
+\begin{itemize}
+	\item Try another set of features $\phi'(\x) \neq \phi(\x)$
+	\item Use other classes of models other than linear regression
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+Step 4: using $p(y | \x, \mparam^*)$ to make predictions
+
+Assume new test input $\x_{test}$:
+
+$$\mparam^* = (\bm{\Phi}^\top \bm{\Phi})^{-1} \bm{\Phi}^\top \y$$
+
+$$\Rightarrow \quad p(y_{test} | \x_{test}, \mparam^*) = \mathcal{N}( \y^{\top} \bm{\Phi} (\bm{\Phi}^\top \bm{\Phi})^{-1} \phi(\x_{test}), \sigma^2)$$
+
+\end{frame}
+
+%%%%%% logistic regression
+
+\begin{frame}{Probabilistic modelling: logistic regression}
+
+Step 1: making assumptions about the output generation process
+\begin{equation*}
+y = \begin{cases}
+1, \quad \text{with probability } \rho \\
+0, \quad \text{with probability } 1 - \rho
+\end{cases}, 
+\quad \rho = sigmoid(\bm{\theta}^\top \phi(\x))
+\end{equation*}
+
+Probabilistic formulation:
+\begin{itemize}
+	\item The distribution of $y$ given $\x$ under model assumption:
+	$$p(y | \x, \bm{\theta}) = \text{Bern}(sigmoid(\bm{\theta}^\top \phi(\x)))$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: linear regression}
+
+Step 2: estimating $\bm{\theta}$ using \emph{maximum likelihood estimation (MLE)}
+
+MLE: find $\bm{\theta}^*$ by 
+$$ \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{| \mathcal{D} |} \sum_{ (\x, \y) \in \mathcal{D}} \log p(y | \x, \bm{\theta}) $$
+
+\begin{itemize}
+	\item We assumed the probabilistic model to be
+	$$p(y | \x, \bm{\theta}) = \text{Bern}(sigmoid(\bm{\theta}^\top \phi(\x)))$$ \pause
+\end{itemize}
+\vspace{-2.5em}
+
+\begin{equation*}
+\begin{aligned}
+\Rightarrow \bm{\theta}^* = \arg\max_{\bm{\theta}} \frac{1}{| \mathcal{D} |} \sum_{ (\x, \y) \in \mathcal{D}} &\log \text{Bern}(sigmoid(\bm{\theta}^\top \phi(\x))) \pause \\ 
+= \arg\max_{\bm{\theta}} \frac{1}{| \mathcal{D} |} \sum_{ (\x, \y) \in \mathcal{D}} & y \log \hat{y}(\x; \bm{\theta}) + (1 - y) \log (1 - \hat{y}(\x; \bm{\theta})), \\
+& \hat{y}(\x; \bm{\theta}) = sigmoid(\bm{\theta}^\top \phi(\x))
+\end{aligned}
+\end{equation*}
+\end{frame}
+
+
+\begin{frame}{Probabilistic modelling: linear regression}
+Step 2: estimating $\bm{\theta}$ using \emph{maximum likelihood estimation (MLE)}
+$$\arg\max_{\bm{\theta}} L(\mparam), \quad L(\mparam) = \frac{1}{| \mathcal{D} |} \sum_{ (\x, \y) \in \mathcal{D}} y \log \hat{y}(\x; \bm{\theta}) + (1 - y) \log (1 - \hat{y}(\x; \bm{\theta})), $$
+$$\hat{y}(\x; \bm{\theta}) = sigmoid(\bm{\theta}^\top \phi(\x))$$
+
+\begin{itemize}
+	\item Gradient of the loss $\nabla_{\mparam} L(\mparam)$:
+	$$ \nabla_{\mparam} L(\mparam) = \frac{1}{| \mathcal{D} |} \sum_{ (\x, \y) \in \mathcal{D}} [ y - \hat{y}(\x; \bm{\theta})] \phi(\x) $$
+\end{itemize}
+No analytic solutions!
+\end{frame}
+
+\begin{frame}{Gradient descent based optimisation}
+Algorithm: Gradient Descent (gradient \emph{ascent} in MLE case) \\
+Define \emph{starting point} $\mparam_0$, sequence of \emph{step sizes} $\gamma_t$, set $t\gets 0$.
+\begin{enumerate}
+\item Set $\mparam_{t+1} = \mparam_t + \gamma_t \nabla_{\mparam} L(\mparam_t)$, $t \leftarrow t+1$
+\item Repeat 1 until stopping criterion.
+\end{enumerate}
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.7\hsize]{./figures-probmodel/gd-contour.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: logistic regression}
+Step 3: check if $p(y | \x, \bm{\theta}^*)$ fits $\pi(y | \x)$ well
+
+Typical approaches:
+\begin{itemize}
+	\item Cross validation
+	\item Model selection with marginal likelihood
+\end{itemize} 
+
+If model fit is bad:
+\begin{itemize}
+	\item Try another set of features $\phi'(\x) \neq \phi(\x)$
+	\item Use other classes of models other than logistic regression
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Probabilistic modelling: logistic regression}
+Step 4: using $p(y | \x, \mparam^*)$ to make predictions
+
+Assume new test input $\x_{test}$:
+
+$\mparam^*$ obtained by gradient descent
+
+$$\Rightarrow \quad p(y_{test} | \x_{test}, \mparam^*) = \text{Bern}(Sigmoid((\mparam^*)^\top \phi(\x_{test})))$$
+
+\end{frame}
+
+\begin{frame}{Probabilistic modelling \& MLE: summary}
+Have you ever wondered about the following questions:
+\begin{itemize}
+	\item Why using $\ell_2$ loss in many regression problems? \\
+	\alert{A:} We assume the model to be $p(y | \x, \bm{\theta}) = \mathcal{N}(\bm{\theta}^\top \phi(\x), \sigma^2)$,  \\ and fit $\mparam$ using MLE \pause
+	
+	\item Where does the cross-entropy loss come from? \\
+	\alert{A:} It comes from MLE, and in binary classification using $p(y | \x, \bm{\theta}) = \text{Bern}(sigmoid(\bm{\theta}^\top \phi(\x)))$ \pause
+	
+	\item What is a good principle for choosing a good loss function? \\
+	\alert{A:} Build a probabilistic model for the data generation process, and fit the parameters using MLE (or MAP, posterior inference)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exercises}
+
+Finish relevant exercises in the exercise sheet
+\begin{itemize}
+	\item You should be able to derive MLE objectives from probabilistic model assumptions, and vice versa
+\end{itemize}
+
+\vspace{1em}
+
+Next lecture: convergence of gradient descent
+
+Pre-requisite knowledge: Eigen-decomposition
+
+(See e.g., \url{https://youtu.be/xgZ8oK9Wxzg} or search relevant videos from e.g., 3Blue1Brown)
+
+\end{frame}
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
