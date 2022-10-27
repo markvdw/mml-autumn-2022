@@ -260,6 +260,7 @@ Check your answers by performing numerical integration, e.g.~in Python.
 
 \section{Lecture 1: Probability, Vectors, Differentiation}
 \begin{question}[Vector notation]
+\label{q:vecnot}
 We define the probability density on the vector $\vx \in \Reals^3$ with all elements $0 \leq x_k \leq 1$ as
 \begin{align}
 p(\vx) = \frac{1}{C} (x_1^2 + x_1x_2 + x_2^2 + 2x_2x_3) \,.
@@ -268,9 +269,10 @@ Put this into notation that only uses $\vx$ as a single whole vector.
 \end{question}
 
 \begin{question}[Noise conditional independence]
-Consider the probability of the data in linear regression, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X \in \Reals^{N\times D}$ where $\mat X = \{\vx_1, \dots, \vx_N\}$:
+\label{q:noisecondind}
+Consider the probability of the data in linear regression, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X \in \Reals^{D\times N}$ where $\mat X = \{\vx_1, \dots, \vx_N\}$:
 \begin{align}
-p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose\vx, \sigma^2 \eye}
+p(\vy|\vtheta,\mat X) = \NormDist{\vy; \vtheta\transpose X, \sigma^2 \eye}
 \end{align}
 Show that all $y_n$s are independent, for a fixed setting of the parameters $\vtheta$ and given inputs $\mat X$.
 \end{question}
@@ -332,6 +334,7 @@ Turn the following index expressions back to matrix-vector notation:
 \end{question}
 
 \begin{question}[Index notation proofs]
+\label{q:ind-not-proof}
 Using index notation, show that
 \begin{enumerate}
 \item $\vx\transpose \mat A\vy = \vy\transpose \mat A\vx$ if $\mat A$ is symmetric, i.e.~$\mat A = \mat A\transpose$.
@@ -341,6 +344,7 @@ Using index notation, show that
 \end{question}
 
 \begin{question}[MML 5.5-5.6]
+\label{q:mml55-56}
 First find the dimensions, then the Jacobian. It's probably easiest here to use index notation.
 \begin{enumerate}[label=\alph*.]
 \item $f(\vx) = \sin(x_1)\cos(x_2)$, find $\calcd f/\calcd\vx$.
@@ -353,6 +357,7 @@ First find the dimensions, then the Jacobian. It's probably easiest here to use 
 
 
 \begin{question}[MML 5.7-5.8: Chain rule]
+\label{q:chain-rule}
 Comupte the derivatives $\calcd f /\calcd\vx$ of the following functions.
 \begin{itemize}
 \item First, write out the chain rule for the given decomposition.
@@ -414,7 +419,8 @@ where we use \texttt{numpy} broadcasting notation in the final equation.
 \input{gradient_descent_questions}
 
 
-\section{Lecture $N$: Multivariate Probability}
+\section{Lectures 6 \& 7: Multivariate Probability}
+
 \begin{question}[Vector independence] {\color{red}While you can probabily figure this one out already, we will discuss this in more detail later.}
 Consider the density on $\vx \in \Reals^4$ with all elements $0 \leq x_k \leq 1$ as
 \begin{align}
@@ -426,6 +432,7 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 \end{enumerate}
 \end{question}
 
+\input{multivariate_probability_questions}
 
 
 
@@ -445,13 +452,14 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 
 
 \input{warm-up-answers}
+\input{answers-lecture-1}
 \input{question-16-17-18}
 \input{answers-lecture2-diff}
 
 \input{prob_modelling_answers}
 \input{gradient_descent_answers}
 
-
+\input{multivariate_probability_answers}
 
 \printbibliography
 
