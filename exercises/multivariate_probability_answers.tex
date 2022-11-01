@@ -87,3 +87,132 @@ $$p(X_i, X_j | X_{-ij}) = p(X_i | X_{-ij}) p(X_j | X_{-ij}) \quad \Rightarrow \q
 \paragraph{Question \ref{q:uncorrelated}}
 As $Y = X^2$ this means $Y$ is completely determined by $X$ hence $X$ and $Y$ are dependent. However, $\mathbb{E}[XY] = \mathbb{E}[X^3] = 0$ as the PDF of a univariate Gaussian is symmetric around the mean (which is 0 in this case). Notice that $\mathbb{E}[X] = 0$, therefore $\mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[Y]$, meaning that $X$ and $Y$ are uncorrelated.
 
+\paragraph{\questionref{q:mml-6.11}}
+Let us consider the random variables $X,Y$ with joint distribution $p(x,y)$.
+\begin{align*}
+\mathbb{E}_X[X] &= \mathbb{E}_Y\Big[\mathbb{E}_X[X|Y]\Big]\\
+&= \int_{y\in\mathbb{R}} \mathbb{E}_X[X|Y] p(y)dy\\
+&= \int_{y\in\mathbb{R}} \int_{x\in\mathbb{R}} x p(x|y)p(y) dxdy\\
+&=  \int_{x\in\mathbb{R}} x \left(\int_{y\in\mathbb{R}} p(x,y) dy\right)dx\\
+&=  \int_{x\in\mathbb{R}} x p(x) dx = \mathbb{E}_X[X]\\
+\end{align*}
+Notice that we just swapped the integrals and marginalized $y$ over the joint distribution to obtain $p(x)$.
+
+
+\paragraph{\questionref{q:mml-6.13}}
+Given a continuous random variable $X$, with \textit{cdf} $F_X(x)$, show that the random variable $Y := F_X(X)$ is uniformly distributed.
+\begin{align*}
+    F_Y(y) &= P(Y \leq y)\\
+    &= P(F_X(X) \leq y)\\
+    &= P(X \leq F_X^{-1}(y))\\
+    &= F_X(F_X^{-1}(y))\\
+    &= y\\
+\end{align*}
+Thus, we have that $Y\sim Uniform(0,1)$ because $F_Y(y)$ is the \textit{cdf} of a uniform distribution.
+
+
+
+%\paragraph{\questionref{q:mml-6.12}} Consider the random variable $\textbf{x} \sim \mathcal{N}(\textbf{x}|\bm{\mu}_x, \bm{\Sigma}_x)$ and the following linear model
+%\[
+%\textbf{y} = \textbf{A}\textbf{x} + \textbf{b} + \textbf{w}
+%\]
+%where $\textbf{w} \sim \mathcal{N}(\textbf{w}|\textbf{0}, \textbf{Q})$.
+%\begin{enumerate}
+%\item Compute the likelihood $p(\textbf{y}|\textbf{x})$.
+%To calculate the likelihood, we need to recall that the addition of Gaussian distributions is also a Gaussian distribution. Thus, it is sufficient for us to compute the expectation and covariance of $\textbf{y}$ given $\textbf{x}$.
+%\[
+%\mathbb{E}[\textbf{y}|\textbf{x}] = \mathbb{E}[\textbf{A}\textbf{x} +\textbf{b} + \textbf{w}| \textbf{x}] = \textbf{A}\textbf{x} + \textbf{b} + \textbf{0} = \textbf{A}\textbf{x} + \textbf{b}
+%\]
+%we note that $\mathbb{E}[\textbf{w}|\textbf{x}] = \mathbb{E}[\textbf{w}] = \textbf{0}$ because of the independence of \textbf{x} and \textbf{w}.
+%\begin{align*}
+%cov[\textbf{y}|\textbf{x}] &= \mathbb{E}\Big[\big(\textbf{y} - \mathbb{E}[\textbf{y}|\textbf{x}]\big)\big(\textbf{y} - \mathbb{E}[\textbf{y}|\textbf{x}]\big)^T\Big] = \mathbb{E}\Big[\big(\textbf{A}\textbf{x} + \textbf{b} + \textbf{w} - \textbf{A}\textbf{x} - \textbf{b}\big)\big(\textbf{A}\textbf{x} + \textbf{b} + \textbf{w} - \textbf{A}\textbf{x} - \textbf{b}\big)^T\Big]\\
+%&=\mathbb{E}\Big[\textbf{w}\textbf{w}^T\Big] = \textbf{Q}
+%\end{align*}
+%$p(\textbf{y}|\textbf{x})$ is a Gaussian distribution, $\textbf{y}|\textbf{x} \sim \mathcal{N}(\textbf{y}| \textbf{A}\textbf{x} + \textbf{b}, \textbf{Q})$.
+%\item Compute the marginal distribution $p(\textbf{y})$.
+%
+%We need to marginalise $\textbf{x}$ from the joint distribution $p(\textbf{x},\textbf{y})$.
+%\begin{equation}
+%p(\textbf{y}) = \int_{\textbf{x}\in\mathbb{R}^E} p(\textbf{y},\textbf{x})d\textbf{x} = \int_{\textbf{x}\in\mathbb{R}^E} p(\textbf{y}|\textbf{x}) p(\textbf{x})d\textbf{x} = \int_{\textbf{x}\in\mathbb{R}^E} \mathcal{N}(\textbf{y}| \textbf{A}\textbf{x} + \textbf{b}, \textbf{Q}) \mathcal{N}(\textbf{x}| \bm{\mu}_x, \bm{\Sigma}_x)d\textbf{x}
+%\end{equation}
+%The usual procedure for computing marginals is to first marginalise w.r.t $\textbf{x}$, and then complete the square w.r.t $\textbf{y}$. We start from the following idea: marginalising a variable from a Gaussian distribution results in another Gaussian distribution. Let us denote the exponential terms of the product $p(\textbf{y}|\textbf{x}) p(\textbf{x})$.
+%\begin{align*}
+%    -\frac{1}{2}(\textbf{x} - \bm{\mu}_x)^T\bm{\Sigma}_x^{-1}(\textbf{x} - \bm{\mu}_x) -\frac{1}{2}(\textbf{y} - \textbf{A}\textbf{x} - \textbf{b})^T\textbf{Q}^{-1}(\textbf{y} - \textbf{A}\textbf{x} - \textbf{b})
+%\end{align*}
+%We now expand these expression and keep the quadratic and linear terms with respect to $\textbf{y}$ and $\textbf{x}$.
+%\begin{align*}
+%&=-\frac{1}{2}\textbf{x}^T\bm{\Sigma}_x^{-1}\textbf{x} 
+%-\frac{1}{2}\textbf{x}^T\textbf{A}^T\textbf{Q}^{-1}\textbf{A}\textbf{x}
+%-\frac{1}{2}\textbf{y}^T\textbf{Q}^{-1}\textbf{y}
+%+ \textbf{x}^T\textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b}) + \textbf{x}^T\bm{\Sigma}_x^{-1}\bm{\mu}_x + \textbf{y}^T\textbf{Q}^{-1}\textbf{b} + const\\
+%&=-\frac{1}{2}\textbf{x}^T\Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A}\Big)\textbf{x}  + \textbf{x}^T\Big(\bm{\Sigma}_x^{-1}\bm{\mu}_x + \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b})\Big) -\frac{1}{2}\textbf{y}^T\textbf{Q}^{-1}\textbf{y} + \textbf{y}^T\textbf{Q}^{-1}\textbf{b} + const
+%\end{align*}
+%For simplicity, let us denote $\bm{\Lambda} = (\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A}\Big)$ and $\textbf{m} = \Big(\bm{\Sigma}_x^{-1}\bm{\mu}_x + \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b})\Big)$. Consider now the terms that are dependent on $\textbf{x}$ using these definitions.
+%\begin{equation}
+%-\frac{1}{2}\textbf{x}^T\bm{\Lambda}\textbf{x}  + \textbf{x}^T\textbf{m} = -\frac{1}{2}(\textbf{x} - \bm{\Lambda}^{-1}\textbf{m})^T\bm{\Lambda}(\textbf{x} - \bm{\Lambda}^{-1}\textbf{m})  + \frac{1}{2}\textbf{m}^T\bm{\Lambda}^{-1}\textbf{m}
+%\end{equation}
+%Notice that if we integrate $\textbf{x}$, the first term will vanish as it is part of the integral of a normalised distribution (which is equal to 1), and translates as a 0 in the exponential terms. The second term $\frac{1}{2}\textbf{m}^T\bm{\Lambda}^{-1}\textbf{m}$ will remain unchanged. The final step is to complete the square with respect to $\textbf{y}$.
+%\begin{align*}
+%&=\frac{1}{2}\textbf{m}^T\bm{\Lambda}^{-1}\textbf{m} - \frac{1}{2}\textbf{y}^T\textbf{Q}^{-1}\textbf{y} + \textbf{y}^T\textbf{Q}^{-1}\textbf{b} + const\\
+%&=\frac{1}{2}\Big(\bm{\Sigma}_x^{-1}\bm{\mu}_x + \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b})\Big)^T\bm{\Lambda}^{-1}\Big(\bm{\Sigma}_x^{-1}\bm{\mu}_x + \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b}) \Big) - \frac{1}{2}\textbf{y}^T\textbf{Q}^{-1}\textbf{y} + \textbf{y}^T\textbf{Q}^{-1}\textbf{b} + const\\
+%&=-\frac{1}{2}\textbf{y}^T\Big(\textbf{Q}^{-1} - \textbf{Q}^{-1}\textbf{A}\bm{\Lambda}^{-1}\textbf{A}^T\textbf{Q}^{-1}\Big)\textbf{y} + \textbf{y}^t\textbf{Q}^{-1}\Big(\textbf{A}\bm{\Lambda}^{-1}(\bm{\Sigma}_x^{-1}\bm{\mu}_x - A^TQ^{-1}\textbf{b} )+ \textbf{b} \Big) + const
+%\end{align*}
+%
+%We can extract both the covariance and mean from the quadratic and linear terms respectively. The covariance matrix is the following
+%\[
+%\bm{\Gamma} = \Big(\textbf{Q}^{-1} - \textbf{Q}^{-1}\textbf{A}\bm{\Lambda}^{-1}\textbf{A}^T\textbf{Q}^{-1}\Big)^{-1}
+%\]
+%We can simplify the previous expression by making use of the Woodbury matrix identity (you can google search it if you are curious).
+%\[
+%(\textbf{A} - \textbf{U}\textbf{C}\textbf{V})^{-1} = \textbf{A}^{-1} + \textbf{A}^{-1}\textbf{U}(\textbf{C}^{-1} - \textbf{V}\textbf{A}^{-1}\textbf{U})^{-1}\textbf{V}\textbf{A}^{-1}
+%\]
+%with $\textbf{A} = \textbf{Q}^{-1}$, $\textbf{U} = \textbf{Q}^{-1}\textbf{A}$, $\textbf{C} = \bm{\Lambda}^{-1}$, and $\textbf{V} = \textbf{A}^T \textbf{Q}^{-1}$ we can simplify the expression of the covariance matrix.
+%
+%\begin{align*}
+%    \bm{\Gamma} &= \Big(\textbf{Q}^{-1} - \textbf{Q}^{-1}\textbf{A}\bm{\Lambda}^{-1}\textbf{A}^T\textbf{Q}^{-1}\Big) \\
+%    &= \textbf{Q} +  \textbf{Q}\textbf{Q}^{-1}\textbf{A}\Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A} - \textbf{A}^T\textbf{Q}^{-1}\textbf{Q}\textbf{Q}^{-1}\textbf{A}\Big)^{-1}\textbf{A}^T\\
+%    &= \textbf{Q} + \textbf{A}\bm{\Sigma}_x\textbf{A}^T
+%\end{align*}
+%The mean is computed using the previous result and the linear terms w.r.t. $\textbf{y}$.
+%\begin{align*}
+%    \bm{\mu}_{y} &= \Big(\textbf{Q} + \textbf{A}\bm{\Sigma}_x\textbf{A}^T\Big)\textbf{Q}^{-1}\Big(\textbf{A}\bm{\Lambda}^{-1}(\bm{\Sigma}_x^{-1}\bm{\mu}_x - \textbf{A}^T\textbf{Q}^{-1}\textbf{b} )+ \textbf{b} \Big)\\
+%    &= \Big(\textbf{I} + \textbf{A}\bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\Big)\textbf{A}(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A})^{-1}(\bm{\Sigma}_x^{-1}\bm{\mu}_x - \textbf{A}^T\textbf{Q}^{-1}\textbf{b}) + \textbf{b} + \textbf{A}\bm{\Sigma}_x \textbf{A}^T \textbf{Q}^{-1}\textbf{b}\\
+%    &= \textbf{A}\Big(\textbf{I} + \bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\textbf{A}\Big)\Big(\bm{\Sigma}_x^{-1}(\textbf{I} + \bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\textbf{A})\Big)^{-1}(\bm{\Sigma}_x^{-1}\bm{\mu}_x - \textbf{A}^T\textbf{Q}^{-1}\textbf{b})+ \textbf{b} + \textbf{A}\bm{\Sigma}_x \textbf{A}^T \textbf{Q}^{-1}\textbf{b}\\
+%    &= \textbf{A}\Big(\textbf{I} + \bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\textbf{A}\Big)\Big(\textbf{I} + \bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\textbf{A}\Big)^{-1}\bm{\Sigma}_x(\bm{\Sigma}_x^{-1}\bm{\mu}_x - \textbf{A}^T\textbf{Q}^{-1}\textbf{b})+ \textbf{b} + \textbf{A}\bm{\Sigma}_x \textbf{A}^T \textbf{Q}^{-1}\textbf{b}\\
+%    &= \textbf{A}\bm{\mu}_x - \textbf{A}\bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\textbf{b} + \textbf{b} + \textbf{A}\bm{\Sigma}_x\textbf{A}^T\textbf{Q}^{-1}\textbf{b}\\
+%    &= \textbf{A}\bm{\mu}_x + \textbf{b}
+%\end{align*}
+%
+%Finally, we get to the following marginal distribution
+%\begin{equation}
+%p(\textbf{y)} = \mathcal{N}(\textbf{y} | \textbf{A}\bm{\mu}_x + \textbf{b},  \textbf{Q} + \textbf{A}\bm{\Sigma}_x\textbf{A}^T).
+%\end{equation}
+%
+%\item Compute the posterior distribution $p(\textbf{x}|\hat{\textbf{y}})$.
+%
+%Although it might seem complicated to compute, the posterior distribution for this case is fairly simple. We start by noticing the usual relationship derived from the Bayes' rule.
+%\[
+%p(\textbf{x}|\textbf{y}) = \frac{p(\textbf{x})p(\textbf{y}|\textbf{x})}{p(\textbf{y})} \propto p(\textbf{x})p(\textbf{y}|\textbf{x})
+%\]
+%As we can see, the joint distribution is the unnormalized distribution of the posterior. Just by completing the square with respect to $\textbf{x}$, one can find the normalized distribution. Let us denote the exponential term in the joint distribution.
+%\[
+%-\frac{1}{2}(\textbf{x} - \bm{\mu}_x)^T\bm{\Sigma}_x^{-1}(\textbf{x} - \bm{\mu}_x) -\frac{1}{2}(\textbf{y} - \textbf{A}\textbf{x} - \textbf{b})^T\textbf{Q}^{-1}(\textbf{y} - \textbf{A}\textbf{x} - \textbf{b})
+%\]
+%We will take the quadratic and linear terms with respect to \textbf{x}.
+%\begin{align*}
+%&-\frac{1}{2}\textbf{x}^T\bm{\Sigma}_x^{-1}\textbf{x} -\frac{1}{2}\textbf{x}^T\textbf{A}^T\textbf{Q}^{-1}\textbf{A}\textbf{x}
+%+ \textbf{x}^T\bm{\Sigma}_x^{-1}\bm{\mu}_x + \textbf{x}^T\textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b}) + const\\
+%&-\frac{1}{2}\textbf{x}^T\Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A} \Big)\textbf{x} + \textbf{x}^T\Big( \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b}) + \bm{\Sigma}_x^{-1}\bm{\mu}_x \Big) + const
+%\end{align*}
+%When completing the square, we can easily extract the mean and covariance terms from the linear and quadratic forms of the exponential respectively. Thus
+%\[
+%cov[\textbf{x}|\textbf{y}] = \Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A} \Big)^{-1}
+%\]
+%\[
+%\mathbb{E}[\textbf{x}|\textbf{y}] = cov[\textbf{x}|\textbf{y}] \Big( \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b}) + \bm{\Sigma}_x^{-1}\bm{\mu}_x \Big) =  \Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A} \Big)^{-1}\Big( \textbf{A}^T\textbf{Q}^{-1}(\textbf{y} - \textbf{b}) + \bm{\Sigma}_x^{-1}\bm{\mu}_x \Big)
+%\]
+%As we can see, the posterior distribution for a meassurement $\hat{\textbf{y}}$ is a Gaussian expressed as
+%\[
+%p(\textbf{x}|\hat{\textbf{y}}) = \mathcal{N}\bigg(\textbf{x}| \Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A} \Big)^{-1}\Big( \textbf{A}^T\textbf{Q}^{-1}(\hat{\textbf{y}} - \textbf{b}) + \bm{\Sigma}_x^{-1}\bm{\mu}_x \Big), \Big(\bm{\Sigma}_x^{-1} + \textbf{A}^T\textbf{Q}^{-1}\textbf{A} \Big)^{-1}\bigg)
+%\]
+%\end{enumerate}
