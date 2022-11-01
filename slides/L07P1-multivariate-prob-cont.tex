@@ -1,0 +1,458 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+
+% talk/author information
+\newcommand{\authorname}{Yingzhen Li}
+\newcommand{\authoremail}{yingzhen.li@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{liyzhen2}
+\newcommand{\slidesettitle}{\imperialBlue{More on Multivariate Probability}}
+\newcommand{\footertitle}{More on Multivariate Probability}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{October 31, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+% load defaults
+%\usepackage{../MarkMathCmds}
+\input{../includes/header.tex}
+\input{../includes/YingzhenNotations.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+\begin{frame}{Recap: Multivariate probability}
+Let's say you are in a zoo that has infinite number of animals:
+\begin{figure}
+\vspace{-0.7em}
+\centering
+\includegraphics[width=0.65\linewidth]{figures-multivariate-prob/sample_space_multivariate_vis.pdf}
+\vspace{-1.5em}
+\end{figure}
+%
+\begin{itemize}
+	\item Support: $\mathcal{A} = \{(x_1, x_2, x_3): X_n(\omega) = x_n, \omega \in \Omega \}$
+	\item Set $P(A) := \mathbb{P}(E)$ for the biggest event set $E \subset \Omega$ such that \\
+	$(X_1, ..., X_N)(E) := \{ (X_1(\omega), ..., X_N(\omega)): \omega \in E \} \subset A$, \\
+	\item PMF/PDF $p(x_1, x_2, x_3)$ satisfies:
+	$$\int_{(x_1, x_2, x_3) \in A} p(x_1, x_2, x_3) d x_1 d x_2 d x_3 = P(A), \quad \forall A \subset \mathcal{A}.$$
+\end{itemize}
+
+\end{frame}
+
+
+%%%%%% conditional probability %%%%%%%%%
+
+\begin{frame}{Conditional probability}
+
+\emph{Joint probability} of events $E_A, E_B \subset \Omega$, $\mathcal{E} = 2^{\Omega}$:
+$$ \mathbb{P}(E_A \cap E_B)$$
+
+\emph{Conditional probability}: given that $E_A$ occurs, what is the probability that $E_B$ also occurs?
+$$ \mathbb{P}(E_B | E_A) := \frac{\mathbb{P}(E_A \cap E_B)}{ \mathbb{P}(E_A)}$$
+
+By symmetricity:
+$$ \mathbb{P}(E_A | E_B) := \frac{\mathbb{P}(E_A \cap E_B)}{ \mathbb{P}(E_B)}$$
+
+We can write these expressions in random variable support space: \\ for $A, B \subset \mathcal{A}$,
+$$ P(B | A) := \frac{P(A \cap B)}{ P(A)}$$
+
+\end{frame}
+
+\begin{frame}{Conditional probability}
+
+\emph{Conditional probability} for $A, B \subset \mathcal{A}$,  
+$\mathcal{A} = \{ (x_1, x_2, ..., x_N) : X_n(\omega) = x_n, \omega \in \Omega \}$,
+$$ P(B | A) := \frac{P(A \cap B)}{ P(A)}$$
+
+Specifically, we can define $P(X_2 \in A_2 | x_1 \in A_1)$ if we define:
+$$A = \{ (x_1, x_2, ..., x_N) : X_n(\omega) = x_n, \omega \in \Omega, \textcolor{red}{x_1 \in A_1} \}$$
+$$B = \{ (x_1, x_2, ..., x_N) : X_n(\omega) = x_n, \omega \in \Omega, \textcolor{red}{x_2 \in A_2} \}$$
+
+\emph{Conditional} PMF/PDF $p(X_2 = x_2 | x_1 \in A_1)$ can be defined similar to the joint PMF/PDF case: just need to ensure $\forall A_1 \subset V_{X_1}, A_2 \subset V_{X_2}$
+$$\int_{A_2} p(X_2 = x_2 | X_1 \in A_1) d x_2 = P(X_2 \in A_2 | X_1 \in A_1).$$
+
+\end{frame}
+
+\begin{frame}{Conditional probability}
+Let's say you are in a zoo that has infinite number of animals:
+\begin{figure}
+\vspace{-0.7em}
+\centering
+\includegraphics[width=0.75\linewidth]{figures-multivariate-prob/sample_space_multivariate_vis.pdf}
+\vspace{-1.3em}
+\end{figure}
+%
+Joint probability $P( 1.0 \leq X_2 \leq 10.0, 10.0 \leq X_1 \leq 50.0)$:
+\begin{itemize}
+	\only<1>{
+	\item Figure out the event sets 
+	$$\hspace{-2em} E_1 = \{ \omega \in \Omega | 10.0 \leq X_1(\omega) \leq 50.0 \}, \quad E_2 = \{ \omega \in \Omega | 1.0 \leq X_2(\omega) \leq 10.0 \}$$
+	$$\Rightarrow \quad E_1 \cap E_2 = \{ \omega \in \Omega | 10.0 \leq X_1(\omega) \leq 50.0, 1.0 \leq X_2(\omega) \leq 10.0 \}$$
+	}
+	\only<2>{
+	\item Compute $P( 1.0 \leq X_2 \leq 10.0, 10.0 \leq X_1 \leq 50.0)$ as
+	$$P( 1.0 \leq X_2 \leq 10.0, 10.0 \leq X_1 \leq 50.0) = \mathbb{P}(E_1 \cap E_2)$$
+	}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Conditional probability}
+Let's say you are in a zoo that has infinite number of animals:
+\begin{figure}
+\vspace{-0.7em}
+\centering
+\includegraphics[width=0.75\linewidth]{figures-multivariate-prob/sample_space_multivariate_vis.pdf}
+\vspace{-1.3em}
+\end{figure}
+%
+Marginal probability $P( 10.0 \leq X_1 \leq 50.0)$:
+\begin{itemize}
+	\item Figure out the event $E_1 = \{ \omega \in \Omega | 10.0 \leq X_1(\omega) \leq 50.0 \}$, then
+	$$P( 10.0 \leq X_1 \leq 50.0 ) = \mathbb{P}(E_1)$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Conditional probability}
+Let's say you are in a zoo that has infinite number of animals:
+\begin{figure}
+\vspace{-0.7em}
+\centering
+\includegraphics[width=0.75\linewidth]{figures-multivariate-prob/sample_space_multivariate_vis.pdf}
+\vspace{-1.3em}
+\end{figure}
+%
+Conditional probability $P( 1.0 \leq X_2 \leq 10.0 | 10.0 \leq X_1 \leq 50.0)$:
+\begin{itemize}
+	\item Compute $P( 1.0 \leq X_2 \leq 10.0 | 10.0 \leq X_1 \leq 50.0)$ as
+	$$P( 1.0 \leq X_2 \leq 10.0 | 10.0 \leq X_1 \leq 50.0) = \frac{\mathbb{P}(E_1 \cap E_2)}{\mathbb{P}(E_1)}$$
+\end{itemize}
+
+\end{frame}
+
+
+%%%%%% sum rule and product rule %%%%%%
+
+\begin{frame}{Sum rule and product rule}
+
+By definition of the \emph{conditional probability}:
+$$P(X_2 \in A_2 | X_1 \in A_1) := \frac{P(X_2 \in A_2, X_1 \in A_1)}{P(X_1 \in A_1)}$$
+
+\emph{Product rule}:
+$$P(X_2 \in A_2, X_1 \in A_1) = P(X_2 \in A_2 | X_1 \in A_1) \times P(X_1 \in A_1)$$
+\begin{center}
+``Joint dist. = conditional dist. $\times$ marginal dist.''
+\end{center}
+
+\visible<2->{
+\emph{Sum rule}:
+$$P(X_1 \in A_1) = \int_{V_{X_2}} p(X_1 \in A_1, X_2 = x_2) d x_2$$
+\begin{center}
+``Marginal dist. = sum/integral of joint dist.''
+\end{center}
+}
+
+\visible<3>{
+\emph{Combining both}:
+$$P(X_1 \in A_1) = \int_{V_{X_2}} P(X_2 = x_2 | X_1 \in A_1) \times P(X_1 \in A_1) d x_2$$
+}
+
+\end{frame}
+
+
+%%%%%%% conditional independence %%%%%%%%
+
+\begin{frame}{Conditional independence}
+\emph{Independence} of two random variables $X_1, X_2$:
+$$X_1 \ci X_2 \quad \Leftrightarrow \quad p(X_1, X_2) = p(X_1) p(X_2)$$
+
+Equivalently, using product rule:
+$$X_1 \ci X_2 \quad \Leftrightarrow \quad p(X_1 | X_2) = p(X_1), p(X_2 | X_1) = p(X_2)$$
+
+\visible<2>{
+\emph{Conditional Independence} of two random variables $X_1, X_2$ given $X_3$:
+$$X_1 \ci X_2 | X_3 \quad \Leftrightarrow \quad p(X_1, X_2 | X_3) = p(X_1 | X_3) p(X_2 | X_3)$$
+
+Equivalently, using product rule:
+$$X_1 \ci X_2 | X_3 \quad \Leftrightarrow \quad p(X_1 | X_2, X_3) = p(X_1 | X_3), p(X_2 | X_1, X_3) = p(X_2 | X_3)$$
+}
+
+\end{frame}
+
+
+\begin{frame}{Conditional independence}
+Example: drawing 5 cards from a standard 52-card poker deck
+
+Define the following random variables:
+\begin{itemize}
+	\item $X_1$: number of hearts $\heartsuit$
+	\item $X_2$: number of diamonds $\diamondsuit$
+	\item $X_3$: number of clubs $\clubsuit$
+	\item $X_4$: number of spades $\spadesuit$
+\end{itemize}
+
+What is the joint distribution $p(X_1, X_2, X_3, X_4)$ for the card draws --
+\begin{itemize}
+	\item with replacement?
+	\item without replacement?
+\end{itemize}
+
+\end{frame}
+
+%%%%%% vector mean & variance %%%%%%%%
+
+\begin{frame}{Vector mean \& covariance}
+
+Univariate case:
+$$\text{mean:} \quad \mathbb{E}[X] = \int x p_X(x) dx $$
+$$\text{variance:} \mathbb{V}[X] = \mathbb{E}[(X - \mathbb{E}[X])] = \int (x - \mathbb{E}[X]) p_X(x) dx $$
+
+Multivariate case: write $X = (X_1, ..., X_N)^\top$
+$$\text{mean:} \quad \mathbb{E}[X] = (\mathbb{E}[X_1], ..., \mathbb{E}[X_N])^\top $$
+$$\text{covariance:} \quad \mathbb{V}[X] = \Sigma, \quad \Sigma_{ij} = \mathbb{E}[(X_i - \mathbb{E}[X_i]) (X_j - \mathbb{E}[X_j])] $$
+
+Using \emph{sum rule}: only need marginals
+$$\mathbb{E}[X_i] = \int x_i p_X(\x) d \x = \int x_i \textcolor{red}{p_X(X_i = x_i) d x_i} $$
+\vspace{-1em}
+\begin{align*}
+\Sigma_{ij} &= \int (x_i - \mathbb{E}[X_i]) (x_j - \mathbb{E}[X_j]) p_X(\x) d \x \\
+&= \int (x_i - \mathbb{E}[X_i]) (x_j - \mathbb{E}[X_j]) \textcolor{red}{p_X(X_i = x_i, X_j = x_j) d x_i d x_j}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Vector mean \& covariance}
+Connecting univariate \& multivariate cases:
+
+\begin{align*}
+\mathbb{E}[\ba^\top X] &= \int \ba^\top \x p_X(\x) d \x
+= \int \sum_i a_i x_i p(\x) d \x = \sum_i a_i \int x_i p(\x) d \x \\
+&= \sum_i a_i \int x_i p(x_i) p(\{x_j\}_{j\neq i}|x_i) d \x  \\
+&= \sum_i a_i \int x_i p(x_i) dx_i \int p(\{x_j\}_{j\neq i} | x_i) d \x_{-i} \\
+&= \ba^\top (\mathbb{E}[X_1], ..., \mathbb{E}[X_N])^\top = \ba^\top \mathbb{E}[X]
+\end{align*}
+$\implies$ mean vector is the mean of each marginal!
+\end{frame}
+
+
+\begin{frame}{Vector mean \& coariance}
+Connecting univariate \& multivariate cases: 
+
+Write $\bar \x := \mathbb{E}[X]$ and use sum rule
+\begin{align*}
+\mathbb{V}[\ba^\top X] &= \int (\ba^\top \x - \ba^\top \bar \x)^2 p_X(\x) d \x \\
+&= \int \big(\sum_i a_i x_i - a_i\bar x_i\big)\big(\sum_j a_j x_j - a_j\bar x_j\big) p_X(\x) d \x \\
+&= \sum_i\sum_j a_ia_j \int (x_i-\bar x_i)(x_j-\bar x_j) \textcolor{red}{p_X(X_i = x_i, X_j = x_j) d x_i d x_j} \\
+&= \sum_i\sum_j a_ia_j \Sigma_{ij} 
+= \ba^\top \Sigma \ba
+\end{align*}
+
+The covariance $\Sigma$ allows us to find the scalar variance in any direction. 
+\end{frame}
+
+
+%%%%%%% conditional moments %%%%%%%%
+
+\begin{frame}{Conditional expectations}
+
+\emph{Expectation} of a function $f(X)$ under distribution $p(X)$:
+$$\mathbb{E}_{p(X)}[f(X)] = \int f(x) p(X = x) dx$$
+
+
+\emph{Conditional expectation} of a function $g(Y)$ given $X = x$ under conditional distribution $p(Y | X = x)$:
+
+$$\mathbb{E}_{p(Y | X = x)}[g(Y)] = \int g(y) p(Y = y | X = x) dy$$
+
+An equivalent notation: $\mathbb{E}[g(Y) | X = x] = \mathbb{E}_{p(Y | X = x)}[g(Y)]$
+
+\end{frame}
+
+
+\begin{frame}{Conditional expectations}
+\emph{Conditional expectation} of a function $g(Y)$ given $X = x$:
+$$\mathbb{E}[g(Y) | X = x] = \mathbb{E}_{p(Y | X = x)}[g(Y)] =  \int g(y) p(Y = y | X = x) dy$$
+
+\begin{itemize}
+	\item $\mathbb{E}[g(Y) | X = x]$ is a function of $x$
+	\item As $X$ is a random variable, $\mathbb{E}[g(Y) | X]$ is also a random variable
+\end{itemize}
+
+\emph{Law of Total Expectation}:
+\only<1>{
+$$\mathbb{E}[Y] = \mathbb{E}[\mathbb{E}[Y | X]]$$
+}
+\only<2>{
+$$\mathbb{E}_{p(Y)}[Y] = \mathbb{E}_{p(X)}[\mathbb{E}_{p(Y | X)}[Y]]$$
+}
+\only<3>{
+\begin{equation*}
+\begin{aligned}
+	\mathbb{E}_{p(Y)}[Y] &= \mathbb{E}_{p(X)}[\mathbb{E}_{p(Y | X)}[Y]] \\
+	&= \int p(X = x) \mathbb{E}_{p(Y | X = x)}[Y] dx
+\end{aligned}
+\end{equation*}
+}
+\only<4>{
+\begin{equation*}
+\begin{aligned}
+	\mathbb{E}_{p(Y)}[Y] &= \mathbb{E}_{p(X)}[\mathbb{E}_{p(Y | X)}[Y]] \\
+	&= \int p(X = x) p(Y = y | X = x) y dy dx
+\end{aligned}
+\end{equation*}
+}
+\only<5>{
+\begin{equation*}
+\begin{aligned}
+	\mathbb{E}_{p(Y)}[Y] &= \mathbb{E}_{p(X)}[\mathbb{E}_{p(Y | X)}[Y]] \\
+	&= \int p(Y = y, X = x) y dy dx	\quad \textcolor{red}{\text{(product rule)}}
+\end{aligned}
+\end{equation*}
+}
+\only<6>{
+\begin{equation*}
+\begin{aligned}
+	\mathbb{E}_{p(Y)}[Y] &= \mathbb{E}_{p(X)}[\mathbb{E}_{p(Y | X)}[Y]] \\
+	&= \int p(Y = y) y dy	\quad \textcolor{red}{\text{(sum rule)}}
+\end{aligned}
+\end{equation*}
+}
+\only<7>{
+
+Extention to functions of $Y$:
+$$\mathbb{E}[g(Y)] = \mathbb{E}[\mathbb{E}[g(Y) | X]]$$
+
+}
+
+\end{frame}
+
+
+\begin{frame}{Conditional expectations}
+
+\emph{Conditional variance} of $Y$ given $X = x$:
+\begin{equation*}
+\begin{aligned}
+	\mathbb{V}[Y | X = x] &:= \mathbb{V}_{p(Y | X = x)}[Y] \\
+	&= \mathbb{E}_{p(Y | X = x)}[ ( Y - \mathbb{E}_{p(Y | X = x)}[Y] )^2 ] \\
+	&= \mathbb{E}[(Y - \mathbb{E}[Y | X = x])^2 | X = x]
+\end{aligned}
+\end{equation*}
+\begin{itemize}
+	\item $\mathbb{V}[Y | X = x]$ is a function of $x$
+	\item As $X$ is a random variable, $\mathbb{V}[Y | X]$ is also a random variable
+\end{itemize}
+
+\emph{Law of Total Variance}:
+$$\mathbb{V}[Y] = \mathbb{E}[\mathbb{V}[Y | X]] + \mathbb{V}[\mathbb{E}[Y | X]]$$
+
+\end{frame}
+
+%%%%%% summary %%%%%%%
+
+\begin{frame}{Summary}
+
+Topics we've covered about multivariate probability:
+
+\begin{itemize}
+	\item Definitions and some examples
+	\item Joint, marginal, and conditional distributions
+	\item Sum rule and product rule
+	\item Change-of-variables rule
+	\item Computing mean/variance/expectations
+\end{itemize}
+
+Next lecture: Model selection via cross-validation
+
+\end{frame}
+
+%%%%%%% appendix %%%%%%%
+\begin{frame}{Appendix: math formula for deriving sum rule}
+
+Deriving \emph{sum rule} using $\mathbb{P}$ defined on sets: 
+
+Define for any $A_1 \subset V_{X_1}$, $A_2 \subset V_{X_2}$
+$$\mathcal{A}(A_1) = \{(X_1(\omega), X_2(\omega), ..., X_N(\omega)): \textcolor{red}{X_1(\omega) \in A_1} \}$$
+$$\mathcal{A}(A_2) = \{(X_1(\omega), X_2(\omega), ..., X_N(\omega)): \textcolor{blue}{X_2(\omega) \in A_2} \}$$
+%
+Now we can define a ``split'' of $X_2$ value space $V_{X_2}$:
+$$ V_{X_2} = \cup_{k=1}^K A_2^k, \quad A_2^k \neq \emptyset, \quad A_2^i \cap A_2^j = \emptyset, \forall i \neq j$$
+%
+\only<1>{
+\begin{equation*}
+\begin{aligned}
+\Rightarrow \quad \cup_{k=1}^K (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) &= \mathcal{A}(A_1) \cap (\cup_{k=1}^K \mathcal{A}(A_2^k)) \\
+&= \mathcal{A}(A_1) \cap \mathcal{A}(V_{X_2}) \\
+&= \mathcal{A}(A_1) \cap \mathcal{A} = \mathcal{A}(A_1)
+\end{aligned}
+\end{equation*}
+}
+%
+\only<2>{
+\begin{equation*}
+\begin{aligned}
+\Rightarrow \quad P(\cup_{k=1}^K (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k))) &= P(\mathcal{A}(A_1) \cap (\cup_{k=1}^K \mathcal{A}(A_2^k))) \\
+&= P(\mathcal{A}(A_1) \cap \mathcal{A}(V_{X_2})) \\
+&= P(\mathcal{A}(A_1) \cap \mathcal{A}) = P(\mathcal{A}(A_1))
+\end{aligned}
+\end{equation*}
+}
+%
+\only<3>{
+
+As $A_2^i \cap A_2^j = \emptyset \quad \Rightarrow \quad (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) \cap (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) = \emptyset$
+%
+$$\Rightarrow \quad P(\mathcal{A}(A_1)) = P(\cup_{k=1}^K (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k))) = \sum_{k=1}^K P( \mathcal{A}(A_1) \cap \mathcal{A}(A_2^k) )$$
+
+}
+%
+\only<4>{
+
+As $A_2^i \cap A_2^j = \emptyset \quad \Rightarrow \quad (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) \cap (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) = \emptyset$
+%
+$$\Rightarrow \quad P(X_1 \in A_1) = \sum_{k=1}^K P( X_1 \in A_1, X_2 \in A_2^k )$$
+
+}
+\only<5>{
+
+As $A_2^i \cap A_2^j = \emptyset \quad \Rightarrow \quad (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) \cap (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) = \emptyset$
+%
+\begin{equation*}
+\begin{aligned}
+\Rightarrow \quad P(X_1 \in A_1)  &= \sum_{k=1}^K P( X_1 \in A_1, X_2 \in A_2^k ) \\ 
+&= \sum_{k=1}^K \int_{A_2^k} p( X_1 \in A_1, X_2 = x_2 ) d x_2
+\end{aligned}
+\end{equation*}
+}
+\only<6>{
+
+As $A_2^i \cap A_2^j = \emptyset \quad \Rightarrow \quad (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) \cap (\mathcal{A}(A_1) \cap \mathcal{A}(A_2^k)) = \emptyset$
+%
+\begin{equation*}
+\begin{aligned}
+\Rightarrow \quad P(X_1 \in A_1)  &= \sum_{k=1}^K P( X_1 \in A_1, X_2 \in A_2^k ) \\ 
+&= \int_{V_{X_2}} p( X_1 \in A_1, X_2 = x_2 ) d x_2 \quad \text{\textcolor{red}{(sum rule)}}
+\end{aligned}
+\end{equation*}
+}
+\end{frame}
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
