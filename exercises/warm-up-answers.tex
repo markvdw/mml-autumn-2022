@@ -87,6 +87,34 @@ P\left(\bigcup_{i=1}^{\infty} A_{i}\right) = P(A) = \lim_{i\xrightarrow{}\infty}
 
 \end{enumerate}
 
+\paragraph{\questionref{q:independent-events}}
+\begin{enumerate}[label=\alph*.]
+\item 
+
+$E_{1H} = \{HH,HT\}$
+
+\item Show $E_{1H}$ and $E_{2T}$ are independent.
+
+Independence holds if $P(E_{1H} \cap E_{2T}) = P(E_{1H})P(E_{2T})$. If all outcomes have equal probability, i.e. $P(HH)=P(HT)=P(TH)=P(TT)=0.25$, then we have $P(E_{1H}) = P(HH \cup HT) = P(HH) + P(HT) = 0.5$, and $P(E_{2T}) = P(HT \cup TT) = P(HT) + P(TT) = 0.5$.
+
+The intersection of $E_{1H}$ and $E_{2T}$ is $\{HT\}$, hence $P(E_{1H} \cap E_{2T}) = P(HT) = 0.25$. Since $P(E_{1H})P(E_{2T}) = 0.5^2=0.25$, $E_{1H}$ and $E_{2T}$ are independent.
+
+\item Assume $E_{1H}$ and $E_{2H}$ are independent and $P(E_{1H}) = P(E_{2H}) = 0.5$, show all outcomes must have equal probability.
+
+We can take these assumptions to form a system of equations, where the probability of each outcome is treated as a variable.
+\begin{equation*}
+\begin{cases}
+        P(E_{1H}) = P(HH) + P(HT) = 0.5\\
+        P(E_{2H}) = P(TH) + P(HH) = 0.5\\
+		P(E_{1H}\cap E_{2H}) = P(HH) = P(E_{1H})P(E_{2H})=0.25,\quad \text{by assuming independence}\\
+        P(TT) = 1 - P(HH) - P(HT) - P(TH), \quad\text{from probability axioms}
+\end{cases}
+\end{equation*}
+We have a system of 4 equations with 4 variables, which therefore should yield a unique solution (or none). There is in fact a unique solution, which is $P(HH)=P(HT)=P(TH)=P(TT)=0.25$. Therefore, given the previous assumptions all outcomes must have equal probability.
+
+\end{enumerate}
+
+
 \paragraph{\questionref{q:rv}}
 \begin{enumerate}[label=\alph*.]
 \item
