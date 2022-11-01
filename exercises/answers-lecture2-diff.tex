@@ -1,6 +1,23 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
+\paragraph{\questionref{q:index-notation}}
+
+Matrix-vector expressions to index notation: 
+\begin{enumerate}[label=\alph*.]
+\item $\mat A \mat B \mat C \vx = \sum_{jkl} A_{ij} B_{jk} C_{kl} x_l$
+\item $\Tr(\mat A) = \sum_i A_{ii}$
+\item $\Tr(\mat A \mat B) = \sum_{ij} A_{ij} B_{ji}$
+\item $\vy\transpose \mat A\transpose \vx = \sum_{ij} y_i A_{ji} x_j$
+\end{enumerate}
+Index notation to matrix-vector expressions:
+\begin{enumerate}[label=\alph*.]
+\item $\sum_{ijk} A_{ij}B_{jk}C_{ki} = \Tr(\mat A \mat B \mat C)$
+\item $b_i + \sum_j A_{ij}b_j = \vb + \mat A \vb$
+\item $x_ix_j = \vx \vx^T$
+\item $\sum_j \delta_{ij}a_j = \va$
+\end{enumerate}
+
 \paragraph{\questionref{q:ind-not-proof}}
 
 \begin{enumerate}
@@ -302,10 +319,6 @@ which in vector form is expressed as follows
 \end{align*}
 
 \end{enumerate}
-
-
-
-
 
 
 \paragraph{\questionref{q:hessian}}
