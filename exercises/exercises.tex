@@ -136,6 +136,14 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 
 \section{Formula Sheet}
 \begin{itemize}
+\item $\Var{X}{X} = \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose$, for $X \in \Reals^D$.
+\item $\Cov_{X,Y}[X,Y] = \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose$, for $X \in \Reals^D, Y\in\Reals^E$.
+\item $\Exp{X,Y}{X + Y} = \Exp{X}{X} + \Exp{Y}{Y}$.
+\item $\Var{X,Y}{X + Y} = \Var{X}{X} + \Var{Y}{Y}$, for $X \ci Y$.
+\item {\color{red} Markov's}
+\item {\color{red} Chebyshev's}
+\item {\color{red} Weak LLN}
+\item {\color{red} LOTUS}
 \item Gaussian probability density function (pdf) with input $\vx \in \Reals^D$, denoted as  $\NormDist{\vx; \vmu, \covmat}$ is
 \begin{align}
   p(\vx) = \NormDist{\vx; \vmu, \covmat} = (2\pi)^{-\frac{D}{2}}\detbar{\mathbf{\Sigma}}^{-\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx - \vmu)\transpose\mathbf{\Sigma}^{-1}(\vx-\vmu)\right) \,.
@@ -436,6 +444,26 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 \end{question}
 
 \input{multivariate_probability_questions}
+
+
+
+\section{Lecture 8: Generalisation, Test Sets, Monte Carlo}
+
+\begin{question}[Independence of Losses] Under the iid assumption, the loss can be seen as a transformation of a random variable. Show that the losses are independent.
+\end{question}
+
+\begin{question}[Basic Monte Carlo Estimate]
+Consider the following integral over the indicator function $\mathbb I(\cdot)$, which takes value 1 when its argument evaluates to \texttt{True}:
+\begin{align}
+I = \int_{-1}^1\int_{-1}^1 \mathbb{I}(x^2 + y^2 < 1) \calcd x \calcd y \,.
+\end{align}
+\begin{enumerate}[label=\alph*.]
+\item Write this integral as an expectation.
+\item Construct a Monte Carlo estimate $\hat I$ for this integral.
+\item Bonus: Implement this in Python and verify that the value converges to $\pi^2$.
+\item Is $\sqrt{\hat I}$ an unbiased estimator for $\pi$?
+\end{enumerate}
+\end{question}
 
 
 

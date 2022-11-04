@@ -30,6 +30,18 @@ Show that for the following definitions of $X, Y$, these two variables are uncor
 \end{question}
 
 
+\begin{question}[Expectation identities]
+Prove the following expectation identities:
+\begin{enumerate}[label=\alph*.]
+\item $\Var{X}{X} = \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose$, for $X \in \Reals^D$.
+\item $\Cov_{X,Y}[X,Y] = \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose$, for $X \in \Reals^D, Y\in\Reals^E$.
+\item $\Exp{X,Y}{X + Y} = \Exp{X}{X} + \Exp{Y}{Y}$.
+\item $\Var{X,Y}{X + Y} = \Var{X}{X} + \Var{Y}{Y}$, for $X \ci Y$.
+\end{enumerate}
+\end{question}
+
+
+
 \begin{question}[MML 6.11: Iterated Expectations]
 \label{q:mml-6.11}
 
@@ -46,6 +58,7 @@ where $\mathbb{E}_X [X|Y]$ denotes the expectation under the conditional distrib
 Given a continous r.v. $X$, with CDF $F_X(x)$, show that the r.v. $Y:=F_X(X)$ is uniformly distributed.
 
 \end{question}
+
 
 %\begin{question}[MML 6.12: Manipulation of Gaussian random variables]
 %\label{q:mml-6.12}
