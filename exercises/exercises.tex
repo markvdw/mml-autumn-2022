@@ -136,10 +136,15 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 
 \section{Formula Sheet}
 \begin{itemize}
-\item $\Var{X}{X} = \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose$, for $X \in \Reals^D$.
-\item $\Cov_{X,Y}[X,Y] = \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose$, for $X \in \Reals^D, Y\in\Reals^E$.
-\item $\Exp{X,Y}{X + Y} = \Exp{X}{X} + \Exp{Y}{Y}$.
-\item $\Var{X,Y}{X + Y} = \Var{X}{X} + \Var{Y}{Y}$, for $X \ci Y$.
+\item Expectation identities
+\begin{align}
+\Var{X}{X} &= \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose && \text{for }X \in \Reals^D \\
+\Cov_{X,Y}[X,Y] &= \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for }X \in \Reals^D, Y\in\Reals^E \\
+\Cov_{X,Y}[X,Y] &= 0 && \text{for } X \ci Y \\
+\Exp{X,Y}{X + Y} &= \Exp{X}{X} + \Exp{Y}{Y} && \text{for } X,Y\in\Reals^D\\
+\Var{X,Y}{X + Y} &= \Var{X}{X} + \Var{Y}{Y} && \text{for }X \ci Y \, X,Y\in\Reals^D
+\end{align}
+\item For a RV $X \geq 0$, then $\Exp{X}{X} = 0$ if and only if $P(X = 0) = 1$.
 \item {\color{red} Markov's}
 \item {\color{red} Chebyshev's}
 \item {\color{red} Weak LLN}
