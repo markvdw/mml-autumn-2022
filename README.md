@@ -53,4 +53,12 @@ Below is a syllabus of the course, together with a rough plan for the term. This
     - Exercises: Simple Bayesian inference (coins), derive BLR.
 - Lecture 12: Bias-variance trade-off (YL)
 - Lecture 13 & 14: Dimensionality Reduction & PCA (YL 2L)
- 
+
+## Building the LaTeX sources
+If you are using MacOS or Linux and have docker [installed]
+(https://docs.docker.com/get-docker/) you can build the exercises from source
+using `./bin/compile_exercises.sh`. Similarly, you can build non-handout
+versions of the slides (i.e. without animations) using
+`./bin/compile_course_slides.sh`.Unfortunately we still don't have a native
+Windows script, feel free to contribute one if you are a Windows user and you
+will be rewarded with cake!

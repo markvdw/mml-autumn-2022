@@ -1,0 +1,36 @@
+name: "Build LaTeX Sources"
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  build_with_docker:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: "Check out code"
+        uses: actions/checkout@v3
+      - name: "Build exercises"
+        run: ./bin/compile_exercises.sh --clean
+
+  # Docker is not available on macos runners
+  build_with_colima:
+    strategy:
+      matrix:
+        os: [macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: "Check out code"
+        uses: actions/checkout@v3
+      - name: "Install colima"
+        run: brew install docker colima
+      - name: "Start colima"
+        run: colima start
+      - name: "Build exercises"
+        run: ./bin/compile_exercises.sh --clean
