@@ -149,10 +149,11 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 \Exp{X,Y}{XY\transpose} &= \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for } X \ci Y
 \end{align}
 \item For a RV $X \geq 0$, then $\Exp{X}{X} = 0$ if and only if $P(X = 0) = 1$.
-\item {\color{red} Markov's}
-\item {\color{red} Chebyshev's}
-\item {\color{red} Weak LLN}
-\item {\color{red} LOTUS}
+\item Markov's inequality: For a RV $X \geq 0$, and $a > 0$, then $P(X \geq a) \leq \frac{\Exp{}{X}}{a}$.
+\item Chebyshev's inequality: For a RV $X$ with finite mean, and finite non-zero variance, then for any $k>0$, $P(|X - \Exp{}{X}| \geq k\sigma) \leq \frac{1}{k^2}$.
+\item Weak Law of Large Numbers: For a series of iid RVs $X_n$, we have for any $\epsilon > 0$ that
+\begin{align}\lim_{n\to\infty} P(|\frac{1}{N}\sum_{n=1} X_n - \mu| < \epsilon) = 1 \,. \end{align}
+\item Law of the Unconscious Statistician: If $Y = g(X)$ then $\Exp{Y}{Y} = \Exp{X}{g(X)}$.
 \item Gaussian probability density function (pdf) with input $\vx \in \Reals^D$, denoted as  $\NormDist{\vx; \vmu, \covmat}$ is
 \begin{align}
   p(\vx) = \NormDist{\vx; \vmu, \covmat} = (2\pi)^{-\frac{D}{2}}\detbar{\mathbf{\Sigma}}^{-\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx - \vmu)\transpose\mathbf{\Sigma}^{-1}(\vx-\vmu)\right) \,.
