@@ -1,4 +1,4 @@
-\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+\documentclass[xcolor=x11names,compress,mathserif,handout]{beamer}
 
 \newcommand{\hackspace}{\hspace{4.2mm}}
 \newcommand{\showstudent}[1]{}
@@ -57,7 +57,7 @@ y_n = f(\vx_n; \vtheta) + \epsilon_n &&
 We can now also estimate the \emph{unpredictability} of our problem:
   \begin{figure}
     \centering
-    \includegraphics[width = 0.45\hsize]{./~figures/regression-noise.png}
+    \includegraphics[width = 0.45\hsize]{./figures-l11-blr/regression-noise.png}
   \end{figure}
 \vspace{-0.3cm}
 \begin{align}
@@ -73,7 +73,7 @@ Goes by many names... e.g.~\emph{aleatoric uncertainty}. \pause
 Aren't we also uncertain when we have a lack of data?
   \begin{figure}
     \centering
-    \includegraphics[width = 0.5\hsize]{./~figures/regression-uncertainty.png}
+    \includegraphics[width = 0.5\hsize]{./figures-l11-blr/regression-uncertainty.png}
   \end{figure}
 \vspace{-0.3cm}
 This is uncertainty in the parameters that define the function! \\
@@ -101,9 +101,9 @@ If we knew that for a series of problems, our parameters $\vtheta$ were sampled 
 \begin{frame}{Example}
   \begin{figure}
     \centering \includegraphics[width =
-    0.48\hsize]{./~figures/demo_regression_posterior_with_mle_map_7}
+    0.48\hsize]{./figures-l11-blr/demo_regression_posterior_with_mle_map_7}
     \hfill \includegraphics[width =
-    0.48\hsize]{./~figures/demo_regression_posterior_samples_7}
+    0.48\hsize]{./figures-l11-blr/demo_regression_posterior_samples_7}
   \end{figure}
 
   \begin{itemize}
@@ -129,7 +129,7 @@ y &= f(x) + \epsilon = a + bx + \epsilon\,,\quad
  \phantom{ [a_i, b_i] \sim p(a,b) }
 \end{align*}
 \begin{figure}
-  \includegraphics[height = 5cm]{./~figures/parameter_prior}
+  \includegraphics[height = 5cm]{./figures-l11-blr/parameter_prior}
 \end{figure}
 \end{frame}
 
@@ -148,16 +148,16 @@ p(a,b)& = \gauss{\vec 0}{\mat I}\\
 \end{align*}
 
 
-\onslide*<1>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_0}\end{figure}}
-\onslide*<2>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_1}\end{figure}}
-\onslide*<3>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_2}\end{figure}}
-\onslide*<4>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_3}\end{figure}}
-\onslide*<5>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_4}\end{figure}}
-\onslide*<6>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_5}\end{figure}}
-\onslide*<7>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_6}\end{figure}}
-\onslide*<8>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_7}\end{figure}}
-\onslide*<9>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_8}\end{figure}}
-\onslide*<10>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/prior_samples_fct_distr_9}\end{figure}}
+\onslide*<1>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_0}\end{figure}}
+\onslide*<2>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_1}\end{figure}}
+\onslide*<3>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_2}\end{figure}}
+\onslide*<4>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_3}\end{figure}}
+\onslide*<5>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_4}\end{figure}}
+\onslide*<6>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_5}\end{figure}}
+\onslide*<7>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_6}\end{figure}}
+\onslide*<8>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_7}\end{figure}}
+\onslide*<9>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_8}\end{figure}}
+\onslide*<10>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/prior_samples_fct_distr_9}\end{figure}}
 \end{frame}
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,39 +173,11 @@ y &= f(x) + \epsilon =a + bx + \epsilon\,,\quad
   \mat X& = [x_1,\dotsc, x_N], ~ \vec y = [y_1,\dotsc, y_N]\quad  \text{ Training inputs/targets}
 \end{align*}
 \begin{figure}
-\includegraphics[height = 5cm]{./~figures/training_data}
+\includegraphics[height = 5cm]{./figures-l11-blr/training_data}
 \end{figure}
 
 \end{frame}
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}
-%   \frametitle{Computing the Posterior}
-% \begin{figure}
-% \includegraphics[height = 2.5cm]{./~figures/training_data}
-% \end{figure}
-
-%   Define $\Phi(x) = \begin{bmatrix}
-%     1\\
-%     x
-%     \end{bmatrix}$, $\vec\theta = \begin{bmatrix}a \\ b
-%     \end{bmatrix}$.
-%     \\ Then: $y = a + bx + \epsilon = \vec\theta\T \Phi(x) + \epsilon$.
-
-% Training data $(x_1,y_1),\dotsc, (x_N, y_N)$ of inputs and observed targets.
-    
-%     Posterior:
-%     \begin{align*}
-% p(\vec\theta|\mat X, \vec y) &\propto~ p(\vec y|\mat X,
-%       \vec\theta)p(\vec\theta) =  \gaussx{\vec y}{\vec\theta\T\Phi(\mat
-%       X)}{\sigma_n^2\mat I}\gaussx{\vec\theta}{\vec 0}{\mat I}\\
-%                              &=\gaussx{\vec\theta}{\vec m_N}{\mat S_N}\\
-%       \mat S_N = (\mat I + \Phi(\mat X)\Phi(\mat X)\T/\sigma_n^2)\inv
-%     \end{align*}
-    
-%   \end{frame}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{Sampling from the Posterior  over Functions}
 % Good thing: Bayesian linear regression induces a probability
@@ -217,9 +189,6 @@ y &= f(x) + \epsilon =a + bx + \epsilon\,,\quad
   p(a,b)& = \gauss{\vec 0}{\mat I}\\
   p(a,b|\mat X, \vec y) & =\gauss{\vec m_N}{\mat S_N} \qquad{\text{Posterior}}
 \end{align*}
-\begin{figure}
-\includegraphics[height = 5cm]{./~figures/parameter_posterior}
-\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -233,16 +202,16 @@ y &= f(x) + \epsilon =a + bx + \epsilon\,,\quad
    [a_i, b_i] &\sim p(a,b|\mat X, \vec y)\\
   f_i &= a_i + b_i x 
 \end{align*}
-\onslide*<1>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_0}\end{figure}}
-\onslide*<2>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_1}\end{figure}}
-\onslide*<3>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_2}\end{figure}}
-\onslide*<4>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_3}\end{figure}}
-\onslide*<5>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_4}\end{figure}}
-\onslide*<6>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_5}\end{figure}}
-\onslide*<7>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_6}\end{figure}}
-\onslide*<8>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_7}\end{figure}}
-\onslide*<9>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_8}\end{figure}}
-\onslide*<10>{\begin{figure}\includegraphics[height = 5cm]{./~figures/animation-param-func-dual/posterior_samples_fct_distr_9}\end{figure}}
+\onslide*<1>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_0}\end{figure}}
+\onslide*<2>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_1}\end{figure}}
+\onslide*<3>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_2}\end{figure}}
+\onslide*<4>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_3}\end{figure}}
+\onslide*<5>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_4}\end{figure}}
+\onslide*<6>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_5}\end{figure}}
+\onslide*<7>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_6}\end{figure}}
+\onslide*<8>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_7}\end{figure}}
+\onslide*<9>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_8}\end{figure}}
+\onslide*<10>{\begin{figure}\includegraphics[height = 5cm]{./figures-l11-blr/animation-param-func-dual/posterior_samples_fct_distr_9}\end{figure}}
 \end{frame}
 
 
@@ -306,18 +275,40 @@ p(\vtheta|\vy) = \mathcal{N}\Big(\vtheta; \Phi(X)\transpose\left[\Phi(X)\Phi(X)\
 \end{frame}
 
 \begin{frame}{Computational Considerations}
+Typical algorithms (i.e.~not optimal ones) take:
+\begin{itemize}
+\item $O(NM^2)$ to multiply matrices of shape $M\times N$ with $N \times M$ \\{\tiny (you must be able to derive this)}
+\item $O(N^3)$ to find a matrix inverse
+\end{itemize}
+
+\pause
+\vspace{0.4cm}
+\begin{itemize}
+\item The two results are certainly different in computational complexity!
+\item From joint is worse when $N\gg M$
+\item Are they different in value?
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Woodbury identity}
+\begin{align}
+\left(A + UCV\right)\inv = A\inv - A\inv U\left(C\inv + VA\inv U\right)\inv VA\inv
+\end{align}
+
+\begin{itemize}
+\item Can go back and forth between the two forms.
+\item Allows you to implement the most efficient, based on setting of $M$ and $N$.
+\item See exercise to practice.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Predictive posterior}
-Board:
+{\tiny Board}
 \begin{itemize}
-\item Crunching densities
-\item Equating coefficients (tests your matrix algebra skills!)
-\item Joint Gaussian
-\item Woodbury identity
+\item Crunching densities (see pdf)
+\item Equating coefficients (tests your matrix algebra skills!) (see pdf)
+\item Joint Gaussian (see exercise)
+\item May also need to apply the Woodbury identity
 \end{itemize}
 \end{frame}
 
@@ -327,190 +318,27 @@ First, how to express our target in terms of densities we know. \pause
 \onslide<2->{p(\vy^*|\vy) &\overset{\text{AT}}{=} \int \frac{p(\vy^*,\vtheta,\vy)}{p(\vy)} \mathrm d\vtheta} \\
 \onslide<3->{&\overset{\text{MA}}{=} \int p(\vy^*|\vtheta)\frac{p(\vy|\vtheta)p(\vtheta)}{p(\vy)} \mathrm d\vtheta}
 \end{align} \pause \pause
-Next do the integrals / equating coefficients. \pause $\implies$ I recommend other method.
+Next do the integrals / equating coefficients. \pause \\
+$\implies$ I recommend other method.
+\end{frame}
+
+
+
+\begin{frame}{Method 2: Expectation identities}
+{\tiny board}
 \end{frame}
 
 
 
 
 \begin{frame}{Conclusion}
+\begin{itemize}
+\item Bayesian Linear Regression quantifies uncertainty due to lack of data (epistemic uncertainty)
+\item Gaussians are easy to deal with when conditioning
+\end{itemize}
 \end{frame}
 
 
-
-% \begin{frame}{Gaussian Identities}
-% \vspace{-0.3cm}
-%   \begin{itemize}[<+->]
-%   \item Linear transformations of Gaussians, are still Gaussian.
-%   \item Joint Gaussian distribution
-% \begin{align*}
-%   p(\vec x,\vec y) = \gaussBig{
-%   \begin{bmatrix}
-% \colchar{$\vec\mu_x$}{blue}\\
-% \colchar{$\vec\mu_y$}{red}
-% \end{bmatrix}}{
-% \begin{bmatrix}
-% \colchar{$\mat\Sigma_{xx}$}{blue} & \colchar{$\mat\Sigma_{xy}$}{violet}\\
-% \colchar{$\mat\Sigma_{yx}$}{violet} & \colchar{$\mat\Sigma_{yy}$}{red}
-% \end{bmatrix}
-% }
-% \end{align*}
-% \item \cemph{Marginal:} {\tiny proof using three principles from last lecture?}
-% \begin{align*}
-% p(\colchar{$\vec x$}{blue}) &= \int p(\colchar{$\vec x$}{blue},\colchar{$\vec y$}{red}) d\colchar{$\vec y$}{red}\\
-% &= \gauss{\colchar{$\vec\mu_x$}{blue}}{\colchar{$\mat\Sigma_{xx}$}{blue}}
-% \end{align*}
-% \item \cemph{Conditional:} {\tiny proof using completing-the-square and block-inversion formula}
-% \begin{align*}
-%   p(\vec x|\vec y) &= \gauss{\vec\mu_{x|y}}{
-% \mat\Sigma_{x|y}}\\
-% \vec\mu_{x|y} &= \colchar{$\vec\mu_x$}{blue} + \colchar{$\mat\Sigma_{xy}$}{violet}\colchar{$\mat\Sigma_{yy}\inv$}{red}(\vec y - \colchar{$\vec\mu_y$}{red})\\
-% \mat\Sigma_{x|y} &= \colchar{$\mat\Sigma_{xx}$}{blue} -\colchar{$\mat\Sigma_{xy}$}{violet}\colchar{$\mat\Sigma_{yy}\inv$}{red}\colchar{$\mat\Sigma_{yx}$}{violet}
-% \end{align*}
-% \end{itemize}
-
-% \end{frame}
-
-
-
-
-
-
-% \begin{frame}{MAP Estimation}
-%   \begin{itemize}[<+->]
-%     \item \cemph{Observation:} Parametric models that overfit tend to have
-%       some extreme (large amplitude) parameter values
-%     \item Mitigate the effect of overfitting by \cemph{placing a prior
-%       distribution $p(\vec\theta)$ on the parameters} \\
-%       \arrow Penalize extreme values that are implausible under that prior
-%     \item Choose $\vec\theta^*$ as the parameter that \cemph{maximizes the (log)
-%       parameter posterior}
-%        $$\log p(\vec\theta|\mat X, \vec y) = \underbrace{\log p(\vec
-%          y|\mat
-%          X,\vec\theta)}_{\text{log-likelihood}}+\underbrace{\log
-%          p(\vec\theta)}_{\text{log-prior}} + \text{ const}
-%        $$
-%      \item Log-prior induces a direct penalty on the
-%        parameters
-%      \item \emph{Maximum a posteriori estimate} (regularized least
-%        squares)
-%   \end{itemize}
-  
-  
-% \end{frame}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{MAP Estimation (2)}
-%   \begin{itemize}
-%     \item Gaussian parameter prior $p(\vec\theta) = \gauss{\vec
-%         0}{\alpha^2\mat I}$
-%     \item Log-posterior distribution:
-%       \begin{align*}
-% \log p(\vec\theta|\mat X, \vec y) &= \colchar{$-\frac{1}{2\sigma^2} (\vec y-
-%   \mat X\vec\theta)\T(\vec y - \mat X\vec\theta)$}{orange} \colchar{$-
-%   \frac{1}{2\alpha^2}\vec\theta\T\vec\theta$}{blue} + \text{ const}\\
-%  &= \colchar{$-\frac{1}{2\sigma^2}\|\vec y - \mat X \vec\theta\|^2$}{orange}\colchar{$-
-%         \frac{1}{2\alpha^2}\|\vec\theta\|^2$}{blue} + \text{ const}
-%       \end{align*}
-%       \pause
-% \item Compute gradient with respect to $\vec\theta$, set it to $\vec 0$\\
-%   \arrow \emph{Maximum a posteriori estimate:}
-%   $$
-%   \colchar{$\vec\theta^{\text{MAP}} = (\mat X\T\mat X +\frac{\sigma^2}{\alpha^2}\mat I)\inv\mat
-%     X\T\vec y$}{black}
-%   $$
-%   \end{itemize}
-% \end{frame}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{Example: Polynomial Regression}
-
-%   \begin{figure}
-%     \centering
-%     \onslide*<1>{
-%     \includegraphics[width =
-%     0.6\hsize]{./~figures/demo_regression_training_data}
-%     \caption{Training data}
-%   }%
-%     \onslide*<2>{
-%     \includegraphics[width =
-%     0.6\hsize]{./~figures/demo_regression_mle_map_2}
-%     \caption{2nd-order polynomial}
-%   }%
-%   \onslide*<3>{
-%     \includegraphics[width =
-%     0.6\hsize]{./~figures/demo_regression_mle_map_4}
-%     \caption{4th-order polynomial}
-%   }%
-%   \onslide*<4>{
-%     \includegraphics[width =
-%     0.6\hsize]{./~figures/demo_regression_mle_map_6}
-%     \caption{6th-order polynomial}
-%   }%
-%   \onslide*<5>{
-%     \includegraphics[width =
-%     0.6\hsize]{./~figures/demo_regression_mle_map_8}
-%     \caption{8th-order polynomial}
-%   }%
-%   \onslide*<6>{
-%     \includegraphics[width =
-%     0.6\hsize]{./~figures/demo_regression_mle_map_10}
-%     \caption{10th-order polynomial}
-%   }%
-% \end{figure}
-
-% Mean prediction:
-% $$
-% \E[y_*|\vec x_*, \vec\theta_{\text{MAP}}^*] = \vec\phi(\vec x_*)\T\vec\theta_{\text{MAP}}^*
-% $$
-
-% \end{frame}
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{Generalization Error}
-
-%   \begin{figure}
-%     \centering
-%     \includegraphics[width = 0.5\hsize]{./~figures/demo_regression_test_RMSE}
-%   \end{figure}
-
-
-%   \begin{itemize}
-%   \item MAP estimation ``delays'' the problem of overfitting
-%   \end{itemize}
-
-  
-% \end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-% \nocite{Roberts2013, Krause2008, Deisenroth2015b, Deisenroth2009,Deisenroth2015, Calandra2014,Calandra2015a,
-%   Calandra2014b,  Deisenroth2011c,
-%   Quinonero-Candela2003a, Rasmussen2006, Sutton1998, Bertsekas2005,
-%    Jones1998, Brochu2009, Osborne2009, Bertone2016, Baroukh2014,
-%   Deisenroth2012d, Deisenroth2012,Frigola2013,Kocijan2004,Quinonero-Candela2005}
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % REFERENCES
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}[t,allowframebreaks]
-% \frametitle{References}
-% \linespread{1.0}
-% \tiny
-% \bibliographystyle{abbrv}
-% \bibliography{/home/marc/research/svn/marc/literature/literature}
-% \end{frame}
 
 
 

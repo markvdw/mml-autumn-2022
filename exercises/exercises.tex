@@ -136,14 +136,17 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 
 \section{Formula Sheet}
 \begin{itemize}
-\item Expectation identities
+\item Expectation identities for $X \in \Reals^D, Y \in \Reals^E$.
 \begin{align}
-\Var{X}{X} &= \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose && \text{for }X \in \Reals^D \\
-\Cov{X,Y}{X,Y} &= \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for }X \in \Reals^D, Y\in\Reals^E \\
-\Cov{X,Y}{X,Y} &= \Cov{X,Y}{Y,X} \\
+\Exp{X}{AX} &= \Exp{X}{AX} = A\Exp{X}{X} \\
+\Var{X}{X} &= \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose \\
+\Var{X}{AX} &= A\Var{X}{X}A\transpose \\
+\Cov{X,Y}{X,Y} &= \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose \\
+\Cov{X,Y}{X,Y} &= \Cov{X,Y}{Y,X}\transpose \\
 \Cov{X,Y}{X,Y} &= 0 && \text{for } X \ci Y \\
-\Exp{X,Y}{X + Y} &= \Exp{X}{X} + \Exp{Y}{Y} && \text{for } X,Y\in\Reals^D\\
-\Var{X,Y}{X + Y} &= \Var{X}{X} + \Var{Y}{Y} && \text{for }X \ci Y \, X,Y\in\Reals^D
+\Exp{X,Y}{X + Y} &= \Exp{X}{X} + \Exp{Y}{Y} \\
+\Var{X,Y}{X + Y} &= \Var{X}{X} + \Var{Y}{Y} && \text{for }X \ci Y \\
+\Exp{X,Y}{XY\transpose} &= \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for } X \ci Y
 \end{align}
 \item For a RV $X \geq 0$, then $\Exp{X}{X} = 0$ if and only if $P(X = 0) = 1$.
 \item {\color{red} Markov's}
