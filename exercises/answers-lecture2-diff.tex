@@ -462,7 +462,6 @@ While for the derivatives w.r.t.~$\boldsymbol \ell$, we initialise as:
 v_{-1} &= \boldsymbol \ell && \dot v_{-1,ia} = \pderiv[{[v_{-1}]}_{i}]{\ell_{a}} = \delta_{ai} && v_{-1} \in \Reals^{2 \times 2}\,, O(1) \\ % \pderiv[v_{-1}]{\boldsymbol\ell} = \mat I_2
 v_0 &= X && \dot v_0 = \pderiv[{[v_0]}_{ij}]{\ell_{a}} = 0  &&  \dot v_0 \in \Reals^{(N\times 2)\times 2}\,, O(N) \\
 \end{align}
-
 Then we follow the forward mode computations. In the following calculation, we consider the gradient of $\mat X$, so all forward tangents will have indices $a$ and $b$ corresponding to values in $\mat X$. The computations w.r.t.~$\boldsymbol \ell$ are exactly the same, but without the index $b$.
 \begin{align}
 &\text{Primal} && \text{Forward tangent} && \text{Notes} \nonumber \\
@@ -470,10 +469,10 @@ D_z &= \dots && \pderiv[{[D_z]}_{nm}]{v_{0ij}} = \pderiv{v_{0ij}} (v_{0nz} - v_{
 & && \qquad = 2(v_{0nz} - v_{0mz})(\delta_{ni}\delta_{zj} - \delta_{mi}\delta_{zj}) &&\\
 & && \dot D_{znmab} = \left[\pderiv[D_z]{v_0} \dot v_0\right]_{nmab} && O(N) \text{ for sum, so total } O(N^4). \\
 & && \quad = 2 (v_{0nz} - v_{0mz}) (\dot v_{0nzab} - \dot v_{0mzab})&& \text{Structure allows } O(N^3). \\
-\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \pderiv[\Lambda_{zij}]{D_{znm}} = - \frac{D_{znm}}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \dot \Lambda_z \in \Reals^{(N\times N) \times (N\times 2)} \\
+\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \pderiv[\Lambda_{zij}]{D_{znm}} = - \frac{1}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \dot \Lambda_z \in \Reals^{(N\times N) \times (N\times 2)} \\
 & && \pderiv[\Lambda_{zij}]{v_{-1,k}} = \frac{D_{zij}}{v_{-1z}^3} \delta_{zk} && \\
 & && \dot \Lambda_{zijab} = \left[\pderiv[\Lambda_{z}]{D_{z}} \dot D_{z} + \pderiv[\Lambda_{z}]{v_{-1}} \dot v_{-1}\right]_{ijab} && O(N^2)\text{ for sum, so total }O(N^5)\,. \\
-& && \quad = - \frac{D_{zij}}{2v_{-1z}^2} \dot D_{zijab} + \frac{D_{zij}}{v_{-1z}^3} \dot v_{-1,zab} && \text{Structure allows } O(N^3)\,. \\
+& && \quad = - \frac{1}{2v_{-1z}^2} \dot D_{zijab} + \frac{D_{zij}}{v_{-1z}^3} \dot v_{-1,zab} && \text{Structure allows } O(N^3)\,. \\
 K_z &= \exp(\Lambda_z) && \pderiv[K_{znm}]{\Lambda_{zij}} = \exp(\Lambda_{zij})\delta_{ni}\delta_{mj} && \dot K_z \in \Reals^{(N\times N)\times (N\times 2)} \\
 & && \dot K_{znmab} = \exp(\Lambda_{znm})\dot\Lambda_{znmab} && \text{Structure allows } O(N^3)\,. \\
 v_1 &= \mat K_1 + \mat K_2 && \pderiv[v_{1ij}]{K_{znm}} = \delta_{in}\delta_{jm} && \\
@@ -503,7 +502,7 @@ D_z &= \dots && \bar v_{0,ij} = 2\left(\sum_{m} \bar D_{jim} (v_{0ij} - v_{0mj})
 & && \pderiv[\Lambda_{zij}]{v_{-1,k}} = \frac{D_{zij}}{v_{-1z}^3} \delta_{zk} && \\
 K_z &= \exp(\Lambda_z) && \bar \Lambda_{zij} = \bar K_{zij} K_{zij} && \\
 & && \pderiv[K_{znm}]{\Lambda_{zij}} = \exp(\Lambda_{zij})\delta_{ni}\delta_{mj} && \\
-v_1 &= \mat K_1 + \mat K_2 && \bar K_{znm} = \sum_{ij} \bar v_{1,ij} \delta_{in}\delta_{jm} = v_{1,nm} && \\
+v_1 &= \mat K_1 + \mat K_2 && \bar K_{znm} = \sum_{ij} \bar v_{1,ij} \delta_{in}\delta_{jm} = \bar v_{1,nm} && \\
 & && \pderiv[v_{1ij}]{K_{znm}} = \delta_{in}\delta_{jm} && \\
 v_2&= v_1\inv && \bar v_{1,ij} = \sum_{nm} \bar v_{2,nm} \pderiv[v_{2,nm}]{v_{1,ij}} = -\sum_{n} v_{1,ni}\inv \sum_m \bar v_{2,nm} v_{1,jm}\inv && O(N^3) \\
 & && \pderiv[v_{2,nm}]{v_{1,ij}} = -v_{1,ni}\inv v_{1,jm}\inv && \text{See forward mode.} \\

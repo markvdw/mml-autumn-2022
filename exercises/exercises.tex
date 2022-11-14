@@ -139,8 +139,9 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 \item Expectation identities
 \begin{align}
 \Var{X}{X} &= \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose && \text{for }X \in \Reals^D \\
-\Cov_{X,Y}[X,Y] &= \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for }X \in \Reals^D, Y\in\Reals^E \\
-\Cov_{X,Y}[X,Y] &= 0 && \text{for } X \ci Y \\
+\Cov{X,Y}{X,Y} &= \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for }X \in \Reals^D, Y\in\Reals^E \\
+\Cov{X,Y}{X,Y} &= \Cov{X,Y}{Y,X} \\
+\Cov{X,Y}{X,Y} &= 0 && \text{for } X \ci Y \\
 \Exp{X,Y}{X + Y} &= \Exp{X}{X} + \Exp{Y}{Y} && \text{for } X,Y\in\Reals^D\\
 \Var{X,Y}{X + Y} &= \Var{X}{X} + \Var{Y}{Y} && \text{for }X \ci Y \, X,Y\in\Reals^D
 \end{align}
@@ -159,8 +160,13 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 \end{align}
 we have the conditional density
 \begin{align}
-\p{\vx\given\vy} = \NormDist{\vx; \quad\mx + \covxy\covy\inv(\vy-\my), \quad\covx - \covxy\covy\inv\covyx} \label{eq:gauss-cond} \,.
+\p{\vx\given\vy} = \NormDist{\vx; \quad\mx + \covxy\covy\inv(\vy-\my), \quad\covx - \covxy\covy\inv\covyx} \label{eq:gauss-cond} \,,
 \end{align}
+and the marginal density
+\begin{align}
+p(\vx) = \NormDist{\vx; \mx, \covx}\,.
+\end{align}
+\item Woodbury identity: $\left(A + UCV\right)\inv = A\inv - A\inv U\left(C\inv + VA\inv U\right)\inv VA\inv$.
 \end{itemize}
 
 
@@ -452,7 +458,7 @@ p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 &
 
 
 
-\section{Lecture 8: Generalisation, Test Sets, Monte Carlo}
+\section{Lecture 8 \& 9: Generalisation, Test Sets, Monte Carlo}
 
 \begin{question}[Independence of Losses] Under the iid assumption, the loss can be seen as a transformation of a random variable. Show that the losses are independent.
 \end{question}
@@ -469,6 +475,71 @@ I = \int_{-1}^1\int_{-1}^1 \mathbb{I}(x^2 + y^2 < 1) \calcd x \calcd y \,.
 \item Is $\sqrt{\hat I}$ an unbiased estimator for $\pi$?
 \end{enumerate}
 \end{question}
+
+
+\section{Lecture 10 \& 11: Bayesian Inference}
+\begin{question}[Electrical Communication]
+Consider the electrical communication example from lectures, where we had a Bernoulli on the source voltage, i.e.~$p(S=s)= p^s(1-p)^{1-s}$. This time, we make multiple observations, i.e.~$V_n|s \overset{\mathrm{iid}}{\sim} \NormDist{s, \sigma^2}$.
+\begin{enumerate}[label=\alph*.]
+\item Write down Bayes' rule to find the posterior for $p(s|v_1, v_2, \dots v_N)$.
+\item By completing the square, find the density of the posterior $p(s|v_1, v_2, \dots v_N)$.
+\item Show that the likelihood function (which is a function of $s$!) can be rewritten as
+\begin{align}p(v_1, v_2, \dots, v_N|s) = p(\bar v|s) = \NormDist{\bar v; s, \frac{\sigma^2}{N}}\,,\end{align}
+where $\bar v = \frac{1}{N}\sum_{n=1}^N v_n$.
+\item Find the joint distribution $p(\bar v, s)$.
+\item Use the Gaussian conditioning rule to find $p(s|\bar v)$.
+\item Reflect on which method you find easier.
+\end{enumerate}
+\end{question}
+
+
+\begin{question}[Electrical Communication Errors]
+Consider the electrical communication example from lectures, where $p(v) = \NormDist{v; s, \sigma^2}$ and a Bernoulli $S$, i.e.~$p(S=s)= p^s(1-p)^{1-s}$. Now consider a \emph{decision rule}, where we guess the transmitted signal using the rule $\hat S = \argmax_s p(s|v)$.
+
+Now consider the true frequency of $S$ to follow $\pi(s) = \mathcal B(0.6)$. Calculate the probability of making an error $\mathbb P\left(\hat S = S\right)$, as a function of our prior probability $p$.
+
+Hint: Remember the difference between the data generating distribution ($\mathbb P$/$\pi$), and our model ($P$/$p$). When calculating probabilities w.r.t.~the data generating distribution, $\hat{S}$ is a function of $S$.
+\end{question}
+
+
+\begin{question}[Vector Ordering in Gaussians]
+Consider a joint Gaussian density on a vector $\vz$ that can be split up as $\vz = [\vx\transpose, \vy\transpose]\transpose$ (this notation denotes stacking):
+\begin{align}
+p(\vz) = \NormDist{\begin{bmatrix}\vx \\ \vy\end{bmatrix}; \begin{bmatrix}\va \\ \vb \end{bmatrix}, \begin{bmatrix}\mat A & \mat B \\ \mat B\transpose & \mat C\end{bmatrix}} \,.
+\end{align}
+Now consider the permuted vector $\vz' = [\vy\transpose, \vx\transpose]\transpose$. Show that the Gaussian distribution of $p(\vz')$ has a mean with rows, and a covariance matrix with swapped rows and columns.
+
+Hint: Notice that $\vz'$ is a permuted version of $\vz$. We can write this mathematically as $\vz' = \mat P\vz$, where $\mat P$ is a permutation matrix:
+\begin{align}
+\mat P = \begin{bmatrix} 0 & \mat I \\ \mat I & 0\end{bmatrix}\,.
+\end{align}
+
+\textbf{Note:} This is an important skill! Notice that the Gaussian conditioning formula in the formula sheet is only written in one way.
+\end{question}
+
+
+\begin{question}[Woodbury Identity]
+We saw that the two different ways of deriving the Gaussian posterior, gave two different results:
+\begin{align}
+p(\vtheta|\vy) &= \mathcal{N}\Big(\vtheta; \Phi(X)\transpose\left[\Phi(X)\Phi(X)\transpose + \sigma^2 \mat I_N\right]\inv\vy\,, &&\mat I_M - \Phi(X)\transpose\left[\Phi(X)\Phi(X)\transpose + \sigma^2 \mat I_N\right]\inv\Phi(X)\Big) \,, \nonumber\\
+p(\vtheta|\vy) &= \mathcal{N} \Big(\vtheta; \left[\frac{1}{\sigma^2}\Phi(X)\transpose\Phi(X) + \mat I_M\right]\inv \frac{1}{\sigma^2}\Phi(X)\transpose\vy\,, &&\left[\frac{1}{\sigma^2}\Phi(X)\transpose\Phi(X) + \mat I_M\right]\inv \Big) \,.
+\end{align}
+Apply the Woodbury identity to $\left[\frac{1}{\sigma^2}\Phi(X)\transpose\Phi(X) + \mat I_M\right]\inv$ to show that the two solutions are equal.
+
+\textbf{Note:} This is an excellent exercise for your matrix algebra skills. The main difficulty that most uninitiated have, is that multiplication no longer commutes. You need to be careful that you consistently pre/post multiply matrices.
+\end{question}
+
+
+\begin{question}[BLR Predictive]
+For a Bayesian Linear Regression model:
+\begin{enumerate}
+\item Find $p(\vy^*,\vy)$.
+\item Find $p(\vy^*|\vy)$.
+\end{enumerate}
+\end{question}
+
+
+
 
 
 
