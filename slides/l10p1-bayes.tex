@@ -1,0 +1,133 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif,handout]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Bayesian Inference}}
+\newcommand{\footertitle}{Bayesian Inference}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{November 10, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+
+
+
+\begin{frame}{Coin lottery}
+Trick question (i.e.~many correct answers):
+\onslide*<1>{\begin{itemize}
+\item I pick a coin out of my pocket.
+\item I flip it 4 times.
+\item I observe Heads 4 times.
+\item What do you think the chance is of Heads on the next round?
+\end{itemize}}
+\onslide*<2>{\begin{itemize}
+\item I pick a coin out of my pocket.
+\item I flip it 10 times.
+\item I observe Heads 10 times.
+\item What do you think the chance is of Heads on the next round?
+\end{itemize}}
+\end{frame}
+
+
+\newcommand{\ph}{p_h}
+\begin{frame}{Coin: Maximum Likelihood}
+\begin{itemize}
+\item Ok, so our probability of heads is unknown. \pause
+\item What is our model of the coin? \pause
+\begin{gather}
+X_i \sim \mathrm{Bernoulli}(\ph) \\
+P(X_i = 1) = \ph \qquad \qquad P(X_i = 0) = (1-\ph) \\
+\implies P_{X_i}(x) = \ph^x(1-\ph)^{1-x}
+\end{gather} \pause
+\item How do we find $\ph$? \pause
+\item Maximum likelihood?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coin: Maximum Likelihood}
+\begin{gather}
+p(x_1, x_2, x_3, \dots | \ph) = p(\vx|\ph) = \prod_{n=1}^N P_{X_i}(x_i) \\
+\onslide<2->{\log p(\vx|\ph) = \underbrace{\left(\sum_{n=1}^N x\right)}_{N_1} \log \ph + \underbrace{\left(\sum_{n=1}^N(1-x)\right)}_{N_0} \log (1-\ph)} \\
+\onslide<3->{\deriv[]{\ph}\log p(\vx|\ph) = 0} \\
+\onslide<4->{\implies \ph = \frac{N_1}{N_0 + N_1}}
+\end{gather} \pause \pause \pause \pause
+\vspace{-0.3cm}
+\begin{itemize}
+\item After $N_1=4, N_0=0$, would you bet all your savings on heads? \pause
+\item Maximum likelihood tells you that you should...
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bayesian Inference}
+\begin{itemize}
+\item Problem: Even after $N_1=4, N_0=0$ you're still uncertain \pause
+\item How to quantify your certainty? \pause
+\end{itemize}
+\begin{center}
+\Large Idea: Use probability theory to represent your uncertainty
+\end{center} \pause
+\begin{itemize}
+\item Consider the unknown parameter \emph{unobserved} \pause
+\item Data is drawn conditional on parameter \pause
+\item Find probability of parameter given the data \pause
+\item Use conditional probability (Bayes rule) to quantify your uncertainty!
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bayes}
+\begin{align}
+P(\text{hidden} | \text{data}) = \frac{P(\text{data} | \text{hidden}) p(\text{hidden})}{p(\text{data})}
+\end{align} \pause
+
+Coin flipping example.
+\end{frame}
+
+
+
+\begin{frame}{}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

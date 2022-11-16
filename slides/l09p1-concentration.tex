@@ -1,0 +1,349 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif,handout]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Concentration Inequalities}}
+\newcommand{\footertitle}{Overfitting \& Generalisation}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{November 7, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+
+
+\begin{frame}[t]{Recap}
+Last lecture: Careful mathematical reasoning to \emph{prove} that \pause
+\begin{itemize}
+\item Loss at deployment converged to \emph{expected loss} as $N\to\infty$ \pause
+\item Test set loss converged to \emph{expected loss} as $N\to\infty$ \pause
+\item Variance of test set loss scaled as $\frac{c}{N}$\pause
+\end{itemize}
+
+\vspace{0.3cm}
+Cornerstone of the argument was a \emph{theorem}: Weak LLN:
+\begin{align}
+\mathbb{P}(|X_n - \mu| < \epsilon) = 1 && \text{for } X_n = \frac{1}{n}\sum_{i=1}^n X_i \,, \{X_n\} \mathrm{iid}\,, \mu = \Exp{}{X_n}
+\end{align}
+\pause
+\vspace{-0.3cm}
+\begin{itemize}
+\item Doesn't say anything about the \emph{accuracy} for finite $N$! \pause
+\item Intuitively, low variance $\implies$ unlikely to be far from mean. \pause
+\item Can we use this? Can we make this \emph{precise}?
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Concentration Inequalities}
+\begin{itemize}
+\item Theorems are useful because they are \emph{black boxes} \pause
+\item Abstract away details of a complex argument, \\ to give you simple answers \pause
+\item Today: We break open the black box of the LLN (i.e.~the proof) \pause
+\item We find tools that will help us answer questions about finite $N$! \pause
+\end{itemize}
+
+\vspace{0.3cm}
+
+Questions:
+\begin{enumerate}
+\item How accurate is our estimate of the expected loss?
+\item How big should our test set be, to get a certain accuracy?
+\end{enumerate}
+\end{frame}
+
+
+\section{Intro: Proof of Weak Law of Large Numbers}
+
+
+
+\begin{frame}{Weak Law of Large Numbers} 
+\begin{itemize}
+\item For a sequence of iid RVs $X_1, X_2, X_3, \dots, X_N$ 
+\item with mean $\mu = \Exp{}{X}$ 
+\item we can define a new RV $\overline{X}_N\ = \frac{1}{N}\sum_{n=1}^N X_n$ 
+\item for which will hold:
+\begin{align}
+\lim_{N\to\infty}\mathbb P\left(|\overline X_n - \mu| < \epsilon\right) = 1
+\end{align}
+\end{itemize} \pause
+
+\vspace{0.3cm}
+
+\begin{itemize}
+\item How to prove this? \pause
+\item Let's understand how far samples lie from the mean. \pause
+\item For positive RVs, since $|\overline X_n - \mu| \geq 0$!
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[t]{Markov's inequality}
+\vspace{-0.6cm}
+\begin{myblock}{}
+For a RV $X > 0$, and $a > 0$, then
+\begin{align}
+  P(X \geq a) \leq \frac{\Exp{}{X}}{a}
+\end{align}
+\end{myblock}\pause
+
+Proof: \pause
+\vspace{-0.5cm}
+\begin{align}
+\Exp{}{X} &= \int_0^\infty x p_X(x) \calcd x \\
+\uncover<4->{&= \int_0^a x p_X(x) \calcd x + \int_a^\infty x p_X(x) \calcd x} \\
+\uncover<5->{&\geq \int_a^\infty x p_X(x) \calcd x} \\
+\uncover<6->{&\geq \int_a^\infty a p_X(x) \calcd x} \\
+\uncover<7->{&= a P(X \geq a)} \\
+\uncover<8->{\implies& P(X \geq a) \leq \frac{\Exp{}{X}}{a} && \text{Done.}}
+\end{align}
+\end{frame}
+
+
+\begin{frame}{Markov's inequality}
+For positive RVs (like deviations) with finite means: \pause
+\begin{itemize}
+\item Large values are increasingly unlikely! ($\propto \frac{1}{a}$) \pause
+\item The expectation determines how large values can be \pause
+\end{itemize}
+
+\vspace{0.3cm}
+
+Such bounds are powerful because they abstract away details of the distribution, which we may not know! \pause
+\end{frame}
+
+
+\begin{frame}[t]{Chebyshev's Inequality}
+\vspace{-0.6cm}
+\begin{myblock}{}
+For a RV $X$, with finite $\exp{}{X} = \mu$, and finite $\Var{}{X} = \sigma^2$, then for $k>0$
+\begin{align}
+  P(|X-\mu| \geq k\sigma) \leq \frac{1}{k^2}
+\end{align}
+\end{myblock}\pause
+
+Proof: Apply Markov's inequality to the RV of the squared deviation: \pause
+%\vspace{-0.5cm}
+\begin{align}
+P\left((X-\mu)^2\geq a\right) &\leq \frac{\Exp{}{(X-\mu)^2}}{a} \\ &= \frac{\sigma^2}{a} \\
+\uncover<4->{\implies P\left((X-\mu)^2\geq k^2\sigma^2 \right) &\leq \frac{1}{k^2} && \text{sub }a = k^2\sigma^2} \\
+\uncover<5->{\implies P\left(|X-\mu| \geq k\sigma\right) &\leq \frac{1}{k^2} && \text{Done.}}
+\end{align}
+\end{frame}
+
+\begin{frame}{Chebyshev's Inequality}
+For \emph{any} RV with finite mean and variance, we \emph{limit} the probability of being $k$ standard deviations from the mean.
+\end{frame}
+
+
+\begin{frame}[t]{Weak Law of Large Numbers}
+Proof of WLLN:
+\begin{itemize}
+\item Remember: $\overline{X}_N\ = \frac{1}{N}\sum_{n=1}^N X_n$ \pause
+\item Note that: $\Var{}{\overline X_n} = \frac{\Var{}{X}}{N} = \frac{c}{N}$ (we assume finite variance) \pause
+\item By Chebyshev:
+\begin{align}
+P(|\overline X_n - \Exp{}{X}| > \epsilon) &\leq \frac{\sigma^2}{\epsilon^2} \\
+&= \frac{c}{N\epsilon^2}
+\end{align} \pause
+\item For \emph{any} fixed $\epsilon$, $\lim_{N\to\infty} \frac{c}{N\epsilon^2} = 0$ \pause
+\item $\implies \lim_{N\to\infty}\mathbb P\left(|\overline X_n - \mu| < \epsilon\right) = 1\qquad\qquad$ Done.
+\end{itemize}
+\end{frame}
+
+
+
+\section{Generalisation Error Bounds}
+\begin{frame}{LLN is a Detour}
+\begin{itemize}
+\item LLN ignores the size of the variance \pause
+\item To prove LLN, we used a bound that \emph{did} depend on the size of the variance! \pause
+\end{itemize}
+
+\vspace{0.3cm}
+
+\begin{center}
+Can we use knowledge of the size of the variance \\ to say something more about generalisation error?
+\end{center}
+\end{frame}
+
+
+
+
+\begin{frame}{Generalisation Error Bound}
+A \emph{Generalisation Error/Loss Bound} is a procedure for computing a number $\epsilon$ from data that you sample form the world, such that \pause
+\begin{itemize}
+\item with high probability, \pause
+\item the expected loss is below $\epsilon$. \pause
+\end{itemize}
+\begin{align}
+\mathbb P\left(|L_{\text{test}} - \mathrm{ER}| > \epsilon\right) < \delta \\
+\mathrm{ER} = \Exp{\pi(x, y)}{\ell(f(x; \vtheta^*), y)}
+\end{align}
+\end{frame}
+
+
+\begin{frame}{Classification GEB}
+\begin{itemize}
+\item Consider Classification where $f : \mathcal X \to [0, 1]$. \pause
+\item For \emph{testing}, we use 0-1 loss function (classification accuracy)
+\begin{align}
+\ell(f(x; \vtheta^*), y) = \begin{cases}
+0 \qquad \text{if } \text{\texttt{int}}(f(x; \vtheta^*)) = y \\
+1 \qquad \text{otherwise}
+\end{cases}
+\end{align} \pause
+\item Remember $L_{\text{test}} = \frac{1}{N} \sum_{n=1}^N \ell(f(x; \vtheta^*), y)$
+\item Remember $\Exp{\pi(x, y)}{L_{test}} = \mathrm{ER}$ \\ ($x = [x_1, x_2, \dots]$, and $y = [y_1, y_2, \dots]$).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Chebyshev GEB}
+Apply Chebyshev: \pause
+\begin{align}
+\mathbb P(|L_{\text{test}} - \mathrm{ER}| > \epsilon) &< \frac{\sigma^2}{\epsilon^2} \\
+\uncover<3->{\sigma^2 &= \Var{\pi(x, y)}{L_{\text{test}}} \\
+ &= \frac{1}{N}\Var{\pi(x, y)}{\ell(f(x; \vtheta^*), y)}}
+\end{align} \pause \pause
+Notice: $\Var{\pi(x, y)}{\ell(f(x; \vtheta^*), y)} < 0.25$! \pause
+\begin{align}
+\mathbb P(|L_{\text{test}} - \mathrm{ER}| > \epsilon) < \frac{0.25}{N\epsilon^2}
+\end{align} \pause
+\vspace{-0.8cm}
+\begin{align}
+\implies \mathbb P(\mathrm{ER} > L_{\text{test}} + \epsilon) < \frac{0.25}{N\epsilon^2}
+\end{align}
+{\tiny(Draw double-sided plot on board. $L_{\text{test}}$ is RV, and we only care about under-estimation of ER.)}
+\end{frame}
+
+
+\begin{frame}{Example Chebyshev GEB}
+Q1: How accurate is our estimate of the expected loss?
+\begin{itemize}
+\item You train a NN on MNIST \pause 
+\item Test error with $N=10000$ gives $L_{\text{test}} = 0.01$ \pause
+\item Then Chebyshev gives us the guarantee that \pause
+\begin{align}
+\mathbb P(\mathrm{ER} > L_{\text{test}} + 0.03) < \frac{0.25}{N\cdot 0.03^2} = 0.0278 && \text{Pretty confident} \\
+\mathbb P(\mathrm{ER} > L_{\text{test}} + 0.01) < \frac{0.25}{N\cdot 0.01^2} = 0.25 && \text{Not confident} \\
+\mathbb P(\mathrm{ER} > L_{\text{test}} + 0.001) < \frac{0.25}{N\cdot 0.001^2} = 25 && \text{\emph{Vacuous}}
+\end{align}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{How good is this?}
+\begin{itemize}
+\item We can guarantee with high probability that the classifier isn't an order of magnitude worse than $L_{\text{test}}$ indicates \pause
+\item However bound is not tight enough to distinguish different methods, which often differ in accuracy by ±0.001 \pause
+\item Probably \emph{very} pessimistic \pause
+\item Bound holds for \emph{any} distribution with a maximum variance!
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Flipping bound round}
+Q2: How big should our test set be, to get a certain accuracy?
+\begin{gather}
+\mathbb P(\mathrm{ER} > L_{\text{test}} + \epsilon) < \delta \\
+\implies N > \frac{0.25}{\delta\epsilon^2}
+\end{gather} \pause
+
+\begin{itemize}
+\item For $\epsilon = 0.001$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.05$, we need $N > 5\cdot 10^6$!
+\item For $\epsilon = 0.001$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.01$, we need $N > 25\cdot 10^6$!
+\item For $\epsilon = 0.01$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.05$, we need $N > 50\cdot 10^3$!
+\item For $\epsilon = 0.01$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.01$, we need $N > 250\cdot 10^3$!
+\end{itemize}
+\end{frame}
+
+
+\section{Assumptions and Quality of Bounds}
+
+\begin{frame}{Hoeffding's inequality}
+\begin{myblock}{}
+For iid RVs $X_1, X_2, \dots$, such that $a < X_n < b$, $S_N = \frac{1}{N}\sum_n X_n$, and $t > 0$, we have
+\begin{align}
+\mathbb P\left(|S_N - \Exp{\pi}{S_N}| \geq t\right) \leq 2\exp\left(-\frac{2t^2N}{(b-a)^2}\right)
+\end{align}
+\end{myblock}
+
+Proof not covered in course :)
+\end{frame}
+
+
+
+\begin{frame}{Hoeffding GEB}
+Again, for classification
+\begin{gather}
+\mathbb P\left(\mathrm{ER} > L_{\text{test}} + \epsilon\right) \leq \delta \\
+\implies N \geq \frac{\log(2\delta^{-1})}{2\epsilon^2}
+%\delta = 2\exp\left(-\frac{2t^2N}{(b-a)^2}\right)
+\end{gather} \pause
+\begin{itemize}
+\item For $\epsilon = 0.001$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.05$, we need $N > 1.85\cdot 10^6$!
+\item For $\epsilon = 0.001$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.01$, we need $N > 2.65\cdot 10^6$!
+\item For $\epsilon = 0.01$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.05$, we need $N > 18.5\cdot 10^3$!
+\item For $\epsilon = 0.01$, and $\delta = \frac{0.25}{N\epsilon^2} < 0.01$, we need $N > 26.5\cdot 10^3$!
+\end{itemize} \pause
+\begin{center}
+Significant reduction compared to Chebyshev!
+\end{center}
+\end{frame}
+
+
+\section{Conclusion}
+\begin{frame}{Conclusion}
+\begin{itemize}
+\item Applying concentration inequalities (skill)
+\item Can tell us accuracy of test set estimates
+\item Concentration inequalities all relied on unbiased estimates
+\item Variance determined accuracy
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -1,0 +1,442 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Overfitting \& Generalisation}}
+\newcommand{\footertitle}{Overfitting \& Generalisation}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{November 4, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2}
+
+
+
+\begin{frame}{Announcements}
+\begin{itemize}
+\item Formula sheet will be given to you during exam, and will be available beforehand. See \texttt{exercises.pdf}.
+\item New exercises: Keep up-to-date, and discuss with TAs. Not enough of you are taking advantage.
+\item New coursework next Tuesday.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{}
+\begin{center}
+\Large Machine Learning is just \\
+{\Huge \emph{statistics done badly!}}
+\end{center} \pause
+
+\vspace{0.3cm}
+
+\begin{itemize}
+\item Statisticans work really hard to provide methods with \emph{guarantees} \pause
+\item ML applies methods in settings (e.g.~high dimensions) where the guarantees don't hold \pause
+\end{itemize}
+
+\vspace{0.3cm}
+
+\begin{center}
+But we have one saviour: \pause \\
+{\Huge \emph{The train/test split!}}
+\end{center} \pause
+
+\begin{itemize}
+\item You may already know the techniques we discuss today.
+\item But today, we let the mathematics \emph{prove} why they work.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Curve fitting}
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.5\hsize]{./figures-crossval/polynomial5}
+  \end{figure}
+\vspace{-0.4cm}
+\begin{itemize}
+\item What we want: Find a curve that predicts well \emph{even for unseen inputs}
+\item What we do: Minimise loss on \emph{training points}:
+\begin{equation}
+L(\vtheta) = \sum_n (f(\vx_n; \vtheta) - y_n)^2
+\end{equation}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Curve fitting}
+We will investigate the consequences of
+\begin{itemize}
+\item choosing particular basis functions,
+\item fitting to training points (\emph{overfitting}).
+\end{itemize}
+
+\pause
+\vspace{0.3cm}
+
+The two are related. Let's consider a sequence of linear regression models with polynomial basis functions:
+\begin{equation}
+\text{Model: } q \in {0, \dots, Q}: \vphi(x) = [1\,\,\dots\,\,x^q]\transpose
+\end{equation} \pause
+
+Two questions: As $q$ increases,
+\begin{itemize}
+\item what will happen to the \emph{training loss}?
+\item how good do you think the predictions will be?
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Basis functions}
+\vspace{-0.2cm}
+    \only<1>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_0.pdf}\end{figure}}
+    \only<2>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_1.pdf}\end{figure}}
+    \only<3>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_2.pdf}\end{figure}}
+    \only<4>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_3.pdf}\end{figure}}
+    \only<5>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_4.pdf}\end{figure}}
+    \only<6>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_5.pdf}\end{figure}}
+    \only<7>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_6.pdf}\end{figure}}
+    \only<8>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_7.pdf}\end{figure}}
+    \only<9>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_8.pdf}\end{figure}}
+    \only<10>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_9.pdf}\end{figure}}
+    \only<11>{\begin{figure}\includegraphics[width = 0.8\hsize]{./figures-crossval/demo_regression_mle_10.pdf}\end{figure}}
+\only<1>{
+\begin{equation}
+\vphi(x) = [1]\transpose
+\end{equation}
+}
+\only<2>{
+\begin{equation}
+\vphi(x) = [1\,\, x]\transpose
+\end{equation}
+}
+\only<3>{
+\begin{equation}
+\vphi(x) = [1\,\, x\,\, x^2]\transpose
+\end{equation}
+}
+\only<4>{
+\begin{equation}
+\vphi(x) = [1\,\, x\,\, x^2\,\, x^3]\transpose
+\end{equation}
+}
+\only<4->{
+\begin{equation}
+\vphi(x) = [1\,\, x\,\, x^2\,\, x^3, \dots]\transpose
+\end{equation}
+}
+\end{frame}
+
+
+\begin{frame}{Training loss}
+Q: How does the training loss change as $M$ increases?
+\begin{gather}
+L_M(\vtheta) = \sum_n (f_M(\vx_n; \vtheta) - y_n)^2\,, \qquad\quad
+f_M(\vx_n; \vtheta) = \sum_{m=0}^M x^m \theta_m
+\end{gather}
+\pause
+\begin{itemize}
+\item For two models with $M_1 \leq M_2$, model $M_2$ can represent \textit{all} functions that $M_1$ can, and more. \pause
+\item Remember: Closed-form optimisation finds the \emph{exact} minimum. \pause
+\end{itemize}
+\begin{equation}
+\implies \min_{\vtheta} L_{M_2}(\vtheta) \leq \min_{\vtheta} L_{M_1}(\vtheta)
+\end{equation} \pause
+\begin{center}
+Training loss always gets smaller as we add basis functions. \pause \\
+{\Large But what about the predictions?}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Train/Test Split}
+Some machine learning ``good practice''...
+\begin{center}
+\large How can we tell \\ how well a model will predict on \emph{unseen} data?
+\end{center} \pause
+You probably already know the procedure: \pause
+\begin{itemize}
+\item Split all data into a \emph{training set} and \emph{test set}. \pause
+\item Only train on training set, and \emph{measure} loss on the test set:
+\begin{gather}
+\vtheta^* = \argmin_{\vtheta} L(\vtheta) \\
+L_{\text{test}} = \frac{1}{N_{\text{test}}}\sum_{n=1}^{N_{\text{test}}}\ell(f(x_n; \vtheta^*), y_n) \,, \qquad (x_n, y_n) \in \mathcal{S}_{\text{test}}
+\end{gather} \pause
+\vspace{-0.4cm}
+\end{itemize}
+\begin{center}
+\Large \emph{Why does this work?}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Generalisation performance}
+Our question is not precise enough: \pause
+\begin{itemize}
+\item How will our predictions on unseen data affect us? \pause
+\item But what is unseen data? \pause
+\item What assumptions underlie this reasoning? \pause
+\end{itemize}
+
+\vspace{0.4cm}
+
+Let's make the question precise by:
+\begin{itemize}
+\item Specifying one way for how we will use our predictions.
+\item Using the assumptions from lecture 1.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Predictions and Losses}
+\begin{itemize}
+\item Imagine deploying a ML system in production \\
+(predicting ad value, engine fuel control system) \pause
+\item If widely deployed, you will make \emph{many} predictions \pause
+\item We incur a loss for error in the predictions \pause
+\item Let's measure the loss per prediction.
+\begin{align}
+L_{\text{deploy}} = \frac{1}{N_{\text{deploy}}} \sum_{n=1}^{N_{\text{deploy}}} \ell(f(x_n, \vtheta^*), y_n)
+\end{align} \pause
+\item Many predictions: $N_{\text{deploy}} \to \infty$ \pause
+\item Does it even make sense? Is this quantity even well-defined?
+\end{itemize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Statistical View on the World}
+\begin{myblock}{Data Generating Process}
+We assume that the data we observe is the outcome of some random process. Each observation is one random variable. In this course, probabilities of the data generating process are denoted with $\mathbb P(\cdot)$, and which has distribution $\pi(\cdot)$.
+\end{myblock} \pause
+
+Example:
+\begin{itemize}
+\item We observe a dataset of 3 values $\{x_n\}_{n=1}^3$.
+\item This has density $\pi_{X_1,X_2,X_3}(x_1, x_2, x_3)$.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Independent Identically Distributed}
+\begin{myblock}{Independent Identically Distributed (iid) Assumption}
+Often, we assume that random variables in a dataset are independent and identically distributed, which means that each random variable has the same distribution. Groups of RVs can also be iid.
+\end{myblock} \pause
+
+Examples:
+\begin{align*}
+\pi_{X_1,X_2,X_3}(x_1, x_2, x_3) &= \prod_{n=1}^3\pi(x_n) \\
+\pi_{X_1,Y_1,X_2,Y_2,\dots}(x_1, y_1, x_2, y_2, \dots) &= \pi_{X,Y}(\vx,\vy) && \vx,\vy\in\Reals^N \\
+&= \prod_{n=1}^N \pi(x_n, y_n)
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Expected Loss}
+\begin{itemize}
+\item $x_n, y_n \overset{\mathrm{iid}}{\sim} \pi$ \pause
+\item $N_{\text{deploy}} \to \infty$ \pause
+\item So intuitively
+\begin{align}
+L_{\text{deploy}} &= \frac{1}{N_{\text{deploy}}} \sum_{n=1}^{N_{\text{deploy}}}\ell(f(x_n, \vtheta^*), y_n) \\
+&\approx \Exp{\pi(x, y)}{\ell\left(f(x, \vtheta^*), y\right)}
+\end{align} \pause
+\vspace{-0.4cm}
+\item Finally, a well-defined quantity \pause
+\item Only meaningful because of the iid assumption! \pause
+\item Let's use a \emph{theorem} to prove this.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Weak Law of Large Numbers} 
+In what sense does the $\approx$ hold? \pause \\
+
+\vspace{0.3cm}
+
+Weak Law of Large Numbers:
+\begin{itemize}
+\item For a sequence of iid RVs $X_1, X_2, X_3, \dots, X_N$ \pause
+\item with mean $\mu = \Exp{}{X}$ \pause
+\item we can define a new RV $\overline{X}_N\ = \frac{1}{N}\sum_{n=1}^N X_n$ \pause
+\item for which will hold:
+\begin{align}
+\lim_{N\to\infty}\mathbb P\left(|\overline X_n - \mu| < \epsilon\right) = 1
+\end{align}
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Expected Loss}
+Deploy loss converging to expected loss:
+\begin{itemize}
+\item $x_n, y_n \overset{\mathrm{iid}}{\sim} \pi_{X,Y} \implies \ell_n = \ell(f(x_n), y_n))$ is a RV, with density $\pi(\ell_n)$ \pause
+\item $L_{\text{deploy}}^{N_{\text{deploy}}} = \frac{1}{N_{\text{deploy}}} \sum_{n=1}^{N_{\text{deploy}}} \ell_n $ \pause
+\item By Weak LLN
+\begin{align}
+\lim_{N_{\text{deploy} \to \infty}} \mathbb P(|L_{\text{deploy}} - \mu| < \epsilon) = 1
+\end{align} \pause
+\item With $\mu = \Exp{\pi(\ell)}{\ell} = \Exp{\pi(x, y)}{\ell\left(f(x, \vtheta^*), y\right)}$ by LOTUS
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Monte Carlo Estimate of the Expected Loss}
+\begin{itemize}
+\item We now know that the deploy loss is well-defined \pause
+\item But, we can't compute it: don't know $\pi_{X,Y}$ \pause
+\item Can we estimate it? \pause
+\item Previous process in reverse $\implies$ \emph{Monte Carlo} estimation
+\end{itemize}
+% By exactly the same argument, we can see that for the test set loss
+% \begin{align}
+% L_{\text{test}} = \frac{1}{N_{\text{test}}}\sum_{n=1}^{N_{\text{test}}}\ell(f(x_n; \vtheta^*), y_n) \,, \qquad (x_n, y_n) \in \mathcal{S}_{\text{test}}
+% \end{align}
+% where $x_n, y_n \overset{\mathrm{iid}}{\sim} \pi_{X,Y}$, we have
+% \begin{align}
+% \lim_{N_{\text{test} \to \infty}} \mathbb P(|L_{\text{test}} - \mu| < \epsilon) = 1 \,,
+% \end{align}
+% with $\mu = \Exp{\pi(x, y)}{\ell\left(f(x, \vtheta^*), y\right)}$. \pause
+
+% \vspace{0.3cm}
+% \begin{itemize}
+% \item Test loss is an estimate of the expected loss, which is accurate if $N_{\text{test}}$ is large enough.
+% \item 
+% \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Monte Carlo Estimation}
+Want to find a difficult expectation / integral:
+\begin{align}
+I = \int p_X(x) f(x) \calcd x =  \Exp{p_X(X)}{f(X)}
+\end{align} \pause
+
+Use estimator
+\begin{align}
+\hat I = \frac{1}{N}\sum_{n=1}^N f(x_n) && x_n \overset{\mathrm{iid}}{\sim} p_X
+\end{align} \pause
+
+By considering it as a sum of independent RVs:
+\begin{itemize}
+\item Can show it to be \emph{unbiased}, i.e.~$\Exp{p(x_1, x_2, \dots)}{\hat I} = I$ (board).
+\item Can show the variance reduces as $c / N$ (board).
+\item Weak LLN implies $\lim_{N\to\infty} P(|\hat I - I| < \epsilon) = 1$ (relies on unbiasedness!)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Overfitting}
+Can use test loss estimator to \emph{evaluate} various models:
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.5\hsize]{./figures-crossval/demo_regression_training_test_RMSE}
+  \end{figure} \pause
+\begin{itemize}
+\item We indeed see that training error continuously decreases.
+\item Test error only decreases with train error up to a point!
+\item When test error starts increasing $\implies$ overfitting.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}{Model selection}
+% Once we made our choices for our model (e.g.~degree of polynomial), we know how to find parameters. \pause
+We can prevent overfitting by choosing a model which isn't too flexible.
+
+\vspace{0.4cm}
+
+\begin{center}
+{\Large Q: How do we decide which model to use?} \\ \pause
+{$\implies$ \emph{model selection}}
+\end{center} \pause
+
+\end{frame}
+
+
+\begin{frame}{Summary}
+\begin{itemize}
+\item Overfitting
+\item Assumptions behind test sets (many predictions + iid data generation)
+\item Law of Large Numbers (skill)
+\item Monte Carlo estimation (skill)
+\end{itemize}
+
+% \vspace{0.3cm} \pause
+% Next time:
+% \begin{itmeize}
+% \item Prove Weak LLN
+% \item Prove bounds of form
+% \begin{align}
+% \mathbb P(\mathrm{ExpRisk} > L_\epsilon) < \delta
+% \end{align}
+% \end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

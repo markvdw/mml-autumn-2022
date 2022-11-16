@@ -1,0 +1,224 @@
+%% Time-stamp: <2018-10-18 20:24:12 (marc)>
+\documentclass[xcolor=x11names,compress,mathserif,handout]{beamer}
+
+\newcommand{\hackspace}{\hspace{4.2mm}}
+\newcommand{\showstudent}[1]{}
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+
+\usepackage{../includes/MarkMathCmds}
+
+
+
+
+
+% talk/author information
+\newcommand{\authorname}{Mark van der Wilk}
+\newcommand{\authoremail}{m.vdwilk@imperial.ac.uk}
+\newcommand{\authoraffiliation}{
+  Department of Computing\\Imperial
+  College London}
+\newcommand{\authortwitter}{markvanderwilk}
+\newcommand{\slidesettitle}{\imperialBlue{Cross-validation}}
+\newcommand{\footertitle}{Measuring Generalisation}
+\newcommand{\location}{Imperial College London}
+\newcommand{\talkDate}{November 7, 2022}
+
+
+
+\date{\imperialGray{\talkDate}}
+
+
+
+
+% load defaults
+\input{../includes/header.tex}
+
+
+\input{../includes/titlepage.tex}
+\linespread{1.2} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Reading Material}
+  \begin{center}
+    Lecture notes, \S 8.1, \S 8.2 \\
+In particular \S 8.2.4 \S 8.6.1 \\
+     \emph{\url{https://mml-book.com}}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Recap: Validation set}
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.9\hsize]{./figures-crossval/train-val-test.png}
+  \end{figure}
+\begin{itemize}
+\item Use a \emph{train set} to find the parameters in your model\pause
+\item Use a \emph{validation set} to select the model \pause
+\item Keep test set \emph{completely separate}, to use for estimating test performance
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Parameter dependence on data}
+\begin{align}
+\Exp{\prod_{n}\pi(x_n, y_n)}{\frac{1}{N}\sum_{n=1}^N\ell(f(\vx_n; \vtheta(\{\vx_i, y_i\}_n)), y_n)} &\neq \Exp{p(\vx, y)}{\ell(f(\vx; \vtheta^*), y)} \nonumber \\
+\text{param depends on data}\qquad\qquad &{} \text{param independent of data} \nonumber
+\end{align}
+
+\begin{itemize}
+\item Goal: Estimate expected loss \emph{for the parameter we pick}\pause
+\item Expectation is not the same if parameter depends on the dataset \\
+$\implies$ \emph{biased} estimate\pause
+\item Not much more to the proof than that the equality does not hold.\pause
+\item Remember example for insight:\\ If we pick parameters for which loss is always zero\pause
+\item Remember: we pick parameters with validation set \\$\implies$ need separate test set for unbiased estimation
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Why is unbiasedness important?}
+Unbiasedness makes it easy to \emph{prove} that we will end up with good estimates.
+\begin{itemize}
+\item Unbiasedness is helpful because we \emph{only} need to control the \emph{variance} of an estimate, to make it an accurate estimate of the expectation.
+\item Law of large numbers needs unbiasedness to be applied!
+\item The concentration inequalities we discussed needed unbiasedness! \pause
+\item Biased estimators \emph{may} be good, if you can control the bias. This may be difficult to verify.
+\end{itemize} \pause
+
+\vspace{0.2cm}
+\begin{center}
+If you come up with your own estimators: Just make them unbiased.
+\end{center}
+
+\end{frame}
+
+
+
+\begin{frame}{Unbiased estimation of expected loss}
+\begin{itemize}
+\item Remember, we are interested in $\mathrm{ER} = \Exp{\pi(x, y)}{\ell(f(x; \vtheta^*), y)}$.
+\item Prediction losses on a \emph{separate set} of data are unbiased
+\begin{gather}
+L_{\text{test}} = \frac{1}{N}\sum_{n=1}^N \ell(f(x; \vtheta^*)), y) \\
+\implies \Exp{\pi}{L_{\text{test}}} = \Exp{\pi(x, y)}{\ell(f(x; \vtheta^*), y)}
+\end{gather}
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Test set size}
+Property of test set: \emph{unbiased} $\implies$ no systematic over/under estimation.
+
+How many points to use in the test set?
+\begin{align}
+\Var{\prod_np(x_n, y_n)}{\frac{1}{N}\sum_{n=1}^N\ell(f(\vx_n; \vtheta^*), y_n)} = \frac{1}{N}\Var{p(x, y)}{\ell(f(\vx; \vtheta^*)}
+\end{align}
+{\tiny(Make sure you know how to prove this with all steps!)} \pause
+\begin{itemize}
+\item Want our estimator to always be as close to the true expected loss as possible. \pause
+\item Small variance (spread!) $\implies$ large $N$.
+\item E.g.~Chebyshev's inequality proves that estimate will be good with high probability.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}{Validation set size}
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.9\hsize]{./figures-crossval/train-val-test.png}
+  \end{figure}
+Tension for small datasets:
+\begin{itemize}
+\item Small validation set, large variance, may choose wrong model\pause
+\item Large validation set size, small training set, may choose wrong parameters
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Cross-validation}
+\begin{center}
+Can we somehow train on the whole dataset \\
+\emph{and} \\
+validate on the of the whole dataset?
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Cross-validation}
+Attempt to get more accurate estimate of validation/test loss, without reducing training set size too much. Cost: some small bias.
+  \begin{figure}
+    \centering
+    \includegraphics[width = 0.9\hsize]{./figures-crossval/cross-validation.png}
+  \end{figure}
+\begin{itemize}
+\item Split data into train/validation sets in \emph{multiple ways}
+\item Compute validation performance for each split
+\item Average to get \emph{cross-validation} loss \pause
+\item \textit{Almost} like having $K$ independent test sets, which would multiply the variance by $\frac{1}{K}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cross-validation}
+Procedure:
+\begin{itemize}
+\item Split data into train/validation in $K$ different ways
+\item For each model
+\begin{itemize}
+\item For each split
+\begin{itemize}
+  \item Find parameters of model
+  \item Compute loss on validation set
+\end{itemize}
+\item Calculate average validation loss for all splits (cross-validation loss)
+\end{itemize}
+\item Pick model with lowest cross-validation loss
+\end{itemize}
+
+\vspace{0.3cm}
+You can nest this as well, to get a cross-validation estimate of the test loss. Create an extra outer loop that splits data into train / test in $K_\text{outer}$ different ways.
+
+\end{frame}
+
+
+
+\begin{frame}{When to use cross-validation}
+\begin{itemize}
+\item CV is expensive! It requires training a model $K$ times.
+\item CV gives \emph{biased} estimates! \\
+\begin{itemize}
+  \item But bias is generally small, so it is a reliable estimate.
+  \item But, difficult to prove things about!
+\end{itemize}
+\item CV often gives smaller variance than a separate hold-out set of the same size.
+\end{itemize}
+
+\vspace{0.6cm}
+
+So, rule of thumb:
+\begin{center}
+If your dataset is small, it may be better to use crossvalidation for selecting hyperparameters and/or estimation of test error.
+\end{center}
+\end{frame}
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
