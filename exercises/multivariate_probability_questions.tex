@@ -28,3 +28,50 @@ Consider $X = (X_1, ..., X_N)$ as a multivariate random variable, which is distr
 Show that for the following definitions of $X, Y$, these two variables are uncorrelated (i.e., $\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y]$), but not independent to each other: $X$ is a univariate Gaussian variable with mean 0, and $Y = X^2$. 
 
 \end{question}
+
+
+\begin{question}[Expectation identities]
+Prove the following expectation identities:
+\begin{enumerate}[label=\alph*.]
+\item $\Var{X}{X} = \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose$, for $X \in \Reals^D$.
+\item $\Cov{X,Y}{X,Y} = \Exp{X,Y}{XY\transpose} - \Exp{X}{X}\Exp{Y}{Y}\transpose$, for $X \in \Reals^D, Y\in\Reals^E$.
+\item $\Exp{X,Y}{X + Y} = \Exp{X}{X} + \Exp{Y}{Y}$.
+\item $\Var{X,Y}{X + Y} = \Var{X}{X} + \Var{Y}{Y}$, for $X \ci Y$.
+\end{enumerate}
+\end{question}
+
+
+
+\begin{question}[MML 6.11: Iterated Expectations]
+\label{q:mml-6.11}
+
+Consider random variables $X,Y$ with joint distribution $p(x,y)$. Show that
+\begin{equation}
+\mathbb{E}_X[X]= \mathbb{E}_Y[\mathbb{E}_X [X|Y]]
+\end{equation}
+where $\mathbb{E}_X [X|Y]$ denotes the expectation under the conditional distribution $p(x|y)$.
+\end{question}
+
+\begin{question}[MML 6.13: Probability Integral Transformation]
+\label{q:mml-6.13}
+
+Given a continous r.v. $X$, with CDF $F_X(x)$, show that the r.v. $Y:=F_X(X)$ is uniformly distributed.
+
+\end{question}
+
+
+%\begin{question}[MML 6.12: Manipulation of Gaussian random variables]
+%\label{q:mml-6.12}
+%
+%Consider a Gaussian r.v. $\textbf{x}\sim \mathcal{N}(\textbf{x}|\bm{\mu}_x, \bm{\Sigma}_x)$, where $\textbf{x}\in\mathbb{R}^D$. Consider the following mapping to $\textbf{y}\in\mathbb{R}^E$,
+%\begin{equation}
+%\textbf{y} = \textbf{A}\textbf{x} + \textbf{b} + \textbf{w}
+%\end{equation}
+%where $\textbf{A}\in\mathbb{R}^{E\times D}$, $\textbf{b}\in\mathbb{R}^E$, and $\textbf{w}\sim \mathcal{N}(\textbf{w}|\textbf{0}, Q)$. For simplicity, we will assume $\textbf{w}$ is independent, i.e., $Q$ is diagonal.
+%\begin{enumerate}
+%\item Compute the likelihood $p(\textbf{y}|\textbf{x})$.
+%\item Compute the marginal $p(\textbf{y})$.
+%\item Given a measurement $\hat{\textbf{y}}$, compute the posterior $p(\textbf{x}|\hat{\textbf{y}})$.
+%\end{enumerate}
+%
+%\end{question}

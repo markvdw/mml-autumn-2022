@@ -1,6 +1,53 @@
 \section{Answers Lecture 2: Vector Differentiation}
 \paragraph{\questionref{q:circle}} Answer discussed in lectures.
 
+\paragraph{\questionref{q:index-notation}}
+
+Matrix-vector expressions to index notation: 
+\begin{enumerate}[label=\alph*.]
+\item $\mat A \mat B \mat C \vx = \sum_{jkl} A_{ij} B_{jk} C_{kl} x_l$
+\item $\Tr(\mat A) = \sum_i A_{ii}$
+\item $\Tr(\mat A \mat B) = \sum_{ij} A_{ij} B_{ji}$
+\item $\vy\transpose \mat A\transpose \vx = \sum_{ij} y_i A_{ji} x_j$
+\end{enumerate}
+Index notation to matrix-vector expressions:
+\begin{enumerate}[label=\alph*.]
+\item $\sum_{ijk} A_{ij}B_{jk}C_{ki} = \Tr(\mat A \mat B \mat C)$
+\item $b_i + \sum_j A_{ij}b_j = \vb + \mat A \vb$
+\item $x_ix_j = \vx \vx^T$
+\item $\sum_j \delta_{ij}a_j = \va$
+\end{enumerate}
+
+\paragraph{\questionref{q:ind-not-proof}}
+
+\begin{enumerate}
+\item $\textbf{x}^TA\textbf{y} = \textbf{y}^TA\textbf{x}$ if $A=A^T$.
+
+Note that $A=A^T \implies a_{ij}=a_{ij}$. We first write the product in terms of two vectors, $\textbf{x}$ and $A\textbf{y}$, then rearrange the terms considering $A\textbf{y}$ as a vector with components $(A\textbf{y})_i = \sum_{j=1}^N a_{ij}y_j$, and use $a_{ij} = a_{ji}$:
+\begin{align*}
+\textbf{x}^TA\textbf{y} = \sum_{i=1}^N x_i(A\textbf{y})_i = \sum_{i=1}^N x_i \sum_{j=1}^N a_{ij}y_j = \sum_{j=1}^N \sum_{i=1}^Ny_j a_{ji} x_i = \sum_{j=1}^N y_j (A\textbf{x})_j = \textbf{y}^TA\textbf{x}.
+\end{align*}
+
+\item $\textbf{x}^T\textbf{y} = Tr(\textbf{x}^T\textbf{y}) = Tr(\textbf{y}^T\textbf{x}), \textbf{x},\textbf{y}\in\mathbb{R}^D$.
+
+Considering $\textbf{x}^T\textbf{y}\in\mathbb{R}$, we have $\textbf{x}^T\textbf{y}=Tr(\textbf{x}^T\textbf{y})$. Then, we need to check whether $\textbf{x}^T\textbf{y} = \textbf{y}^T\textbf{x}$, which we can show by rearranging the terms of the vector product
+\begin{align*}
+\textbf{x}^T\textbf{y} = \sum_{i=1}^N x_i y_i = \sum_{i=1}^N y_i x_i = \textbf{y}^T\textbf{x}.
+\end{align*}
+
+\item $Tr(ABC) = Tr(CAB)$. We assume $A\in\mathbb{R}^{D\times E}, B\in\mathbb{R}^{E\times F}$, and $C\in\mathbb{R}^{F\times D}.$
+
+We start by inspecting the terms involving $Tr(ABC)$,
+\begin{align*}
+Tr(ABC) = \sum_{i=1}^D \big( (AB) C\big)_{ii} = \sum_{i=1}^D \sum_{j=1}^F (AB)_{ij} c_{ji} = \sum_{i=1}^D \sum_{j=1}^F \sum_{k=1}^E a_{ik} b_{kj} c_{ji}.
+\end{align*}
+Just by swapping the summations we can get the following identity: $Tr(ABC) = Tr(CAB) = Tr(BCA)$. We show $Tr(ABC) = Tr(CAB)$ as an example:
+\begin{align*}
+Tr(ABC) = \sum_{i=1}^D \sum_{j=1}^F \sum_{k=1}^E a_{ik} b_{kj} c_{ji} = \sum_{j=1}^F \sum_{k=1}^E \sum_{i=1}^D c_{ji}a_{ik}b_{kj} = \sum_{j=1}^F \sum_{k=1}^E (CA)_{jk}b_{kj} = \sum_{j=1}^F (CAB)_{jj} = Tr(CAB).
+\end{align*}
+
+\end{enumerate}
+
 \paragraph{\questionref{q:mml55-56}}
 
 \begin{enumerate}[label=\alph*]
@@ -274,10 +321,6 @@ which in vector form is expressed as follows
 \end{enumerate}
 
 
-
-
-
-
 \paragraph{\questionref{q:hessian}}
 The objective function and gradient w.r.t.~$\vtheta$ (see lectures) for Linear Regression is
 \begin{align}
@@ -318,7 +361,7 @@ If any of the linear algebra was unfamiliar, I recommend looking at chapter 2 in
 
 
 
-\paragraph{\questionref{q:autodiff-productrule}}
+\subsection{\questionref{q:autodiff-productrule}}
 We begin by drawing the computational graph (\cref{fig:qproductrule-compgraph}). % We make the distinction between $v_i$ and the functions to highlight the difference between an \emph{evaluation} of a function, and the function itself. All the $v_i$s refer to specific evaluations, and are therefore numbers.
 We now find the primal trace and the forward tangent trace:
 \begin{align}
@@ -356,7 +399,18 @@ If we substitute $a(x) = x, b(x) = x$, then we obtain $\calcd f / \calcd x = 2x$
 
 
 
-\paragraph{\questionref{q:autodiff}}
+\subsection{\questionref{q:autodiff}}
+This is a rather big question. It is designed to test \emph{every} single differentiation skill we taught, and how it fits together. As such, I think it's great preparation for the exam. However, it is long. You may want to try to do parts of it yourself, and perhaps part in a group.
+
+\paragraph{Part a)}
+\begin{align}
+D_a &: \Reals^{N\times 2} &&\to \Reals^{N\times N} \\
+\Lambda_a &: \Reals^{N\times N}\times \Reals^{2} &&\to \Reals^{N\times N} \\
+K_a &: \Reals^{N\times N} &&\to \Reals^{N\times N} \\
+f &: \Reals^{N\times N}\times\Reals^{N\times N} &&\to \Reals
+\end{align}
+
+\paragraph{Part b)} See \cref{fig:qautodiff}. We use names evident from the question for some nodes, but give new names to some additional intermediate notes. How should one decide to split up the computational graph? You should at least split according to the sequence of functions given in the question. Hence why we have the nodes named the same as intermediate functions. We should also split up depending on for which operations gradients are defined in our autodiff framework. So for example, in the computation of $f$, we need to compute a matrix sum, matrix inverse, and then a vector quadratic. We know how to differentiate each one of these operations separately, so we split them up so we can chain them together. For the vector quadratic, we have a choice. We could see this as a single operation, or we could split this into two matrix-vector multiplications. Autodiff frameworks probably do the latter, but for this question, we consider it done together. In an exam situation, the split will be defined clearly for you, or you would explicitly be asked to state your assumptions when making splits.
 \begin{figure}[h]
 \centering
   \tikz{
@@ -395,29 +449,72 @@ If we substitute $a(x) = x, b(x) = x$, then we obtain $\calcd f / \calcd x = 2x$
 \caption{Computational graph for \questionref{q:autodiff}, where we define $v_1 = \mat K_1 + \mat K_2$, $v_2 = v_1\inv$, and $v_3 = \vy\transpose v_1 \vy$.}
 \label{fig:qautodiff}
 \end{figure}
-\begin{enumerate}[label=\alph*.]
-\item
+
+\paragraph{Part c)} Let's first consider \textbf{forward mode}. For the derivatives w.r.t.~$\mat X$, we initialise as:
 \begin{align}
-D_a &: \Reals^{N\times 2} &&\to \Reals^{N\times N} \\
-\Lambda_a &: \Reals^{N\times N}\times \Reals^{2} &&\to \Reals^{N\times N} \\
-K_a &: \Reals^{N\times N} &&\to \Reals^{N\times N} \\
-f &: \Reals^{N\times N}\times\Reals^{N\times N} &&\to \Reals
-\end{align}
-\item See \cref{fig:qautodiff}. We use names evident from the question for some nodes, but give new names to some additional intermediate notes.
-\item Let's first consider \textbf{forward mode} for the derivatives w.r.t.~$\mat X$.
-\begin{align}
+&\text{Primal} && \text{Forward tangent} && \text{Notes} \nonumber \\
 v_{-1} &= \boldsymbol \ell && \dot v_{-1,iab} = \pderiv[{[v_{-1}]}_{i}]{X_{ab}} = 0 && v_{-1} \in \Reals^{2 \times (N\times 2)}\,, O(N) \\ % \pderiv[v_{-1}]{\boldsymbol\ell} = \mat I_2
-v_0 &= X && \dot v_0 = \pderiv[{[v_0]}_{ij}]{X_{ab}} = \delta_{ia}\delta_{jb}  &&  \dot v_0 \in \Reals^{(N\times 2)\times (N\times 2)}\,, O(N^2) \\
+v_0 &= X && \dot v_0 = \pderiv[{[v_0]}_{ij}]{X_{ab}} = \delta_{ia}\delta_{jb}  &&  \dot v_0 \in \Reals^{(N\times 2)\times (N\times 2)}\,, O(N^2)
+\end{align}
+While for the derivatives w.r.t.~$\boldsymbol \ell$, we initialise as:
+\begin{align}
+&\text{Primal} && \text{Forward tangent} && \text{Notes} \nonumber \\
+v_{-1} &= \boldsymbol \ell && \dot v_{-1,ia} = \pderiv[{[v_{-1}]}_{i}]{\ell_{a}} = \delta_{ai} && v_{-1} \in \Reals^{2 \times 2}\,, O(1) \\ % \pderiv[v_{-1}]{\boldsymbol\ell} = \mat I_2
+v_0 &= X && \dot v_0 = \pderiv[{[v_0]}_{ij}]{\ell_{a}} = 0  &&  \dot v_0 \in \Reals^{(N\times 2)\times 2}\,, O(N) \\
+\end{align}
+Then we follow the forward mode computations. In the following calculation, we consider the gradient of $\mat X$, so all forward tangents will have indices $a$ and $b$ corresponding to values in $\mat X$. The computations w.r.t.~$\boldsymbol \ell$ are exactly the same, but without the index $b$.
+\begin{align}
+&\text{Primal} && \text{Forward tangent} && \text{Notes} \nonumber \\
 D_z &= \dots && \pderiv[{[D_z]}_{nm}]{v_{0ij}} = \pderiv{v_{0ij}} (v_{0nz} - v_{0mz})^2 &&  \dot D_z \in \Reals^{(N\times N) \times (N\times 2)}  \nonumber \\
 & && \qquad = 2(v_{0nz} - v_{0mz})(\delta_{ni}\delta_{zj} - \delta_{mi}\delta_{zj}) &&\\
 & && \dot D_{znmab} = \left[\pderiv[D_z]{v_0} \dot v_0\right]_{nmab} && O(N) \text{ for sum, so total } O(N^4). \\
 & && \quad = 2 (v_{0nz} - v_{0mz}) (\dot v_{0nzab} - \dot v_{0mzab})&& \text{Structure allows } O(N^3). \\
-\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \pderiv[\Lambda_{zij}]{D_{znm}} = - \frac{D_z}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \dot \Lambda_z \in \Reals^{(N\times N) \times (N\times 2)} \\
+\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \pderiv[\Lambda_{zij}]{D_{znm}} = - \frac{1}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \dot \Lambda_z \in \Reals^{(N\times N) \times (N\times 2)} \\
 & && \pderiv[\Lambda_{zij}]{v_{-1,k}} = \frac{D_{zij}}{v_{-1z}^3} \delta_{zk} && \\
-& && \dot \Lambda_{zijab} = \left[\pderiv[\Lambda_{z}]{D_{z}} \dot D_{z} + \pderiv[\Lambda_{z}]{v_{-1}} \dot v_{-1}\right]_{ijab} && O(N^2)\text{ for sum, so total }O(N^5)\,.
+& && \dot \Lambda_{zijab} = \left[\pderiv[\Lambda_{z}]{D_{z}} \dot D_{z} + \pderiv[\Lambda_{z}]{v_{-1}} \dot v_{-1}\right]_{ijab} && O(N^2)\text{ for sum, so total }O(N^5)\,. \\
+& && \quad = - \frac{1}{2v_{-1z}^2} \dot D_{zijab} + \frac{D_{zij}}{v_{-1z}^3} \dot v_{-1,zab} && \text{Structure allows } O(N^3)\,. \\
+K_z &= \exp(\Lambda_z) && \pderiv[K_{znm}]{\Lambda_{zij}} = \exp(\Lambda_{zij})\delta_{ni}\delta_{mj} && \dot K_z \in \Reals^{(N\times N)\times (N\times 2)} \\
+& && \dot K_{znmab} = \exp(\Lambda_{znm})\dot\Lambda_{znmab} && \text{Structure allows } O(N^3)\,. \\
+v_1 &= \mat K_1 + \mat K_2 && \pderiv[v_{1ij}]{K_{znm}} = \delta_{in}\delta_{jm} && \\
+& && \dot v_1 = \pderiv[v_1]{\mat K_1} \dot{\mat K}_1 + \pderiv[v_1]{\mat K_2} \dot{\mat K}_2 && \\
+& && \dot v_{1,ijab} =  \dot K_{1,ijab} + \dot K_{z,ijab} && \\
+v_2&= v_1\inv && \pderiv[v_2]{v_1} = -v_1\inv \pderiv[v_1]{v_1}v_1\inv && \text{This is an identity.} \\
+& && \pderiv[v_{2,nm}]{v_{1,ij}} = \sum_{pq}-v_{1,np}\inv \delta_{pi}\delta_{qj} v_{1,qm}\inv && A_{pq}\inv = [A\inv]_{pq} \\
+& && \dot v_{2,nmab} = \sum_{pqij} -v_{1,np}\inv \delta_{pi}\delta_{qj} v_{1,qm}\inv \dot v_{1,ijab} && \\
+& && \quad = -\sum_{p} v_{1,np} \sum_q \dot v_{1,pqab} v_{1,qm} && O(N^4) \\
+v_3 &= \vy\transpose v_2 \vy && \pderiv[v_3]{v_{2,nm}} = y_ny_m  && \\
+& &&\dot v_{3,ab} = \sum_{nm} y_ny_m \dot v_{2,nmab} && \text{Done!}
 \end{align}
-\item {\color{red} To be continued...}
-\end{enumerate}
+
+The bottleneck computational cost we see is $O(N^4)$. Let's compare this to the cost of computing the objective function. We see a few steps that are $O(N^2)$ (like computing the distances), and the matrix inverse, which is $O(N^3)$. We know that forward mode gives us a guarantee of computing the gradient that is linear in the number of inputs, multiplied by the cost of evaluating the function. Since we have $O(N)$ inputs, we see that the $O(N^4)$ bottleneck is consistent with this!
+
+The bottleneck comes from the identity for differentiating an inverse. If we would have differentiated through the actual algorithm that computes the inverse, rather than using the identity, we would have obtained the same computational cost.
+
+Let's next consider \textbf{reverse mode}. We use the bar notation to denote the derivative w.r.t.~the input of a node, i.e.~$\bar v_3 = \pderiv[f]{v_2}$. The primal mode column is executed top to bottom, after which the reverse adjoint column is executed bottom to top.
+
+\begin{align}
+&\text{Primal} && \text{Reverse adjoint} && \text{Notes} \nonumber \\
+D_z &= \dots && \bar v_{0,ij} = 2\left(\sum_{m} \bar D_{jim} (v_{0ij} - v_{0mj}) - \sum_{n} \bar D_{jni} (v_{0nj} - v_{0,ij})\right) && \text{Done! } O(N^2) \\
+& && \pderiv[D_{znm}]{v_{0ij}} = 2(v_{0nz} - v_{0mz})(\delta_{ni}\delta_{zj} - \delta_{mi}\delta_{zj}) &&\\
+\Lambda_z &= - \frac{D_z}{2v_{-1z}^2} && \bar D_{znm} = -\bar \Lambda_{znm} \frac{D_{znm}}{2v_{-1z}^2} && \\
+& && \bar v_{-1,z} = \sum_{ij} \bar \Lambda_{zij} \frac{D_{zij}}{v_{-1,z}^3}  && \text{Done! } O(N^2)  \\
+& && \pderiv[\Lambda_{zij}]{D_{znm}} = -\frac{D_{znm}}{2v_{-1z}^2}\delta_{in}\delta_{jm}  && \\
+& && \pderiv[\Lambda_{zij}]{v_{-1,k}} = \frac{D_{zij}}{v_{-1z}^3} \delta_{zk} && \\
+K_z &= \exp(\Lambda_z) && \bar \Lambda_{zij} = \bar K_{zij} K_{zij} && \\
+& && \pderiv[K_{znm}]{\Lambda_{zij}} = \exp(\Lambda_{zij})\delta_{ni}\delta_{mj} && \\
+v_1 &= \mat K_1 + \mat K_2 && \bar K_{znm} = \sum_{ij} \bar v_{1,ij} \delta_{in}\delta_{jm} = \bar v_{1,nm} && \\
+& && \pderiv[v_{1ij}]{K_{znm}} = \delta_{in}\delta_{jm} && \\
+v_2&= v_1\inv && \bar v_{1,ij} = \sum_{nm} \bar v_{2,nm} \pderiv[v_{2,nm}]{v_{1,ij}} = -\sum_{n} v_{1,ni}\inv \sum_m \bar v_{2,nm} v_{1,jm}\inv && O(N^3) \\
+& && \pderiv[v_{2,nm}]{v_{1,ij}} = -v_{1,ni}\inv v_{1,jm}\inv && \text{See forward mode.} \\
+v_3 &= \vy\transpose v_2 \vy && \bar v_{2,nm} = \bar v_3 y_my_n && \\
+& && \bar v_2 = \bar v_3\pderiv[v_3]{v_{2}} && \\
+& && \pderiv[v_3]{v_{2,nm}} = y_ny_m  && \\
+\text{out} &= v_3 && \bar v_3 = 1 &&
+\end{align}
+
+The computational complexity this way round is cheaper that for the forward mode, since we have many variables that we are differentiating with respect to. The cost for each reverse step is the same as the forward step.
+
+
 
 %%% Local Variables: 
 %%% mode: latex
