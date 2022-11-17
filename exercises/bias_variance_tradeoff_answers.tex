@@ -1,0 +1,62 @@
+\section{Answers Lecture 12: Bias-Variance Tradeoff}
+
+\paragraph{Question \ref{q:ridge_variance_reduction}}
+We have the covariance of the ridge regression estimator as
+\begin{equation*}
+\BV(\lambda) = \sigma^2 (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1}, \quad \BV(0) = \sigma^2 ( \Phi^\top \Phi )^{-1}.
+\end{equation*}
+Note that as we assume $\Phi^\top \Phi$ is invertible, we can rewrite
+\begin{equation*}
+\begin{aligned}
+\BV(0) &= \sigma^2 (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi ) ( \Phi^\top \Phi )^{-1} (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi ) (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \\
+&= \sigma^2 (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} (2\sigma^2 \lambda \mathbf{I} + \sigma^4 \lambda^2 (\Phi^\top \Phi)^{-1} + \Phi^\top \Phi ) (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1}.
+\end{aligned}
+\end{equation*}
+So one can also show that:
+\begin{equation*}
+\BV(\lambda) - \BV(0) =  -\sigma^2 (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \underbrace{(2\sigma^2 \lambda \mathbf{I} + \sigma^4 \lambda^2 (\Phi^\top \Phi)^{-1} )}_{\text{positive definite}} (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \preceq 0,
+\end{equation*}
+To see why $2\sigma^2 \lambda \mathbf{I} + \sigma^4 \lambda^2 (\Phi^\top \Phi)^{-1}$ is positive definite: $\Psi^\top \Psi$ is positive semi-definite and invertible, so that $(\Psi^\top \Psi)^{-1}$ is positive definite, and scaling it with $\sigma^4 \lambda^2 > 0$ still maintain its positive definite property. Then the summation of two positive definite matrix ($2 \sigma^2 \lambda \mathbf{I}$ is positive definite) is a positive definite matrix.
+
+\paragraph{Question \ref{q:bias_variance_tradeoff_ridge_regression}}
+We have the bias of the estimate is
+\begin{equation*}
+\Bb(\lambda) := \mathbb{E}_{\data \sim p_{data}^N}[\mparam^*_R(\data)] - \mparam_0 = -\sigma^2 \lambda ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \mparam_0,
+\end{equation*}
+This means:
+\begin{equation*}
+\Bb(\lambda) \Bb(\lambda)^\top = \sigma^4 \lambda^2 ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \mparam_0 \mparam_0^\top ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1},
+\end{equation*}
+Using the result we have for $\BV(\lambda) - \BV(0)$ in Question \ref{q:ridge_variance_reduction}, we have:
+\begin{equation*}
+\Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) - \BV(0) = -\sigma^2 \lambda (\Phi^\top \Phi + \sigma^2 \lambda \mathbf{I})^{-1} \underbrace{(\sigma^2 [ 2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top + \sigma^2 \lambda (\Phi^\top \Phi)^{-1}] )}_{:= \mathbf{E}} (\Phi^\top \Phi + \sigma^2 \lambda \mathbf{I})^{-1}.
+\end{equation*} 
+Furthermore, one can show that
+\begin{equation*}
+\Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) \preceq \BV(0) \quad \Leftrightarrow \quad \mathbf{E} \text{ is positive semi-definite,}
+\end{equation*}
+which can be achieved by e.g.~setting $0 \leq \lambda \leq \frac{2}{|| \mparam_0 ||_2^2}$. To see this, a close inspection on $\mathbf{E}$ shows that if we make $2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top$ positive semi-definite then $\mathbf{E}$ will also be positive semi-definite. As $\mparam_0 \mparam_0^\top$ is a rank-1 matrix, the only non-zero eigenvalue of $\mparam_0 \mparam_0^\top$ is $|| \mparam_0 ||_2^2$. Using the discussed indications of eigen-decomposition, we can show that $2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top$ is positive semi-definite when all of its eigenvalues are non-negative, which can be achieved by $0 \leq \lambda \leq \frac{2}{|| \mparam_0 ||_2^2}$.
+
+\paragraph{Question \ref{q:control_variate}}
+(a) As $X$ is assumed to be an unbiased estimator of $x_0$, we have $\mathbb{E}_X[X] = x_0$. Now for the estimator $X + Y - \mathbb{E}_Y[Y]$:
+$$\mathbb{E}_{X, Y}[ X + Y - \mathbb{E}_Y[Y] ] = \mathbb{E}_{X, Y}[X] + \mathbb{E}_{X, Y}[Y] - \mathbb{E}_Y[Y] = \mathbb{E}_{X}[X] = x_0,$$
+therefore this estimator is also unbiased. 
+
+(b) We compute the variance of this estimator:
+\begin{equation*}
+\begin{aligned}
+\mathbb{V}_{X, Y}[ X + Y - \mathbb{E}_Y[Y] ] &= \mathbb{E}_{X, Y}[(X + Y - \mathbb{E}_Y[Y] - x_0 )^2] \\
+&= \mathbb{E}_{X, Y}[( (X - \mathbb{E}_X[X]) + (Y - \mathbb{E}_Y[Y]) )^2] \\
+&= \mathbb{E}_{X, Y}[(X - \mathbb{E}_X[X])^2 + (Y - \mathbb{E}_Y[Y])^2 + 2 (X - \mathbb{E}_X[X]) (Y - \mathbb{E}_Y[Y])] \\
+&= \mathbb{V}_{X}[X] + \mathbb{V}_{Y}[Y] + 2 Cov_{X, Y}[X, Y].
+\end{aligned}
+\end{equation*}
+This immediately implies that $\mathbb{V}_{X, Y}[ X + Y - \mathbb{E}_Y[Y] ] \leq \mathbb{V}_{X}[X]$ if $\mathbb{V}_{Y}[Y] + 2 Cov_{X, Y}[X, Y] < 0$.
+
+(c) Following (b) and assume $Y = c Z$:
+\begin{equation*}
+\mathbb{V}_{X, Z}[ X + c Z - \mathbb{E}_Z[c Z] ] = \mathbb{V}_{X}[X] + c^2 \mathbb{V}_{Z}[Z] + 2c Cov_{X, Z}[X, Z].
+\end{equation*}
+To maximise variance reduction, we need to compute the derivative of $c^2 \mathbb{V}_{Z}[Z] + 2c Cov_{X, Z}[X, Z]$ w.r.t.~$c$ and make it equal to zero. This leads to:
+$$ \frac{\partial}{\partial c} c^2 \mathbb{V}_{Z}[Z] + 2c Cov_{X, Z}[X, Z] = 2c \mathbb{V}_{Z}[Z] + 2 Cov_{X, Z}[X, Z] = 0 \quad \Rightarrow c = - \frac{Cov_{X, Z}[X, Z]}{\mathbb{V}_{Z}[Z]}.$$
+

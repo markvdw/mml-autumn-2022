@@ -1,0 +1,30 @@
+\section{Lecture 12: Bias-variance tradeoff}
+
+\newcommand{\BV}{\mathbf V}
+
+\begin{question}[Variance reduction for Ridge regression]
+\label{q:ridge_variance_reduction}
+Consider the covariance matrix of the ridge regression estimator $\mparam^*_{R}(\mathcal{D})$ which depends on $\lambda$:
+$$\BV(\lambda) = \mathbb{V}_{\data \sim \pi^N}[\mparam^*_{R}(\mathcal{D})], \quad
+\mparam^*_{R}(\mathcal{D}) := \arg\min_{\mparam} \frac{1}{2\sigma^2} || \y - \Phi \mparam ||_2^2 + \frac{\lambda}{2} || \mparam ||_2^2.$$
+Show that $\BV(\lambda) \preceq \BV(0)$ for all $\lambda > 0$. (We assume $\Phi^\top \Phi$ is invertible.)
+\end{question}
+
+\begin{question}[Bias-Variance tradeoff in Ridge regression]
+\label{q:bias_variance_tradeoff_ridge_regression}
+Continuing Question \ref{q:ridge_variance_reduction}, let us write the bias of the ridge regression estimator $\mparam^*_{R}(\mathcal{D})$ as (under no model error assumption and assume the ground-truth parameter is $\mparam_0$)
+$$\Bb(\mparam^*_R) = \mathbb{E}_{\data \sim p_{data}^N}[\mparam^*_R(\data)] - \mparam_0.$$
+Show that when $0 \leq \lambda \leq \frac{2}{|| \mparam_0 ||_2^2}$ we have
+$$ \Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) \preceq \BV(0).$$
+This result is immediately useful to show that the expected test error of Ridge regression can be smaller than the usual linear regression (i.e., MLE estimate).
+\end{question}
+
+\begin{question}[Control variate]
+\label{q:control_variate}
+Consider $X$ as an unbiased estimator of a scalar quantity $x_0$. Show that for the estimator $X + Y - \mathbb{E}_Y[Y]$ with another random variable $Y$:
+\begin{itemize}
+\item[a.] It is also an unbiased estimator of $x_0$;
+\item[b.] The variance of the estimator is reduced when $\mathbb{V}_{Y}[Y] + 2 Cov_{X, Y}[X, Y] < 0$. 
+\item[c.] Assume $Y = c Z$ where $Z$ is a random variable that is correlated with $X$, and $c$ is a scaling constant. Choose the best $c \in \mathbb{R}$ such that we achieve the maximum variance reduction.
+\end{itemize}
+\end{question}
