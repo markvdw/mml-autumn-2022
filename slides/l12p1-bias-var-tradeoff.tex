@@ -221,6 +221,9 @@ With good choices of $\lambda > 0$, \alert{the (expected) test error can be redu
 \begin{frame}{Bias-variance tradeoff in regression}
 How bias-variance tradeoff is relevant to overfitting:
 
+Assuming \emph{no model error}: ground truth parameter $\mparam_0$,
+$$y = \phi(\x)^\top \mparam_0 + \epsilon, \ \epsilon \sim \mathcal{N}(0, \sigma^2).$$
+
 \alert{Expected} prediction error for $\mparam^* = \mparam^*(\mathcal{D})$ over $\mathcal{D} \sim \pi^N$:
 \begin{equation*}
 \begin{aligned}
@@ -318,7 +321,7 @@ The ridge regression estimator: $\mparam^*_R = (\sigma^2 \lambda \mathbf{I} + \P
 \begin{itemize}
 \item Compute the mean of $\mparam^*_R$ for $\data \sim \pi^N$: 
 \begin{equation*}
-\mathbb{E}_{\data \sim \pi^N}[\mparam^*_R(\data)] = ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi \mparam_0
+\mathbb{E}_{\data \sim \pi^N}[\mparam^*_R(\data)] = \mathbb{E}_{\mathbf{X}_{\text{train}}}[ ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi ] \mparam_0
 \end{equation*}
 $\Rightarrow$ Ridge regression returns a \alert{biased estimator} \pause
 
@@ -327,7 +330,7 @@ $\Rightarrow$ Ridge regression returns a \alert{biased estimator} \pause
 \begin{aligned}
 \mathbb{V}_{\data \sim \pi^N}[\mparam^*_R(\data)] &= \mathbb{V}_{\data \sim \pi^N}[(\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top (\Phi \mparam_0 + \bm{\epsilon})] \\
 &=\mathbb{V}_{\data \sim \pi^N}[(\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \bm{\epsilon}] \\
-&= \sigma^{2} (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \\
+&= \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^{2} (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} ]
 \end{aligned}
 \end{equation*}
 
@@ -342,7 +345,7 @@ Bias of ridge regression estimator ($\lambda > 0$):
 \begin{equation*}
 \begin{aligned}
 \Bb(\lambda) := \mathbb{E}_{\data \sim \pi^N}[\mparam^*_R(\data)] - \mparam_0 &= ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi \mparam_0 - \mparam_0 \\
-&= -\sigma^2 \lambda ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \mparam_0
+&= -\mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^2 \lambda ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} ] \mparam_0
 \end{aligned}
 \end{equation*}
 
@@ -352,13 +355,13 @@ $$\Bb(0) = \bm{0}$$ \pause
 Variance of ridge regression estimator ($\lambda > 0$): 
 \begin{equation*}
 \begin{aligned}
-\BV(\lambda) &:= \sigma^2 (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1}
+\BV(\lambda) &:= \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^2 (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \Phi^\top \Phi (\sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} ]
 \end{aligned}
 \end{equation*}
 
 
 Variance of linear regression estimator ($\lambda = 0$): 
-$$\BV(0) = \sigma^2 (\Phi^\top \Phi )^{-1}$$
+$$\BV(0) = \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^2 (\Phi^\top \Phi )^{-1} ]$$
 
 \end{frame}
 
