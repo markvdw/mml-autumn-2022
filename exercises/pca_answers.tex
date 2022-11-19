@@ -1,0 +1,53 @@
+\section{Answers Lecture 13: PCA}
+
+\paragraph{Question \ref{q:pca_vs_linear_autoencoder}}
+(a) Let us rewrite the objective $L(\BA, \BB)$:
+\begin{equation*}
+\begin{aligned}
+L(\BA, \BB) :=& \frac{1}{N} \sum_{n=1}^N || \x_n - \BA \BB \x_n ||_2^2 = \frac{1}{N} \sum_{n=1}^N (\x_n - \BA \BB \x_n)^\top (\x_n - \BA \BB \x_n) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \x_n^\top \BA \BB \x_n + \x_n^\top \BB^\top \BA^\top \BA \BB \x_n) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\x_n^\top \BA \BB \x_n) + \tr(\x_n^\top \BB^\top \BA^\top \BA \BB \x_n)) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\BA \BB \x_n \x_n^\top ) + \tr(\BB^\top \BA^\top \BA \BB \x_n x_n^\top )) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\BA \BB \x_n \x_n^\top ) + \tr(\BB^\top \BA^\top \BA \BB \x_n x_n^\top )) \\
+=& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \frac{1}{N} \underbrace{\sum_{n=1}^N \x_n \x_n^\top}_{:=\BS} ) + \tr(\BB^\top \BA^\top \BA \BB \frac{1}{N} \sum_{n=1}^N \x_n x_n^\top ) \\
+=& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \BS ) + \tr(\BB^\top \BA^\top \BA \BB \BS )
+\end{aligned}
+\end{equation*}
+Now we derive the derivative of $L(\BA, \BB)$ w.r.t.~$\BA$, and notice that $ \tr(\BB^\top \BA^\top \BA \BB \BS ) =  \tr(\BA^\top \BA \BB \BS \BB^\top )$:
+\begin{equation*}
+\frac{\partial}{\partial \BA} L = 2 \BA \BB \BS \BB^\top - 2 \BS \BB^\top.
+\end{equation*}
+Similarly we derive the derivative of $L(\BA, \BB)$ w.r.t.~$\BB$:
+\begin{equation*}
+\frac{\partial}{\partial \BB} L = 2 \BA^\top \BA \BB \BS - 2 \BA^\top \BS.
+\end{equation*}
+
+(b) As we assume $rank(\BA) = M$, $\BA^\top \BA$ is invertible. As $\BS$ is also assumed to be invertible, then the optimal solution of $\BB^*$ satisfies:
+$$ \BA^\top \BA \BB^* \BS =\BA^\top \BS \quad \Rightarrow \quad  \BA^\top \BA \BB^* =\BA^\top \quad \Rightarrow \quad \BB^* = (\BA^\top \BA)^{-1} \BA^\top.$$
+
+(c) We first consider, when $\BB$ is a given rank-$M$ matrix, the optimal solution of $\BA^*$ satisfies:
+$$ \BA^* \BB \BS \BB^\top = \BS \BB^\top \quad \Rightarrow \quad \BA^* = \BS \BB^\top (\BB \BS \BB^\top)^{-1}.$$
+Combining (b), this means the optimal solution $\BA^*, \BB^*$ satisfies:
+$$ \BA^* = \BS (\BB^*)^\top (\BB^* \BS (\BB^*)^\top)^{-1}, \quad \BB^* = ((\BA^*)^\top \BA^*)^{-1} (\BA^*)^\top.$$
+
+Note that $\BB \BS \BB^\top$ is invertible because both $\BB$ and $\BS$ has full row rank. Now writing $\BS = \BQ \Lambda \BQ^\top$, we verify in below that $\BA^* = \BQ_{1:M}, \BB^* = \BQ_{1:M}^{\top}$ is a fixed point of the objective $L(\BA, \BB)$.
+\begin{equation*}
+\begin{aligned}
+\BS (\BB^*)^\top (\BB^* \BS (\BB^*)^\top)^{-1} &= \BQ \Lambda \BQ^\top \BQ_{1:M} (\BQ_{1:M}^{\top} \BQ \Lambda \BQ^\top \BQ_{1:M})^{-1} \\
+&= \BQ \Lambda \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} \left( \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} \Lambda \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} \right)^{-1} \\
+&= \BQ \Lambda \begin{bmatrix} \Lambda_{1:M}^{-1} & 0 \\ 0 & 0 \end{bmatrix} = \BQ \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} = \BQ_{1:M} = \BA^*,
+\end{aligned}
+\end{equation*}
+%
+\begin{equation*}
+((\BA^*)^\top \BA^*)^{-1} (\BA^*)^\top = (\BQ_{1:M}^\top \BQ_{1:M})^{-1} \BQ_{1:M}^\top = \BQ_{1:M}^\top = \BB^*.
+\end{equation*}
+In general a fixed point of the objective satisfies:
+$$ \BA^* = \BQ_{1:M} \BC^{-1}, \BB^* = \BC \BQ_{1:M}^{\top}, \quad \forall \text{ invertible matrix } \BC \in \mathbb{R}^{M \times M}.$$
+
+
+\paragraph{Question \ref{q:svd_and_pca}}
+Let us write an SVD of $\X$ as $\X = \BU \Sigma \BV^\top$ with $\BU \in \mathbb{R}^{N \times N}, \Sigma \in \mathbb{R}^{N \times D}$ and $\BV \in \mathbb{R}^{D \times D}$. Note that the covariance on $\mathcal{D}$ can be computed as $\BS = \BX^\top \BX$. Plugging in the SVD of $\X$:
+$$ \BS = \BX^\top \BX = \BV \Sigma^{\top} \BU^\top \BU \Sigma \BV^\top = \BV \Sigma^{\top} \Sigma \BV^\top.$$
+Note that in an SVD, $\Sigma$ is a rectangular diagonal matrix, i.e., only the leading diagonal terms have non-zero values. This also means $\Sigma^{\top} \Sigma \in \mathbb{R}^{D \times D}$ is a diagonal matrix with non-negative diagonal values. Therefore $\BV \Sigma^{\top} \Sigma \BV^\top$ is an eigendecomposition of $\BS$, therefore by sorting the diagonal values in $\Sigma^{\top} \Sigma$ in descending order, we can retrieve the corresponding columns in $\BV$ as the principal components.
+
