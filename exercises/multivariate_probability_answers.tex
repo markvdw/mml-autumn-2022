@@ -62,7 +62,7 @@ As we define $\Lambda = \Sigma^{-1}$, the PDF of the multivariate Gaussian is (w
 p(X = \x) &= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} (\x - \bm{\mu})^\top \Lambda (\x - \bm{\mu})^\top ] \\
 &= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} \sum_k \sum_l (x_k - \mu_k) \Lambda_{kl} (x_l - \mu_l) ] \\
 &= \frac{1}{\sqrt{ (2 \pi)^d | \Sigma |}} \exp [ -\frac{1}{2} [ f(x_i) + g(x_j) + \sum_{k \neq i, j} \sum_l (x_k - \mu_k) \Lambda_{kl} (x_l - \mu_l) ] ], \\
-\text{where} \quad f(x_i) &= \Lambda_{ii} (x_i - \mu_i)^2 + (x_i - \mu_i) \sum_{l \neq i. j} \Lambda_{il} (x_l - \mu_l), \\
+\text{where} \quad f(x_i) &= \Lambda_{ii} (x_i - \mu_i)^2 + (x_i - \mu_i) \sum_{l \neq i, j} \Lambda_{il} (x_l - \mu_l), \\
 g(x_j) &= \Lambda_{jj} (x_j - \mu_j)^2 + (x_j - \mu_j) \sum_{l \neq i, j} \Lambda_{jl} (x_l - \mu_l).
 \end{aligned}
 \end{equation*}
