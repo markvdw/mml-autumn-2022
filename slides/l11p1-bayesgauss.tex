@@ -87,7 +87,7 @@ p(v|s) &= \NormDist{v; s, \sigma^2} && \text{Assumptions about the channel.}
 
 We are interested in our posterior belief on $S$:
 \begin{align}
-p(s|v) &= \frac{p(v|s)p(v)}{p(v)} \\
+p(s|v) &= \frac{p(v|s)p(s)}{p(v)} \\
 &= \frac{p(v,s)}{\int p(v,s) \mathrm ds} && \text{Alternative formulation (sum/prod rules)}
 \end{align}
 \end{frame}
