@@ -1,0 +1,48 @@
+\section{Lecture 13: PCA}
+
+\newcommand{\BB}{\mathbf B}
+\newcommand{\BX}{\mathbf X}
+\newcommand{\BC}{\mathbf C}
+\newcommand{\BU}{\mathbf U}
+\newcommand{\BW}{\mathbf W}
+
+\begin{question}[Connections to linear auto-encoders]
+\label{q:pca_vs_linear_autoencoder}
+Consider a linear auto-encoder defined as follows for an input $\x \in \mathbb{R}^{D \times 1}$:
+$$\text{Encoder:} \quad \z = enc(\x) = \BB \x, \ \BB \in \mathbb{R}^{M \times D}, M < D, \quad \text{Decoder:} \quad \hat{\x} = dec(\z) = \BA \z, \ \BA \in \mathbb{R}^{D \times M}.$$
+Let us assume $rank(\BA) = rank(\BB) = M$.
+Given a dataset $\mathcal{D} = \{ \x_n \}_{n=1}^N$ such that $\text{mean}(\x_n) = \bm{0}$ and the covariance matrix computed on $\mathcal{D}$ is invertible, we wish to train the model by minimising the $\ell_2$ reconstruction error:
+$$\min_{\BA, \BB} L(\BA, \BB), \quad L(\BA, \BB) := \frac{1}{N} \sum_{n=1}^N || \x_n - \BA \BB \x_n ||_2^2.$$
+%
+\begin{itemize}
+\item[a.] What is the derivative of the objective w.r.t.~$\BA$ and $\BB$?
+\item[b.] Given a fixed $\BA$, what is the minimiser solution of $\BB$?
+\item[c.] Assume the covariance matrix computed on $\mathcal{D}$ can be eigendecomposed as $\BQ \Lambda \BQ^\top$ with $\Lambda = diag(\lambda_1, ..., \lambda_D), \lambda_1 \geq ... \geq \lambda_D > 0$. Show that $\BA^* = \BQ_{1:M}, \BB^* = \BQ_{1:M}^{\top}$ is a fixed point of the objective $L(\BA, \BB)$, where $\BQ_{1:M}$ contains the first $M$ columns of $\BQ$.
+\end{itemize}
+%
+You might find the following formula useful:
+$$\frac{\partial}{\partial \BX} \tr(\BA \BX \BB) = \BA^\top \BB^\top, \quad \frac{\partial}{\partial \BX} \tr(\BX^\top \BB \BX \BC) = \BB \BX \BC + \BB^\top \BX \BC^\top, \quad \frac{\partial}{\partial \BX} \tr(\BX^\top \BX \BB) = \BX \BB + \BX \BB^\top.$$
+
+\end{question}
+
+
+\begin{question}[SVD and PCA]
+\label{q:svd_and_pca}
+Assume we are given a dataset $\mathcal{D} = \{ \x_n \}_{n=1}^N$ such that $\text{mean}(\x_n) = \bm{0}$. Write $\BX = [\x_1, ..., \x_n]^\top \in \mathbb{R}^{N \times D}$, demonstrate how to use singular value decomposition (SVD) of $\X$ to obtain PCA solutions of $M$ principal components.  
+\end{question}
+
+
+\section{Lecture 14: Probabilistic PCA}
+
+\begin{question}[Solving for the optimal $\BW$ in Probabilistic PCA]
+\label{q:optimal_prob_pca}
+Consider fitting the following Probabilistic PCA model to a dataset $\mathcal{D} = \{ \x_n \}_{n=1}^N, \x_n \in \mathbb{R}^{D \times 1}$:
+$$p(\z) = \mathcal{N}(\z; \bm{0}, \mathbf{I}), \quad \z \in \mathbb{R}^{M \times 1}, M < D,$$
+$$p_{\mparam}(\x | \z) = \mathcal{N}(\x; \BW \z + \bm{\mu}, \sigma^2 \mathbf{I})$$
+In the lecture we have derived a few fixed point solutions as (with data covariance matrix $\BS = \BQ \Lambda \BQ^\top$ and the eigenvalues in $\Lambda$ arranged in a descending order):
+$$\bm{\mu}^* = \frac{1}{N} \sum_{n=1}^N \x_n, \quad \BW^* = \BU \Sigma \BV^{\top}, \quad \BU := (\bm{u}_{1}, ..., \bm{u}_{D}),  \bm{u}_m = \bm{q}_{i_m}, 1 \leq i_m \leq D, m = 1, ..., M.$$
+\begin{itemize}
+\item[a.] Show that the corresponding fixed point satisfies $\Sigma_{mm} = \sqrt{\lambda_{i_m} - \sigma^2}$ for $m = 1, ..., M$, and we assume $\lambda_{i_m} \geq \sigma^2$ for appropriately chosen $\sigma$.
+\item[b.] The global maximum solutions satisfy $i_m = m$ for $m = 1, ..., M$ (so that $\bm{u}_m = \bm{q}_m$).
+\end{itemize}
+\end{question}

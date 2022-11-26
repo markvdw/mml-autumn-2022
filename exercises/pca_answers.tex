@@ -1,0 +1,137 @@
+\section{Answers Lecture 13: PCA}
+
+\paragraph{Question \ref{q:pca_vs_linear_autoencoder}}
+(a) Let us rewrite the objective $L(\BA, \BB)$:
+\begin{equation*}
+\begin{aligned}
+L(\BA, \BB) :=& \frac{1}{N} \sum_{n=1}^N || \x_n - \BA \BB \x_n ||_2^2 = \frac{1}{N} \sum_{n=1}^N (\x_n - \BA \BB \x_n)^\top (\x_n - \BA \BB \x_n) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \x_n^\top \BA \BB \x_n + \x_n^\top \BB^\top \BA^\top \BA \BB \x_n) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\x_n^\top \BA \BB \x_n) + \tr(\x_n^\top \BB^\top \BA^\top \BA \BB \x_n)) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\BA \BB \x_n \x_n^\top ) + \tr(\BB^\top \BA^\top \BA \BB \x_n x_n^\top )) \\
+=& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\BA \BB \x_n \x_n^\top ) + \tr(\BB^\top \BA^\top \BA \BB \x_n x_n^\top )) \\
+=& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \frac{1}{N} \underbrace{\sum_{n=1}^N \x_n \x_n^\top}_{:=\BS} ) + \tr(\BB^\top \BA^\top \BA \BB \frac{1}{N} \sum_{n=1}^N \x_n x_n^\top ) \\
+=& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \BS ) + \tr(\BB^\top \BA^\top \BA \BB \BS )
+\end{aligned}
+\end{equation*}
+Now we derive the derivative of $L(\BA, \BB)$ w.r.t.~$\BA$, and notice that $ \tr(\BB^\top \BA^\top \BA \BB \BS ) =  \tr(\BA^\top \BA \BB \BS \BB^\top )$:
+\begin{equation*}
+\frac{\partial}{\partial \BA} L = 2 \BA \BB \BS \BB^\top - 2 \BS \BB^\top.
+\end{equation*}
+Similarly we derive the derivative of $L(\BA, \BB)$ w.r.t.~$\BB$:
+\begin{equation*}
+\frac{\partial}{\partial \BB} L = 2 \BA^\top \BA \BB \BS - 2 \BA^\top \BS.
+\end{equation*}
+
+(b) As we assume $rank(\BA) = M$, $\BA^\top \BA$ is invertible. As $\BS$ is also assumed to be invertible, then the optimal solution of $\BB^*$ satisfies:
+$$ \BA^\top \BA \BB^* \BS =\BA^\top \BS \quad \Rightarrow \quad  \BA^\top \BA \BB^* =\BA^\top \quad \Rightarrow \quad \BB^* = (\BA^\top \BA)^{-1} \BA^\top.$$
+
+(c) We first consider, when $\BB$ is a given rank-$M$ matrix, the optimal solution of $\BA^*$ satisfies:
+$$ \BA^* \BB \BS \BB^\top = \BS \BB^\top \quad \Rightarrow \quad \BA^* = \BS \BB^\top (\BB \BS \BB^\top)^{-1}.$$
+Combining (b), this means the optimal solution $\BA^*, \BB^*$ satisfies:
+$$ \BA^* = \BS (\BB^*)^\top (\BB^* \BS (\BB^*)^\top)^{-1}, \quad \BB^* = ((\BA^*)^\top \BA^*)^{-1} (\BA^*)^\top.$$
+
+Note that $\BB \BS \BB^\top$ is invertible because both $\BB$ and $\BS$ has full row rank. Now writing $\BS = \BQ \Lambda \BQ^\top$, we verify in below that $\BA^* = \BQ_{1:M}, \BB^* = \BQ_{1:M}^{\top}$ is a fixed point of the objective $L(\BA, \BB)$.
+\begin{equation*}
+\begin{aligned}
+\BS (\BB^*)^\top (\BB^* \BS (\BB^*)^\top)^{-1} &= \BQ \Lambda \BQ^\top \BQ_{1:M} (\BQ_{1:M}^{\top} \BQ \Lambda \BQ^\top \BQ_{1:M})^{-1} \\
+&= \BQ \Lambda \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} \left( \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} \Lambda \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} \right)^{-1} \\
+&= \BQ \Lambda \begin{bmatrix} \Lambda_{1:M}^{-1} & 0 \\ 0 & 0 \end{bmatrix} = \BQ \begin{bmatrix} \mathbf{I}_{M} & 0 \\ 0 & 0 \end{bmatrix} = \BQ_{1:M} = \BA^*,
+\end{aligned}
+\end{equation*}
+%
+\begin{equation*}
+((\BA^*)^\top \BA^*)^{-1} (\BA^*)^\top = (\BQ_{1:M}^\top \BQ_{1:M})^{-1} \BQ_{1:M}^\top = \BQ_{1:M}^\top = \BB^*.
+\end{equation*}
+In general a fixed point of the objective satisfies:
+$$ \BA^* = \BQ_{1:M} \BC^{-1}, \BB^* = \BC \BQ_{1:M}^{\top}, \quad \forall \text{ invertible matrix } \BC \in \mathbb{R}^{M \times M}.$$
+
+
+\paragraph{Question \ref{q:svd_and_pca}}
+Let us write an SVD of $\X$ as $\X = \BU \Sigma \BV^\top$ with $\BU \in \mathbb{R}^{N \times N}, \Sigma \in \mathbb{R}^{N \times D}$ and $\BV \in \mathbb{R}^{D \times D}$. Note that the covariance on $\mathcal{D}$ can be computed as $\BS = \BX^\top \BX$. Plugging in the SVD of $\X$:
+$$ \BS = \BX^\top \BX = \BV \Sigma^{\top} \BU^\top \BU \Sigma \BV^\top = \BV \Sigma^{\top} \Sigma \BV^\top.$$
+Note that in an SVD, $\Sigma$ is a rectangular diagonal matrix, i.e., only the leading diagonal terms have non-zero values. This also means $\Sigma^{\top} \Sigma \in \mathbb{R}^{D \times D}$ is a diagonal matrix with non-negative diagonal values. Therefore $\BV \Sigma^{\top} \Sigma \BV^\top$ is an eigendecomposition of $\BS$, therefore by sorting the diagonal values in $\Sigma^{\top} \Sigma$ in descending order, we can retrieve the corresponding columns in $\BV$ as the principal components.
+
+
+\section{Answers Lecture 14: Probabilistic PCA}
+
+\paragraph{Question \ref{q:optimal_prob_pca}}
+(a) As shown in the lecture, the optimal $\BW^*$ with its SVD $\BW^* = \BU \Sigma \BV^\top$ satisfies
+$$(\BS \bm{u}_1, ..., \BS \bm{u}_M, \bm{0}, ..., \bm{0}) = ((\sigma_1^2 + \sigma^2) \bm{u}_1, ..., (\sigma_M^2 + \sigma^2) \bm{u}_M, \bm{0}, ..., \bm{0}), \quad \sigma_m = \Sigma_{mm}$$
+Plugging-in $\BS = \BQ \Lambda \BQ^\top$, the above equation means $\bm{u}_m = \bm{q}_{i_m}, 1 \leq i_m \leq D$ for $i = 1, ..., M$. Also due to the orthogonality constraint of $\BU$ column vectors (by definition of SVD), we know that $\{ i_m \}_{m=1}^M$ contains distinct indices. This leads to:
+\begin{equation*}
+\BS \bm{u}_m = \lambda_{i_m} \bm{q}_{i_m} = (\sigma_m^2 + \sigma^2) \bm{q}_{i_m}.
+\end{equation*}
+which proves statement (a). 
+
+(b) We first compute $\BC = \BW \BW^\top + \sigma^2 \mathbf{I}$ for $\BW^*$ using SVD of $\BW$:
+\begin{equation*}
+\begin{aligned}
+\BC &= \BU
+\begin{bmatrix} 
+    \sigma_{1} & 0 & \dots \\
+    0 & \ddots & \\
+    \vdots &        & \sigma_M \\ 
+     &   &  & 0 \\
+     & & & & \ddots & \\
+     & & & & &  0
+    \end{bmatrix} \BV^\top \BV 
+    \begin{bmatrix} 
+    \sigma_{1} & 0 & \dots \\
+    0 & \ddots & \\
+    \vdots &        & \sigma_M \\ 
+     &   &  & 0 \\
+     & & & & \ddots & \\
+     & & & & &  0
+    \end{bmatrix} \BU^\top + \sigma^2 \mathbf{I} \\
+&= \BU
+\begin{bmatrix} 
+    \sigma_{1}^2 + \sigma^2 & 0 & \dots \\
+    0 & \ddots & \\
+    \vdots &        & \sigma_M^2 + \sigma^2 \\ 
+     &   &  & \sigma^2 \\
+     & & & & \ddots & \\
+     & & & & &  \sigma^2
+    \end{bmatrix} \BU^\top
+\end{aligned}
+\end{equation*}
+
+Plugging-in the optimal $\bm{\mu}^*$ and a fixed point of $\BW^*$ from (a): 
+\begin{equation*}
+\begin{aligned}
+\BC &= (\bm{q}_{i_1}, ..., \bm{q}_{i_M}, \bm{u}_{M+1}, ..., \bm{u}_D)
+\begin{bmatrix} 
+    \lambda_{i_1} & 0 & \dots \\
+    0 & \ddots & \\
+    \vdots &        & \lambda_{i_M} \\ 
+     &   &  & \sigma^2 \\
+     & & & & \ddots & \\
+     & & & & &  \sigma^2
+    \end{bmatrix} (\bm{q}_{i_1}, ..., \bm{q}_{i_M}, \bm{u}_{M+1}, ..., \bm{u}_D)^\top,
+\end{aligned}
+\end{equation*}
+which satisfies $\log |C| = (D - M) \log \sigma^2 + \sum_{m=1}^M \log \lambda_{i_m}$. Notice that the above equation returns the same matrix for $\BC$ no matter how we choose $\bm{u}_{M+1}, ..., \bm{u}_D$ as long as $\BU$ contains an orthonormal basis (by definition of SVD). This means for $m \geq M+1$ we can simply choose $\bm{u}_m = \bm{q}_j$ for some $j \notin \{ i_1, i_2, ..., i_M \}$. Therefore with such choices of $\bm{u}_{M+1}, ..., \bm{u}_D$, there exists a permutation matrix $\BP$ such that $\BU = \BQ \BP$ which gives the corresponding permutation of the $\BQ$ basis vectors. 
+Then the corresponding MLE objective is:
+\begin{equation*}
+\begin{aligned}
+\log p_{\mparam^*}(\x) &= \log \mathcal{N}(\x; \bm{\mu}^*,  \BC), \quad \BC = \BQ \BP (\Sigma \Sigma^\top + \sigma^2 \mathbf{I}) \BP^\top \BQ^\top \\
+\Rightarrow \quad \mathcal{L}(\mparam^*) &= \frac{1}{N} \sum_{n=1}^N \log \mathcal{N}(\x_n; \bm{\mu}^*,  \BC) \\
+&= -\frac{D}{2} \log 2\pi -\frac{1}{2} \log |\BC| - \frac{1}{2} \frac{1}{N} \sum_{n=1}^N (\x_n - \bm{\mu}^*)^\top \BC^{-1} (\x_n - \bm{\mu}^*) \\
+&= -\frac{D}{2} \log 2\pi -\frac{1}{2} \log |\BC| - \frac{1}{2} \tr( \BC^{-1} \frac{1}{N} \sum_{n=1}^N (\x_n - \bm{\mu}^*)(\x_n - \bm{\mu}^*)^\top) \\
+&= -\frac{D}{2} \log 2\pi -\frac{1}{2} \log |\BC| - \frac{1}{2} \tr( \BC^{-1} \BS) \\
+&= -\frac{D}{2} \log 2\pi -\frac{1}{2} \log |\BC| - \frac{1}{2} \tr( \BQ \BP (\Sigma \Sigma^\top + \sigma^2 \mathbf{I})^{-1} \BP^\top \BQ^\top \BQ \Lambda \BQ^\top) \\
+&= -\frac{D}{2} \log 2\pi -\frac{1}{2} \log |\BC| - \frac{1}{2} \tr(  \BP (\Sigma \Sigma^\top + \sigma^2 \mathbf{I})^{-1} \BP^\top \Lambda \BQ^\top \BQ) \\
+&=  -\frac{D}{2} \log 2\pi -\frac{1}{2} \log |\BC| - \frac{1}{2} \tr( (\Sigma \Sigma^\top + \sigma^2 \mathbf{I})^{-1} \BP^\top \Lambda \BP )
+\end{aligned}
+\end{equation*}
+We have used permutation invariance of matrix trace. Under the condition in question (a) and the property that $\BP^\top \Lambda \BP$ permutes the diagonals of $\Lambda$ using the permutation defined by $\BP$, we can show that the top-left $M \times M$ blocks of $(\BP^{-1} \Lambda \BP)$ and $(\Sigma \Sigma^{\top} + \sigma^2 \mathbf{I})$ are equal. This means we only need to consider the last $M+1$ to $D$ diagonal terms in $(\Sigma \Sigma^\top + \sigma^2 \mathbf{I})^{-1} \BP^{-1}  \Lambda \BP$ for the trace term, which reads:
+$$\tr( (\Sigma \Sigma^\top + \sigma^2 \mathbf{I})^{-1} \BP^{-1}  \Lambda \BP) = M + \sigma^{-2} \sum_{j \not \in \{i_1, ..., i_M \}} \lambda_j.$$
+%
+Also recall that $\log |C| = (D - M) \log \sigma^2 + \sum_{m=1}^M \log \lambda_{i_m}$. Combining both results, this means we would like to find an permutation mapping $\rho(\cdot)$ to minimise
+\begin{equation*}
+\begin{aligned}
+\log |\BC | + \tr( \BC^{-1} \BS) &=  M + \sigma^{-2} \sum_{j \not \in \{i_1, ..., i_M \}} \lambda_j + \sum_{m=1}^M \log \lambda_{i_m} + (D - M) \log \sigma^2 \\
+&= M + \sum_{j \not \in \{i_1, ..., i_M \}} \frac{ \lambda_j}{\sigma^2} + \sum_{m=1}^M \log \frac{ \lambda_{i_m}}{\sigma^2} + D \log \sigma^2.
+\end{aligned}
+\end{equation*}
+%
+Recall the assumption of descending eigenvalues $\lambda_1 \geq ... \geq \lambda_D \geq 0$. Since we can show that $x > \log x$ (natural logarithm) for all $x > 0$, then to minimise the above expression, we want to use larger eigenvalues for the $\log \frac{ \lambda_{i_m}}{\sigma^2}$ terms and smaller eigenvalues for the $\frac{ \lambda_j}{\sigma^2}$ terms. This means the global maximum solutions satisfy $i_m = m$ for $m = 1, ..., M$.
