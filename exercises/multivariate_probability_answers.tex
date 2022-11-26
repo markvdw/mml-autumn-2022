@@ -8,8 +8,8 @@ $$p_Y(\y) = p_X(T^{-1}(\y)) | \frac{dT^{-1}(\y)}{dy} | .$$
 As $T^{-1}(\y) = \BA^{-1} \y$, we have $| \frac{dT^{-1}(y)}{dy} | = | \BA^{-1} | = | \BA |^{-1}$. Plugging in these results:
 \begin{equation*}
 \begin{aligned}
-p_Y(\y) &=  |\BA |^{-1} \frac{1}{\sqrt{(2 \pi)^d |\Sigma|}} \exp[-\frac{1}{2} (\BA^{-1} \x - \bm{\mu})^\top \Sigma^{-1} (\BA^{-1} \x - \bm{\mu})] \\
-& = \frac{1}{\sqrt{(2 \pi)^d |\BA \Sigma \BA^\top|}} \exp[-\frac{1}{2} (\x - \BA \bm{\mu})^\top (\BA \Sigma \BA^{\top})^{-1} ( \x - \BA \bm{\mu})].
+p_Y(\y) &=  |\BA |^{-1} \frac{1}{\sqrt{(2 \pi)^d |\Sigma|}} \exp[-\frac{1}{2} (\BA^{-1} \y - \bm{\mu})^\top \Sigma^{-1} (\BA^{-1} \y - \bm{\mu})] \\
+& = \frac{1}{\sqrt{(2 \pi)^d |\BA \Sigma \BA^\top|}} \exp[-\frac{1}{2} (\y - \BA \bm{\mu})^\top (\BA \Sigma \BA^{\top})^{-1} ( \y - \BA \bm{\mu})].
 \end{aligned}
 \end{equation*}
 
