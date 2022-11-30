@@ -42,11 +42,14 @@ b)
         \end{bmatrix}$$
     
     Determinant of the computed Hessian at $\mu^*, \sigma^{2*}$:
-    $$ |H| = -\frac{N^2}{2 (\sigma^{2*})^3} + \frac{N}{(\sigma^{2*})^4} \sum_{i=1}^N (x_i - \mu^*)^2 - \frac{1}{(\sigma^{2*})^4} (\sum_{i=1}^N(x_i - \mu^*))^2$$
-    $$\Rightarrow \frac{N^2}{2 (\sigma^{2*})^3} - \frac{1}{(\sigma^{2*})^4} (\sum_{i=1}^N(x_i - \mu^*))^2 \geq +\frac{N^2}{2 (\sigma^{2*})^3} - \frac{1}{(\sigma^{2*})^4} \sum_{i=1}^N(x_i - \mu^*)^2$$
-    $$\Rightarrow |H| \geq \frac{N^2}{2 (\sigma^{2*})^3} - \frac{N}{(\sigma^{2*})^3}$$
-    
-    As $H[0,0]$ is negative and $det(H) \geq 0$ for $N \in \mathbb{Z}$ and $N \geq 2$, we conclude the $\mu^*$ and $\sigma^{2*}$ results in maximizing logliklihood of the distribution.
+\begin{align}
+\det(H) &= -\frac{N^2}{2 (\sigma^{2*})^3} + \frac{N}{(\sigma^{2*})^4} \sum_{i=1}^N (x_i - \mu^*)^2 - \frac{1}{(\sigma^{2*})^4} (\sum_{i=1}^N(x_i - \mu^*))^2 \\
+&= -\frac{N^2}{2 (\sigma^{2*})^3} + \frac{N^2}{(\sigma^{2*})^4} \sum_{i=1}^N \frac{(x_i - \mu^{*})^2}{N} - \frac{1}{(\sigma^{2*})^4} (\sum_{i=1}^N(x_i - \mu^{*}))^2 \\
+&= \frac{N^2}{2 (\sigma^{2*})^3}  - \frac{N}{(\sigma^{2*})^3} \\
+&= \frac{N^2 -2N}{2 (\sigma^{2*})^3}
+\end{align}
+
+For $N \geq 2$, we have that $\det(H) \geq 0$. Keeping in mind that $\det(H) = \prod_n \lambda_n$, where $\lambda_n$ are the eigenvalues of $H$, and that $H[0,0]$ is negative, we conclude the $\mu^*$ and $\sigma^{2*}$ results in maximizing logliklihood of the distribution.
 
     
     
