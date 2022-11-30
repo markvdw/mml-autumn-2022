@@ -321,9 +321,9 @@ $\BU \in \mathbb{R}^{D \times D}, \Sigma \in \mathbb{R}^{D \times M}, \BV \in \m
     \sigma_{1} & 0 & \dots \\
     0 & \ddots & \\
     \vdots &        & \sigma_M \\ 
-     &   &  & 0 \\
-     & & & & \ddots & \\
-     & & & & &  0
+     &   & 0 \\
+     & & \vdots \\
+     & &  0
     \end{bmatrix} 
 \quad \Rightarrow 
 \Sigma \Sigma^\top + \sigma^2 \mathbf{I} = 
@@ -384,18 +384,18 @@ $\BU \in \mathbb{R}^{D \times D}, \Sigma \in \mathbb{R}^{D \times M}, \BV \in \m
     (\sigma_{1}^2 + \sigma^2)^{-1}\sigma_{1} & 0 & \dots \\
     0 & \ddots & \\
     \vdots &        & (\sigma_M^2 + \sigma^2)^{-1}\sigma_M \\ 
-     &   &  & 0 \\
-     & & & & \ddots & \\
-     & & & & &  0
+     &   &  0 \\
+     & & \vdots \\
+     & &   0
     \end{bmatrix} 
  = \BU
 \begin{bmatrix} 
     \sigma_{1} & 0 & \dots \\
     0 & \ddots & \\
     \vdots &        & \sigma_M \\ 
-     &   &  & 0 \\
-     & & & & \ddots & \\
-     & & & & &  0
+     &   & 0 \\
+     & & \vdots\\
+     & &  0
     \end{bmatrix} 
 \end{equation*}
 \end{tiny}
@@ -423,18 +423,18 @@ $\BU \in \mathbb{R}^{D \times D}, \Sigma \in \mathbb{R}^{D \times M}, \BV \in \m
     1 & 0 & \dots \\
     0 & \ddots & \\
     \vdots &        & 1 \\ 
-     &   &  & 0 \\
-     & & & & \ddots & \\
-     & & & & &  0
+     &   &  0 \\
+     & & \vdots \\
+     & & 0
     \end{bmatrix} 
  = \BU
 \begin{bmatrix} 
     \sigma_{1}^2 + \sigma^2 & 0 & \dots \\
     0 & \ddots & \\
     \vdots &        & \sigma_M^2 + \sigma^2 \\ 
-     &   &  & 0 \\
-     & & & & \ddots & \\
-     & & & & &  0
+     &   &  0 \\
+     & & \vdots  \\
+     & &  0
     \end{bmatrix} 
 \end{equation*}
 \end{tiny}
@@ -442,7 +442,7 @@ $\BU \in \mathbb{R}^{D \times D}, \Sigma \in \mathbb{R}^{D \times M}, \BV \in \m
 \end{itemize}
 
 Write $\BU := (\bm{u}_1, ..., \bm{u}_D)$:
-$$(\BS \bm{u}_1, ..., \BS \bm{u}_M, \bm{0}, ..., \bm{0}) = ((\sigma_1^2 + \sigma^2) \bm{u}_1, ..., (\sigma_M^2 + \sigma^2) \bm{u}_M, \bm{0}, ..., \bm{0})$$
+$$(\BS \bm{u}_1, ..., \BS \bm{u}_M) = ((\sigma_1^2 + \sigma^2) \bm{u}_1, ..., (\sigma_M^2 + \sigma^2) \bm{u}_M)$$
 
 
 $\Rightarrow \quad$ the first $M$ columns of $\BU$ contain eigenvectors of $\BS$!
