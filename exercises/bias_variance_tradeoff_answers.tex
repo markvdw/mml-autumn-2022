@@ -25,15 +25,18 @@ We have the bias of the estimate is
 \end{equation*}
 This means:
 \begin{equation*}
-\Bb(\lambda) \Bb(\lambda)^\top = \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^4 \lambda^2 ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \mparam_0 \mparam_0^\top ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} ],
+\begin{aligned}
+\Bb(\lambda) \Bb(\lambda)^\top &= \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^4 \lambda^2 ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1}] \mparam_0 \mparam_0^\top  \mathbb{E}_{\mathbf{X}_{\text{train}}}[( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} ] \\
+&\preceq \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^4 \lambda^2 ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} \mparam_0 \mparam_0^\top ( \sigma^2 \lambda \mathbf{I} + \Phi^\top \Phi )^{-1} ].
+\end{aligned}
 \end{equation*}
 Using the result we have for $\BV(\lambda) - \BV(0)$ in Question \ref{q:ridge_variance_reduction}, we have:
 \begin{equation*}
-\Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) - \BV(0) = - \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^2 \lambda (\Phi^\top \Phi + \sigma^2 \lambda \mathbf{I})^{-1} \underbrace{(\sigma^2 [ 2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top + \sigma^2 \lambda (\Phi^\top \Phi)^{-1}] )}_{:= \mathbf{E}} (\Phi^\top \Phi + \sigma^2 \lambda \mathbf{I})^{-1} ].
+\Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) - \BV(0) \preceq - \mathbb{E}_{\mathbf{X}_{\text{train}}}[ \sigma^2 \lambda (\Phi^\top \Phi + \sigma^2 \lambda \mathbf{I})^{-1} \underbrace{(\sigma^2 [ 2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top + \sigma^2 \lambda (\Phi^\top \Phi)^{-1}] )}_{:= \mathbf{E}} (\Phi^\top \Phi + \sigma^2 \lambda \mathbf{I})^{-1} ].
 \end{equation*} 
 Furthermore, one can show that
 \begin{equation*}
- \mathbf{E} \text{ is positive semi-definite } \quad \Leftrightarrow \quad \Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) \preceq \BV(0),
+ \mathbf{E} \text{ is positive semi-definite } \quad \Rightarrow \quad \Bb(\lambda) \Bb(\lambda)^\top + \BV(\lambda) - \BV(0) \preceq \bm{0},
 \end{equation*}
 which can be achieved by e.g.~setting $0 \leq \lambda \leq \frac{2}{|| \mparam_0 ||_2^2}$. To see this, a close inspection on $\mathbf{E}$ shows that if we make $2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top$ positive semi-definite then $\mathbf{E}$ will also be positive semi-definite. As $\mparam_0 \mparam_0^\top$ is a rank-1 matrix, the only non-zero eigenvalue of $\mparam_0 \mparam_0^\top$ is $|| \mparam_0 ||_2^2$. Using the discussed indications of eigen-decomposition, we can show that $2 \mathbf{I} - \lambda \mparam_0 \mparam_0^\top$ is positive semi-definite when all of its eigenvalues are non-negative, which can be achieved by $0 \leq \lambda \leq \frac{2}{|| \mparam_0 ||_2^2}$.
 
