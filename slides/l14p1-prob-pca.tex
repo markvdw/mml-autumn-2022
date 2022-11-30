@@ -47,7 +47,7 @@ Motivation: real-world data $\mathcal{D} = \{ \x_n \}_{n=1}^N, \x_n \in \mathbb{
 PCA's idea to ``save memory'':
 \begin{itemize}
 \item Project $\x_n$ onto a lower-dim space $span(\{\Bb_1, ..., \Bb_M\})$ to get
-$$\z_n := (z_{n1}, ..., z_{nM}), \quad z_{nm} = \Bb_m, \quad M < D, $$
+$$\z_n := (z_{n1}, ..., z_{nM}), \quad z_{nm} = \Bb_m^T \x_n, \quad M < D, $$
 then store $\z_n$ instead of $\x_n$;
 \item When needed, get reconstruction $\tilde{\x}_n = \sum_{m=1}^M z_{nm} \Bb_m$
 \item To get orthonormal basis $\{\Bb_1, ..., \Bb_M\}$: PCA
