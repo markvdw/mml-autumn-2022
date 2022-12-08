@@ -29,6 +29,7 @@
 
 \usepackage{enumitem}
 \usepackage{epsdice}
+\usepackage{bbm}
 
 \input{../includes/tikzlibrarybayesnet.code.tex}
 \input{../includes/tikzlibraryipe.code.tex}
@@ -499,7 +500,8 @@ where $\bar v = \frac{1}{N}\sum_{n=1}^N v_n$.
 
 
 \begin{question}[Electrical Communication Errors]
-Consider the electrical communication example from lectures, where $p(v|s) = \NormDist{v; s, \sigma^2}$ and a Bernoulli $S$, i.e.~$p(S=s)= p^s(1-p)^{1-s}$. Now consider a \emph{decision rule}, where we guess the transmitted signal using the rule $\hat S = \argmax_s p(s|v)$.
+\label{q:elec-comm-errors}
+Consider the electrical communication example from lectures, where $p(v|s) = \NormDist{v; s, \sigma^2}$ and a Bernoulli $S$, i.e.~$p(S=s)= p^s(1-p)^{1-s}$. Assume that the noise distribution in the model is the same as that of the data generating process. Now consider a \emph{decision rule}, where we guess the transmitted signal using the rule $\hat S = \argmax_s p(s|v)$.
 
 Now consider the true frequency of $S$ to follow $\pi(s) = \mathcal B(0.6)$. Calculate the probability of making an error $\mathbb P\left(\hat S = S\right)$, as a function of our prior probability $p$.
 
@@ -572,6 +574,7 @@ For a Bayesian Linear Regression model:
 \input{multivariate_probability_answers}
 
 \input{answers-lecture-8}
+\input{answers-lecture-10}
 
 
 % lecture 12: bias variance tradeoff
