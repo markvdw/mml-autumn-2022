@@ -5,27 +5,29 @@
 \begin{enumerate}[label=\alph*.]
 \item Write down Bayes' rule to find the posterior.
 
-Consider the likelihood $p(v_1, \dots, v_N | s)$, prior $p(S=s)$ and evidence $p(v_1, \dots, v_N)$. Bayes' rule shows
-\begin{equation}
-p(s|v_1, \dots, v_N) = \frac{p(v_1, \dots, v_N | s) p(S=s)}{p(v_1, \dots, v_N)}
-\end{equation}
+Consider the likelihood $p(v_1, \dots, v_N | s)$, prior $p(s)$ and evidence $p(v_1, \dots, v_N)$. Bayes' rule gives
+\begin{align}
+p(s|v_1, \dots, v_N) &= \frac{p(v_1, \dots, v_N | s) p(s)}{p(v_1, \dots, v_N)} \\
+&= \frac{\prod_{n=1}^N p(v_n|s) p(s)}{p(v_1, \dots, v_N)}
+\end{align}
 
-\item Find the density of the posterior
-
-Assuming $p(s|v_1, \dots, v_N)$ is Gaussian distributed $s|v_1,\dots,v_N \sim \mathcal{N}(m, \lambda^2)$, and we know
-\begin{equation}
-p(s|v_1, \dots, v_N) \propto p(v_1, \dots, v_N | s) p(S=s),
-\end{equation}
-we can complete the square wrt $s$ to obtain $m$ and $\lambda^2$.
+\item Find the density of the posterior.
 
 First, let us write the exponential terms which depend on $s$. Equivalently, we take the logarithm of the previous expression.
 \begin{align*}
-\log p(s|v_1, \dots, v_N) &= \log p(v_1, \dots, v_N | s) + \log p(S=s) + const\\
-&=\sum_{n=1}^N\log p(v_n|s) + \log p(S=s) + const\\
+\log p(s|v_1, \dots, v_N) &= \log p(v_1, \dots, v_N | s) + \log p(s) + const\\
+&=\sum_{n=1}^N\log p(v_n|s) + \log p(s) + const\\
 &=\sum_{n=1}^N \left(\frac{-1}{2\sigma^2}(v_n - s)^2\right) + \frac{-1}{2}s^2 + const\\
 &= \frac{-1}{2\sigma^2}\sum_{n=1}^N \left(v_n^2 - 2v_n s + s^2\right) + \frac{-1}{2}s^2\\
 &= -\frac{1}{2}s^2\left(\frac{N}{\sigma^2} + 1 \right) + \frac{s}{\sigma^2}\sum_{n}v_n + const
 \end{align*}
+
+We recognise this log density as that of a Gaussian, because it's quadratic. Assuming $p(s|v_1, \dots, v_N)$ is Gaussian distributed $s|v_1,\dots,v_N \sim \mathcal{N}(m, \lambda^2)$, and we know
+\begin{equation}
+p(s|v_1, \dots, v_N) \propto p(v_1, \dots, v_N | s) p(s),
+\end{equation}
+we can complete the square wrt $s$ to obtain $m$ and $\lambda^2$.
+
 We can now use the quadratic term wrt $s$ to obtain the variance
 \begin{equation}
 -\frac{1}{2}\left(\frac{N}{\sigma^2} + 1 \right) = \frac{-1}{2\lambda^2} \implies \lambda^2 = \frac{1}{1 + \frac{N}{\sigma^2}},
@@ -37,7 +39,8 @@ and the linear term wrt $s$ to obtain the mean
 m = \frac{1}{\sigma^2 + N}\sum_{n}v_n
 \end{align*}
 
-Thus, by completing the square we have the density of the posterior: $p(s|v_1,\dots,v_N) = \mathcal{N}(\frac{1}{\sigma^2 + N}\sum_{n}v_n, \frac{1}{1 + \frac{N}{\sigma^2}})$.
+Thus, by completing the square we have the density of the posterior:
+\begin{align}p(s|v_1,\dots,v_N) = \mathcal{N}(\frac{1}{\sigma^2 + N}\sum_{n}v_n, \frac{1}{1 + \frac{N}{\sigma^2}})\,.\end{align}
 
 \item Given that we know $v_n|s \sim \mathcal{N}(s, \sigma^2)$, from the i.i.d. assumption we know that the joint probability expressed as a univariate Gaussian has mean $s$. We can now complete the square wrt $s$ to find the variance. We will see that this shares the same expression as the distribution of $\frac{1}{N}(v_1 +  v_2 + \dots + v_N)$ up to some constant wrt $s$.
 \begin{align*}
