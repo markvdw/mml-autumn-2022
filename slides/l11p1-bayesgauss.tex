@@ -174,7 +174,7 @@ Write as linear transform, use expectation identities to find means and covarian
 \begin{align}
 \onslide<2->{\begin{bmatrix}s \\ v\end{bmatrix} = \begin{bmatrix}\mathrm 1 & 0 \\ 1 & 1\end{bmatrix}\begin{bmatrix}s \\ \epsilon\end{bmatrix}} \\
 \onslide<3->{\Exp{s,\epsilon}{v} = \Exp{s,\epsilon}{s + \epsilon} = \Exp{s}{s} + \Exp{\epsilon}{\epsilon} = 0} \\
-\onslide<4->{\Var{s,\epsilon}{v} = \Var{s,\epsilon}{s + \epsilon} = \Var{s}{s} + \Exp{\epsilon}{\epsilon} = 1 + \sigma^2 && \text{Indep.}} \\
+\onslide<4->{\Var{s,\epsilon}{v} = \Var{s,\epsilon}{s + \epsilon} = \Var{s}{s} + \Var{\epsilon}{\epsilon} = 1 + \sigma^2 && \text{Indep.}} \\
 \onslide<5->{\Cov{s,\epsilon}{s,v} = \Exp{s,\epsilon}{(s+\epsilon)s} = \Exp{s}{s}\Exp{\epsilon}{\epsilon} + \Exp{\epsilon}{s^2} && \text{Indep.}} \\
 \onslide<6->{  = 0 + \Var{s}{s} = 1 && \Exp{\epsilon}{\epsilon} = 0}
 \end{align}

@@ -245,7 +245,7 @@ Board:
 
 \begin{frame}{Method 1: Crunching densities}
 \begin{align}
-\log p(\vy|\vtheta) &= \log p(\vy|\vtheta) + \log p(\vtheta) \\
+\log p(\vtheta|\vy) &= \log p(\vy|\vtheta) + \log p(\vtheta) - \log p(\vy) \\
 &= c - \frac{1}{2\sigma^2}(\vy - \Phi(\mat X)\vtheta)\transpose(\vy - \Phi(\mat X)\vtheta) - \frac{1}{2}\vtheta\transpose\vtheta
 \end{align} \pause
 This is a vector quadratic in $\vtheta$! {\tiny board} \pause $\implies$ Gaussian. \pause
@@ -255,7 +255,7 @@ This is a vector quadratic in $\vtheta$! {\tiny board} \pause $\implies$ Gaussia
 \item Find Hessian to find covariance {\tiny board} \pause
 \end{itemize}
 \begin{align}
-p(\vtheta|\vy) &= \mathcal{N} \Big(\vtheta; \left[\frac{1}{\sigma^2}\Phi(X)\transpose\Phi(X) + \mat I_M\right]\inv \frac{1}{\sigma^2}\Phi(X)\transpose\vy \\
+p(\vtheta|\vy) &= \mathcal{N} \Big(\vtheta; \left[\frac{1}{\sigma^2}\Phi(X)\transpose\Phi(X) + \mat I_M\right]\inv \frac{1}{\sigma^2}\Phi(X)\transpose\vy, \\
 &\qquad\qquad \left[\frac{1}{\sigma^2}\Phi(X)\transpose\Phi(X) + \mat I_M\right]\inv \Big)
 \end{align}
 \end{frame}

@@ -1,0 +1,37 @@
+\section{Answers Lecture 8: Generalisation, Test Sets, Monte Carlo}
+
+\paragraph{\questionref{q:monte-carlo-estimate}}
+\begin{enumerate}[label=\alph*.]
+\item Let us write the integral as and expectation. Loosely speaking, we assume $x$ and $y$ are uniformly distributed random variables in the interval $[-1,1]$. From the previous assumption, we know $p(x) = p(y) = \frac{1}{1 - (-1)} = \frac{1}{2}$. Consider now the expectation over $f(x,y) = \mathbb{I}(x^2 + y^2 < 1)$.
+\begin{align}
+\mathbb{E}_{p(x,y)}\left[f(x,y)\right] = \int_{-1}^{1}\int_{-1}^{1}p(x,y)f(x,y)dxdy = \int_{-1}^{1}\int_{-1}^{1}\frac{1}{2}\frac{1}{2}\mathbb{I}(x^2 + y^2 < 1)dxdy = \frac{1}{4}I\\
+I = 4\mathbb{E}_{p(x,y)}\left[f(x,y)\right]
+\end{align}
+where we use $p(x,y) = p(x)p(y)$.
+
+\item We can compute a Monte Carlo estimate of this integral as follows
+\begin{align}
+I = 4\mathbb{E}_{p(x,y)}\left[f(x,y)\right] \approx \frac{4}{N}\sum_{i=1}^N I(x_i^2 + y_i^2 < 1) = \hat{I}_N
+\end{align}
+where $x_i\sim U(-1,1), y_i\sim U(-1,1), i=1,\dots,N$ are i.i.d samples. Law of large numbers ensures that 
+\begin{equation}
+\lim_{N\rightarrow\infty}\hat{I}_N = I
+\end{equation}
+
+\item Try it and see if the relative error scales as $\frac{1}{\sqrt{N}}$.
+
+\item We start just with verifying unbiasedness:
+\begin{align}
+\Exp{X_1, \dots, X_N}{\left(\hat I\right)^2} &= \Exp{X_1, X_2, \dots, X_N}{\left(\frac{1}{N}\sum_{n=1}^Nf(x_n)\right)^2} \\
+&= \Exp{X_1, X_2, \dots, X_N}{\left(\frac{1}{N}\sum_{n=1}^Nf(x_n)\right)\left(\frac{1}{N}\sum_{m=1}^Nf(x_m)\right)} \\
+&= \frac{1}{N^2}\sum_n\sum_m\Exp{X_1, X_2, \dots, X_N}{f(x_n)f(x_m)} \\
+&= \frac{1}{N^2}\left(\sum_{n\neq m}\Exp{X}{f(X)}^2 + \sum_{n} \Exp{X}{f(X)^2}\right)
+\end{align}
+We see that this only holds if $\Exp{X}{f(X)^2} = \Exp{X}{f(X)}^2$, which would imply that $\Var{X}{f(X)} = 0$. This is not the case for our problem.
+
+An alternative proof comes from Jensen's inequality. Let us compute the bias of the estimate $\hat{I}^2$. Since $(\cdot)^2$ is a convex function, we can use Jensen's inequality to show
+\begin{align}
+\mathbb{E}\left[(\hat{I})^2\right] < \left(\mathbb{E}\left[\hat{I}\right]\right)^2
+\end{align}
+where the equality holds iff $(\cdot)^2$ is linear, or if the variance of the RV is zero. Neither is the case.
+\end{enumerate}
