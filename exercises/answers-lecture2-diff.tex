@@ -481,7 +481,7 @@ v_1 &= \mat K_1 + \mat K_2 && \pderiv[v_{1ij}]{K_{znm}} = \delta_{in}\delta_{jm}
 v_2&= v_1\inv && \pderiv[v_2]{v_1} = -v_1\inv \pderiv[v_1]{v_1}v_1\inv && \text{This is an identity.} \\
 & && \pderiv[v_{2,nm}]{v_{1,ij}} = \sum_{pq}-v_{1,np}\inv \delta_{pi}\delta_{qj} v_{1,qm}\inv && A_{pq}\inv = [A\inv]_{pq} \\
 & && \dot v_{2,nmab} = \sum_{pqij} -v_{1,np}\inv \delta_{pi}\delta_{qj} v_{1,qm}\inv \dot v_{1,ijab} && \\
-& && \quad = -\sum_{p} v_{1,np} \sum_q \dot v_{1,pqab} v_{1,qm} && O(N^4) \\
+& && \quad = -\sum_{p} v_{1,np} \sum_q \dot v_{1,pqab} v_{1,qm} && O(N^4), \text{ do sums sequentially} \\
 v_3 &= \vy\transpose v_2 \vy && \pderiv[v_3]{v_{2,nm}} = y_ny_m  && \\
 & &&\dot v_{3,ab} = \sum_{nm} y_ny_m \dot v_{2,nmab} && \text{Done!}
 \end{align}
