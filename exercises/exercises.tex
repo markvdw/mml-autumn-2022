@@ -448,10 +448,11 @@ where we use \texttt{numpy} broadcasting notation in the final equation.
 
 \section{Lectures 6 \& 7: Multivariate Probability}
 
-\begin{question}[Vector independence] {\color{red}While you can probabily figure this one out already, we will discuss this in more detail later.}
+\begin{question}[Vector independence]
+\label{q:vector-independence}
 Consider the density on $\vx \in \Reals^4$ with all elements $0 \leq x_k \leq 1$ as
 \begin{align}
-p(\vx) = \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0\end{bmatrix} \vx \,.
+p(\vx) = c \cdot \vx\transpose \begin{bmatrix} 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0\end{bmatrix} \vx \,.
 \end{align}
 \begin{enumerate}[label=\alph*.]
 \item Rewrite the density in terms of $\tilde\vx = [x_1, x_3, x_2, x_4]\transpose$. Note that you can do this by a substitution $\vx = \mat P \tilde\vx$, where $\mat P$ is a permutation matrix. You will see that you just need to swap the relevant rows and columns of the matrix. However, make sure that you understand the mathematical steps that really show this.
