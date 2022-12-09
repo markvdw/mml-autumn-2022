@@ -486,12 +486,13 @@ I = \int_{-1}^1\int_{-1}^1 \mathbb{I}(x^2 + y^2 < 1) \calcd x \calcd y \,.
 
 \section{Lecture 10 \& 11: Bayesian Inference}
 \begin{question}[Electrical Communication]
+\label{q:electrical_communication}
 Consider the electrical communication example from lectures, where we had a Gaussian distribution on the source voltage, i.e.~$p(S=s)= \NormDist{s; 0, 1}$. This time, we make multiple observations, i.e.~$V_n|s \overset{\mathrm{iid}}{\sim} \NormDist{s, \sigma^2}$.
 \begin{enumerate}[label=\alph*.]
 \item Write down Bayes' rule to find the posterior for $p(s|v_1, v_2, \dots v_N)$.
 \item By completing the square, find the density of the posterior $p(s|v_1, v_2, \dots v_N)$.
 \item Show that the likelihood function (which is a function of $s$!) can be rewritten as
-\begin{align}p(v_1, v_2, \dots, v_N|s) = p(\bar v|s) = \NormDist{\bar v; s, \frac{\sigma^2}{N}}\,,\end{align}
+\begin{align}p(v_1, v_2, \dots, v_N|s) = c\cdot p(\bar v|s) = c\cdot\NormDist{\bar v; s, \frac{\sigma^2}{N}}\,,\end{align}
 where $\bar v = \frac{1}{N}\sum_{n=1}^N v_n$.
 \item Find the joint distribution $p(\bar v, s)$.
 \item Use the Gaussian conditioning rule to find $p(s|\bar v)$.
@@ -575,7 +576,11 @@ For a Bayesian Linear Regression model:
 \input{multivariate_probability_answers}
 
 \input{answers-lecture-8}
+
+% lecture 10 & 11: bayesian inference
 \input{answers-lecture-10}
+
+
 
 
 % lecture 12: bias variance tradeoff
