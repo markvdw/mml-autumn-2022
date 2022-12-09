@@ -490,7 +490,7 @@ Consider the electrical communication example from lectures, where we had a Gaus
 \item Write down Bayes' rule to find the posterior for $p(s|v_1, v_2, \dots v_N)$.
 \item By completing the square, find the density of the posterior $p(s|v_1, v_2, \dots v_N)$.
 \item Show that the likelihood function (which is a function of $s$!) can be rewritten as
-\begin{align}p(v_1, v_2, \dots, v_N|s) = p(\bar v|s) = \NormDist{\bar v; s, \frac{\sigma^2}{N}}\,,\end{align}
+\begin{align}p(v_1, v_2, \dots, v_N|s) = c\cdot p(\bar v|s) = c\cdot\NormDist{\bar v; s, \frac{\sigma^2}{N}}\,,\end{align}
 where $\bar v = \frac{1}{N}\sum_{n=1}^N v_n$.
 \item Find the joint distribution $p(\bar v, s)$.
 \item Use the Gaussian conditioning rule to find $p(s|\bar v)$.

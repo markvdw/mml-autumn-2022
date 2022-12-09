@@ -39,15 +39,15 @@ m = \frac{1}{\sigma^2 + N}\sum_{n}v_n
 
 Thus, by completing the square we have the density of the posterior: $p(s|v_1,\dots,v_N) = \mathcal{N}(\frac{1}{\sigma^2 + N}\sum_{n}v_n, \frac{1}{1 + \frac{N}{\sigma^2}})$.
 
-\item Given that we know $v_n|s \sim \mathcal{N}(s, \sigma^2)$, from the i.i.d. assumption we know that the joint probability expressed as a univariate Gaussian has mean $s$, we can now complete the square wrt $s$ to find the variance. We will see that this share the same expression as the distribution of $\frac{1}{N}(v_1, v_2, \dots, v_N)$.
+\item Given that we know $v_n|s \sim \mathcal{N}(s, \sigma^2)$, from the i.i.d. assumption we know that the joint probability expressed as a univariate Gaussian has mean $s$. We can now complete the square wrt $s$ to find the variance. We will see that this shares the same expression as the distribution of $\frac{1}{N}(v_1 +  v_2 + \dots + v_N)$ up to some constant wrt $s$.
 \begin{align*}
 \log p(v_1, \dots, v_N|s) &= \log \prod_{n=1}^N p(v_n|s) \\
 &= \sum_{n=1}^N \left(\frac{-1}{2\sigma^2}(v_n - s)^2\right) + const\\
 &= \frac{-1}{2\sigma^2}\sum_{n=1}^N \left(v_n^2 - 2v_n s + s^2\right) + const\\
 &= \frac{-N}{2\sigma^2}s^2 + \frac{1}{2\sigma^2}s \sum_{n=1}^Nv_n + const\\
-&= \mathcal{N}(\bar{v}; s, \frac{\sigma^2}{N})
+p(v_1, \dots, v_N|s) &= c\cdot\mathcal{N}(\bar{v}; s, \frac{\sigma^2}{N})
 \end{align*}
-where we find the variance using the quadratic term and from the linear term observe that the corresponding random variable for the univariate distribution is $\frac{1}{N}(v_1, v_2, \dots, v_N)$.
+where we find the variance using the quadratic term and from the linear term observe that the corresponding random variable for the univariate distribution is $\bar{v} = \frac{1}{N}(v_1 +  v_2 + \dots + v_N)$.
 
 \item From Gaussian conditioning, we know that the joint distribution can be expressed as follows
 \begin{equation}
@@ -82,13 +82,11 @@ s
 
 \item From conditioning, we can obtain the posterior distribution $p(s| \bar{v})$.
 \begin{equation}
-p(s, \bar{v}) = \mathcal{N}\left(s; \frac{\bar{v}}{1 + \frac{\sigma^2}{N}}, 1 - \frac{1}{1 + \frac{\sigma^2}{N}}\right) = \mathcal{N}\left(s; \frac{\bar{v}}{1 + \frac{\sigma^2}{N}}, \frac{1}{ + \frac{N}{\sigma^2}}\right),
+p(s| \bar{v}) = \mathcal{N}\left(s; \frac{\bar{v}}{1 + \frac{\sigma^2}{N}}, 1 - \frac{1}{1 + \frac{\sigma^2}{N}}\right) = \mathcal{N}\left(s; \frac{\bar{v}}{1 + \frac{\sigma^2}{N}}, \frac{1}{ + \frac{N}{\sigma^2}}\right),
 \end{equation}
 which is equivalent to the posterior obtained by completing the square.
 
 \end{enumerate}
-
-
 
 
 
