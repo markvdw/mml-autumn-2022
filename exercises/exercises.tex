@@ -136,8 +136,16 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 
 
 \section{Formula Sheet}
-\begin{itemize}
-\item Expectation identities for $X \in \Reals^D, Y \in \Reals^E$.
+\begin{align}
+\text{Bernoulli distribution: } && p(x|\mu) &= \mu^x(1-\mu)^{1-x}\,,\quad x \in\{0,1\} \\
+% \text{Binomial distribution: } && p(m|N,\mu) &= \binom{N}{m}\mu^m(1-\mu)^{N-m} \\
+\text{Beta distribution: } && \text{Beta}(\mu|\alpha,\beta) &= \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\mu^{\alpha-1}(1-\mu)^{\beta-1} \\
+\text{Gamma distribution: } && \text{Gamma}(\tau|a,b) &= \frac{1}{\Gamma(a)} b^a\tau^{a-1}\exp(-b\tau) \\
+\text{Gaussian distribution:  } && \mathcal N(\vec x|\vec\mu, \mat\Sigma) &=  (2\pi)^{-\tfrac{D}{2}}|\mat\Sigma|^{-\tfrac{1}{2}} \nonumber \\
+&& & \quad\exp\big(-\tfrac{1}{2}  (\vec x - \vec\mu)\transpose\mat\Sigma\inv(\vec x - \vec\mu)\big)
+\end{align}
+\textbf{Expectation identities:} For $X \in \Reals^D, Y \in \Reals^E$:
+\vspace{-0.3cm}
 \begin{align}
 \Exp{X}{AX} &= \Exp{X}{AX} = A\Exp{X}{X} \\
 \Var{X}{X} &= \Exp{X}{XX\transpose} - \Exp{X}{X}\Exp{X}{X}\transpose \\
@@ -149,32 +157,39 @@ In both cases this corresponds to the integral $\int p(\vx) f(\vx) \calcd\vx$.
 \Var{X,Y}{X + Y} &= \Var{X}{X} + \Var{Y}{Y} && \text{for }X \ci Y \\
 \Exp{X,Y}{XY\transpose} &= \Exp{X}{X}\Exp{Y}{Y}\transpose && \text{for } X \ci Y
 \end{align}
-\item For a RV $X \geq 0$, then $\Exp{X}{X} = 0$ if and only if $P(X = 0) = 1$.
-\item Markov's inequality: For a RV $X \geq 0$, and $a > 0$, then $P(X \geq a) \leq \frac{\Exp{}{X}}{a}$.
-\item Chebyshev's inequality: For a RV $X$ with finite mean, and finite non-zero variance, then for any $k>0$, $P(|X - \Exp{}{X}| \geq k\sigma) \leq \frac{1}{k^2}$.
-\item Weak Law of Large Numbers: For a series of iid RVs $X_n$, we have for any $\epsilon > 0$ that
-\begin{align}\lim_{n\to\infty} P(|\frac{1}{N}\sum_{n=1} X_n - \mu| < \epsilon) = 1 \,. \end{align}
-\item Law of the Unconscious Statistician: If $Y = g(X)$ then $\Exp{Y}{Y} = \Exp{X}{g(X)}$.
-\item Gaussian probability density function (pdf) with input $\vx \in \Reals^D$, denoted as  $\NormDist{\vx; \vmu, \covmat}$ is
-\begin{align}
-  p(\vx) = \NormDist{\vx; \vmu, \covmat} = (2\pi)^{-\frac{D}{2}}\detbar{\mathbf{\Sigma}}^{-\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx - \vmu)\transpose\mathbf{\Sigma}^{-1}(\vx-\vmu)\right) \,.
-\end{align}
-\item For a joint Gaussian density
+
+For a RV $X \geq 0$, then $\Exp{X}{X} = 0$ if and only if $P(X = 0) = 1$.
+
+\textbf{Markov's inequality:} For a RV $X \geq 0$, and $a > 0$, then $P(X \geq a) \leq \frac{\Exp{}{X}}{a}$.
+
+\textbf{Chebyshev's inequality:} For a RV $X$ with finite mean, and finite non-zero variance, then for any $k>0$, $P(|X - \Exp{}{X}| \geq k\sigma) \leq \frac{1}{k^2}$.
+
+\textbf{Weak Law of Large Numbers:} For a series of iid RVs $X_n$, we have for any $\epsilon > 0$ that
+\begin{align}\lim_{n\to\infty} P\left(|\frac{1}{N}\sum_{n=1} X_n - \mu| < \epsilon\right) = 1 \,. \end{align}
+
+\textbf{Law of the Unconscious Statistician:} If $Y = g(X)$ then $\Exp{Y}{Y} = \Exp{X}{g(X)}$.
+
+\textbf{Gaussian conditioning:} For a joint Gaussian density
 \begin{align}
 \p{\begin{bmatrix}\vx \\ \vy\end{bmatrix}} = \NormDist{\begin{bmatrix}\vx \\ \vy\end{bmatrix}; \begin{bmatrix}\mx \\ \my\end{bmatrix}, \begin{bmatrix}\covx & \covxy \\ \covyx & \covy\end{bmatrix}} \label{eq:gauss-cond-joint} \,,
 \end{align}
-we have the conditional density
+we have
 \begin{align}
-\p{\vx\given\vy} = \NormDist{\vx; \quad\mx + \covxy\covy\inv(\vy-\my), \quad\covx - \covxy\covy\inv\covyx} \label{eq:gauss-cond} \,,
+\p{\vx\given\vy} &= \NormDist{\vx; \quad\mx + \covxy\covy\inv(\vy-\my), \quad\covx - \covxy\covy\inv\covyx} \label{eq:gauss-cond} \,, \\
+p(\vx) &= \NormDist{\vx; \mx, \covx}\,.
 \end{align}
-and the marginal density
+
+\textbf{Woodbury identity:} $\left(A + UCV\right)\inv = A\inv - A\inv U\left(C\inv + VA\inv U\right)\inv VA\inv$.
+
+\textbf{Vector/matrix derivative identities:}
 \begin{align}
-p(\vx) = \NormDist{\vx; \mx, \covx}\,.
+&\pderiv[]{\vx}\va\transpose\vx &&= \va\transpose \\
+&\pderiv[]{\vx}\vx\transpose \mat B \vx &&= \vx\transpose\left(\mat B + \mat B\transpose\right) \\
+&\pderiv[]{\mat X}\log \detbar{\mat X} &&= (\mat X\inv)\transpose = \mat X^{-\mathrm{\textsf{\tiny T}}} && \text{for square }\mat X \\
+&\pderiv[]{\mat X}\log \detbar{\mat X} &&= \mat X\inv && \text{for symmetric }\mat X \\
+&\pderiv[]{\mat X}\va\transpose \mat X\inv\vb &&= -\mat X^{-\mathrm{\textsf{\tiny T}}}\va\vb\transpose\mat X^{-\mathrm{\textsf{\tiny T}}} \\
+&\pderiv[]{\theta}\mat X\inv(\theta) &&= -\mat X\inv\deriv[\mat X]{\theta}\mat X\inv \\
 \end{align}
-\item Woodbury identity: $\left(A + UCV\right)\inv = A\inv - A\inv U\left(C\inv + VA\inv U\right)\inv VA\inv$.
-\end{itemize}
-
-
 
 
 
