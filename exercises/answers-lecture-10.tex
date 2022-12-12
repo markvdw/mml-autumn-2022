@@ -52,24 +52,34 @@ p(v_1, \dots, v_N|s) &= c\cdot\mathcal{N}(\bar{v}; s, \frac{\sigma^2}{N})
 \end{align*}
 where we find the variance using the quadratic term and from the linear term observe that the corresponding random variable for the univariate distribution is $\bar{v} = \frac{1}{N}(v_1 +  v_2 + \dots + v_N)$.
 
-\item From Gaussian conditioning, we know that the joint distribution can be expressed as follows
-\begin{equation}
+\item We have a Gaussian conditional, and a Gaussian prior. Let's try to reformulate the relationship between random variables, as a linear transformation of independent random variables:
+\begin{align}
+\bar v = \frac{1}{N}\sum_{n=1}^N v_n = \frac{1}{N}\sum_{n=1}^N s + \epsilon_n \,,
+\end{align}
+with distributions $s \sim \NormDist{0, 1}$, and $\epsilon_n \sim \NormDist{0, \sigma^2}$. By the linearity of Gaussians, we have
+\begin{align}
 p(\bar{v},s) = \mathcal{N}\left( \left[\begin{array}{c}
 \bar{v}\\
 s
 \end{array}\right]; \left[\begin{array}{c}
 a\\
 b
-\end{array}\right], \left(\begin{array}{cc}
+\end{array}\right], \left[\begin{array}{cc}
 A & B\\
 B & C
-\end{array}\right) \right),
-\end{equation}
-where the conditional $p(\bar{v}|s)$ is
-\begin{equation}
-p(\bar{v}|s) = \mathcal{N}\left(\bar{v}; \frac{B}{C}(s-b) + a,A - \frac{B^2}{C}\right).
-\end{equation}
-We can use the mean from $p(\bar{v}|s)$ to get $B=C=1$ and $b=a=0$, and the variance from $p(\bar{v}|s)$ to get $A=1 + \frac{\sigma^2}{N}$. Thus, the joint probability $p(\bar{v},s)$ is
+\end{array}\right] \right)\,.
+\end{align}
+Let's find the coefficients $A, B, C$:
+\begin{align}
+A &= \Var{s, \epsilon_1,\dots,\epsilon_n}{\frac{1}{N}\sum_{n=1}^N s + \epsilon_n} = \Var{s, \epsilon_1,\dots,\epsilon_n}{s + \frac{1}{N}\sum_{n=1}^N\epsilon_n} \\
+&= 1 + \frac{1}{N^2}\sum_{n=1}^N \Var{\epsilon_n}{\epsilon_n} \\
+&= 1 + \frac{\sigma^2}{N} \\
+B &= \Cov{\bar v, s}{\bar v, s} = \Exp{s, \epsilon_1, \dots, \epsilon_n}{\left(\frac{1}{N}\sum_{n=1}^N s + \epsilon_n\right)s} - \cancelto{0}{\Exp{}{\bar v}\Exp{}{s}} \\
+&= \Exp{s}{s^2} + \frac{1}{N}\sum_{n=1}^N \cancelto{0}{\Exp{}{\epsilon_n}\Exp{}{s}} && \text{independence} \\
+&= \Var{s}{s} = 1 && \text{zero mean of $s$} \\
+C &= 1 && \text{from prior on $s$} 
+\end{align}
+Thus, the joint probability $p(\bar{v},s)$ is
 \begin{equation}
 p(\bar{v},s) = \mathcal{N}\left( \left[\begin{array}{c}
 \bar{v}\\
