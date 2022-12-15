@@ -8,7 +8,7 @@ L(\BA, \BB) :=& \frac{1}{N} \sum_{n=1}^N || \x_n - \BA \BB \x_n ||_2^2 = \frac{1
 =& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \x_n^\top \BA \BB \x_n + \x_n^\top \BB^\top \BA^\top \BA \BB \x_n) \\
 =& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\x_n^\top \BA \BB \x_n) + \tr(\x_n^\top \BB^\top \BA^\top \BA \BB \x_n)) \\
 =& \frac{1}{N} \sum_{n=1}^N (\x_n^\top \x_n - 2 \tr(\BA \BB \x_n \x_n^\top ) + \tr(\BB^\top \BA^\top \BA \BB \x_n x_n^\top )) \\
-=& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \frac{1}{N} \underbrace{\sum_{n=1}^N \x_n \x_n^\top}_{:=\BS} ) + \tr(\BB^\top \BA^\top \BA \BB \frac{1}{N} \sum_{n=1}^N \x_n x_n^\top ) \\
+=& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \underbrace{\frac{1}{N} \sum_{n=1}^N \x_n \x_n^\top}_{:=\BS} ) + \tr(\BB^\top \BA^\top \BA \BB \frac{1}{N} \sum_{n=1}^N \x_n x_n^\top ) \\
 =& \frac{1}{N} \sum_{n=1}^N \x_n^\top \x_n - 2 \tr(\BA \BB \BS ) + \tr(\BB^\top \BA^\top \BA \BB \BS )
 \end{aligned}
 \end{equation*}

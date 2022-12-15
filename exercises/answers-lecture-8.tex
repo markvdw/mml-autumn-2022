@@ -11,7 +11,7 @@ where we use $p(x,y) = p(x)p(y)$.
 
 \item We can compute a Monte Carlo estimate of this integral as follows
 \begin{align}
-I = 4\mathbb{E}_{p(x,y)}\left[f(x,y)\right] \approx \frac{4}{N}\sum_{i=1}^N I(x_i^2 + y_i^2 < 1) = \hat{I}_N
+I = 4\mathbb{E}_{p(x,y)}\left[f(x,y)\right] \approx \frac{4}{N}\sum_{i=1}^N \mathbb{I}(x_i^2 + y_i^2 < 1) = \hat{I}_N
 \end{align}
 where $x_i\sim U(-1,1), y_i\sim U(-1,1), i=1,\dots,N$ are i.i.d samples. Law of large numbers ensures that 
 \begin{equation}
